@@ -1,0 +1,199 @@
+﻿.container {
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-flow: row wrap;
+}
+
+    .row div {
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+
+.number {
+    margin: 0;
+    font-size: 1.3em;
+}
+
+iframe {
+    border-width: 0px;
+}
+
+.wrapper {
+    margin-top: 50px;
+}
+
+    .wrapper h1 {
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+    }
+
+#cards {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#cards iframe {
+    margin: 0.5em;
+}
+
+#spotify-cards-reset {
+    color: #005A9C;
+    font-weight: bold;
+}
+
+.spotify-card-margin {
+    margin: 0.5em;
+}
+
+@media (max-width: 680px) {
+    .spotify-playlist {
+        width: 450px;
+    }
+
+    .card {
+        margin-bottom: 4em;
+    }
+}
+
+@media (max-width: 580px) {
+    .spotify-playlist {
+        width: 450px;
+    }
+
+    #cards iframe {
+        height: 80px;
+        width: 320px;
+    }
+}
+
+@media (max-width: 480px) {
+    .spotify-playlist {
+        width: 350px;
+    }
+
+    .row {
+        justify-content: center;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 380px) {
+    .spotify-playlist {
+        width: 250px;
+    }
+}
+
+@media (max-width: 320px) {
+    #spotify-latest-addition {
+        width: 260px;
+    }
+
+    .spotify-playlist {
+        width: 200px;
+    }
+
+
+    #cards iframe {
+        width: 260px;
+    }
+}
+
+#table-wrapper {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+table {
+    border: none;
+    border-collapse: collapse;
+    line-height: 1.333em;
+    margin: 0 auto;
+    width: 60%;
+}
+
+    table th,
+    table td {
+        font-weight: normal;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    table thead th,
+    table thead td {
+        line-height: 1.250em;
+        padding: 10px;
+    }
+
+    table thead tr th {
+        width: 50%;
+        font-size: 1.2em;
+    }
+
+.left {
+    background-color: #aaaaaa;
+    text-align: right;
+    color: #FFF;
+}
+
+.right {
+    background-color: #FFF;
+    color: #aaaaaa;
+}
+
+table tbody th, table tbody td {
+    padding: 7px 10px;
+}
+
+@media all and (max-width: 900px) {
+    .row {
+        justify-content: space-around;
+    }
+
+        .row div {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+    th.left {
+        text-align: left;
+    }
+
+    table {
+        width: 75%;
+    }
+}
+
+@media all and (max-width: 575px) {
+    #table-wrapper {
+        overflow-x: scroll;
+    }
+
+    table {
+        width: 100%;
+    }
+
+        table tbody th,
+        table tbody td {
+            width: 10%;
+        }
+
+        table tr .left {
+            border-top: 1px solid #FFF;
+        }
+
+        table tr .right {
+            border-top: 1px solid #aaaaaa;
+        }
+
+    thead tr th.right {
+        border-top: 1px solid #FFF;
+    }
+}

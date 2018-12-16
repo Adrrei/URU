@@ -1,0 +1,26 @@
+﻿@model URU.ViewModels.MastersViewModel
+
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer StringLocalizer
+
+<div class="container">
+    <h1>@StringLocalizer["Masters_Thesis"]</h1>
+    <h3>@StringLocalizer["Masters_DeepLearning"]</h3>
+
+    <iframe class="responsive-video" src="~/content/Fish_Detection_2018-05-23.mp4" allowfullscreen title="@StringLocalizer["Masters_DeepLearning"]"></iframe>
+
+    <object style="width:100%; height:1100px" type="application/pdf" title="Employing Deep Learning for Fish Recognition"
+            data="~/content/Employing_Deep_Learning_for_Fish_Recognition.pdf?#zoom=100&scrollbar=1&toolbar=1&navpanes=1" wmode="&quot;window&quot;">
+        @StringLocalizer["Master_NoPdfSupport"]
+    </object>
+</div>
+
+@* Eliminate render-blocking CSS in above-the-fold content *@
+<environment include="Development">
+    <link async rel="stylesheet" type="text/css" href="~/css/masters.css" asp-append-version="true">
+</environment>
+
+<environment exclude="Development">
+    <link async rel="stylesheet" type="text/css" href="~/bundle/css/masters.min.css" asp-append-version="true">
+</environment>

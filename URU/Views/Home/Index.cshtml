@@ -1,0 +1,133 @@
+﻿@model URU.ViewModels.HomeViewModel
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer StringLocalizer
+
+<div class="parallax parallax--hero">
+    <div class="parallax__content">
+        <h2>@StringLocalizer["Index_Hero"]</h2>
+    </div>
+</div>
+
+<div class="parallax">
+    <div class="parallax__content">
+        <h1>@StringLocalizer["Index_AboutMe"]</h1>
+    </div>
+</div>
+
+<div class="container" id="about-me">
+    <div class="container__about">
+
+        <img draggable="false" src="~/content/images/Me.jpg" alt="Adrian Reithaug" />
+        <div class="about__body">
+            <div class="body__content">
+
+                <div class="content--rows-center">
+                    <h1>Adrian Reithaug</h1>
+                    <p>@StringLocalizer["About_Location"]</p>
+                    <p>@StringLocalizer["About_Education"]</p>
+
+                    <p>
+                        <a href="https://www.uib.no/en/studies/MAMN-PROG">@StringLocalizer["About_MastersDegreeIn"]</a>
+                    </p>
+
+                    <p>
+                        <a class="content__icon" href="https://github.com/Adrrei" aria-label="GitHub">
+                            <span title="GitHub">
+                                <i class="fab fa-github" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a class="content__icon" href="https://www.linkedin.com/in/adrianreithaug/" aria-label="LinkedIn">
+                            <span title="LinkedIn">
+                                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a class="content__icon" href="https://www.uib.no/en/studies/MAMN-PROG" aria-label="UiB">
+                            <span title="@StringLocalizer["About_MastersDegree"]">
+                                <i class="fas fa-university" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <h1>@StringLocalizer["Index_SkillSet"]</h1>
+
+    <div class="row--skill-container">
+        @{ string[] skills = new string[] { "C#", "Java", "JavaScript", "Python", "ASP.NET Core 2", "Bulma",
+                       "Bootstrap", "Semantic UI", "Ember.js", "TensorFlow", "HTML5", "CSS3", "MS SQL", "WiX Toolset" }; }
+        @{ string[] images = new string[] { "CSharp.png", "Java.png", "JavaScript.png", "Python.png", "DotNet.png", "Bulma.png",
+                       "Bootstrap.png", "SemanticUI.png", "Ember.png", "TensorFlow.png", "HTML5.png", "CSS3.png", "SQL.png", "WiX.png" }; }
+
+        @for (int i = 0; i < skills.Length; i++)
+        {
+            <div class="skill">
+                <div class="skill__image">
+                    <div class="image--overlay"></div>
+                    <img src="~/content/images/skills/@images[i]" alt="@skills[i]" />
+                </div>
+                <div class="skill__description">
+                    <p>@skills[i]</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="parallax">
+    <div class="parallax__content">
+        <h1>@StringLocalizer["Index_Projects"]</h1>
+    </div>
+</div>
+
+<div class="project-container" id="projects">
+    <ul class="item-list">
+
+        <li class="item-list__item">
+            <div class="item__date">
+                <span class="date__day">27</span>
+                <span class="date__month">@StringLocalizer["Projects_July"]</span>
+                <span class="date__year">2018</span>
+            </div>
+            <img src="/content/images/Music.jpg" alt="@StringLocalizer["Projects_Dj"]">
+            <div>
+                <h2><a asp-controller="Home" asp-action="Spotify">@StringLocalizer["Projects_SpotifyTitle"]</a></h2>
+                <p>@StringLocalizer["Projects_SpotifyDescription"]</p>
+
+                <a class="button" asp-controller="Home" asp-action="Spotify">
+                    <i class="fab fa-spotify"></i> @StringLocalizer["Projects_ReadMore"]
+                </a>
+            </div>
+        </li>
+
+        <li class="item-list__item">
+            <div class="item__date">
+                <span class="date__day">01</span>
+                <span class="date__month">@StringLocalizer["Projects_June"]</span>
+                <span class="date__year">2018</span>
+            </div>
+            <img src="/content/images/Salmon.jpg" alt="@StringLocalizer["Projects_Salmon"]">
+            <div>
+                <h2><a asp-controller="Home" asp-action="Masters">@StringLocalizer["Projects_DeepLearningTitle"]</a></h2>
+                <p>@StringLocalizer["Projects_DeepLearningDescription"]</p>
+
+                <a class="button" asp-controller="Home" asp-action="Masters">
+                    <i class="fas fa-university"></i> @StringLocalizer["Projects_ReadMore"]
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+@* Eliminate render-blocking CSS in above-the-fold content *@
+<environment include="Development">
+    <link async rel="stylesheet" type="text/css" href="~/css/index.css" asp-append-version="true">
+</environment>
+
+<environment exclude="Development">
+    <link async rel="stylesheet" type="text/css" href="~/bundle/css/index.min.css" asp-append-version="true">
+</environment>

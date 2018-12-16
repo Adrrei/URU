@@ -1,0 +1,112 @@
+[
+  {
+    "outputFileName": "wwwroot/bundle/css/layout.min.css",
+    "inputFiles": [
+      "wwwroot/css/fontawesome.css",
+      "wwwroot/css/fonts.css",
+      "wwwroot/css/layout.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/css/index.min.css",
+    "inputFiles": [
+      "wwwroot/css/index.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/css/error.min.css",
+    "inputFiles": [
+      "wwwroot/css/error.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/css/spotify.min.css",
+    "inputFiles": [
+      "wwwroot/css/spotify.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/css/masters.min.css",
+    "inputFiles": [
+      "wwwroot/css/masters.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/css/contact.min.css",
+    "inputFiles": [
+      "wwwroot/css/contact.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/scripts/layout.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/layout.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/scripts/contact.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/contact.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/scripts/spotify.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/spotify.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  }
+]

@@ -1,0 +1,120 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer StringLocalizer
+
+<!DOCTYPE html>
+
+<html lang="en-us">
+<head>
+    <meta title="URU" http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="author" content="Adrian Reithaug">
+    <meta name="description" content="URU - A creative space.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="~/content/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/content/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/content/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/content/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/content/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/content/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/content/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/content/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/content/favicon/apple-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="~/content/favicon/apple-icon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="192x192" href="~/content/favicon/apple-icon-precomposed.png">
+    <link rel="icon" type="image/png" sizes="36x36" href="~/content/favicon/android-icon-36x36.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="~/content/favicon/android-icon-48x48.png">
+    <link rel="icon" type="image/png" sizes="72x72" href="~/content/favicon/android-icon-72x72.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/content/favicon/android-icon-96x96.png">
+    <link rel="icon" type="image/png" sizes="144x144" href="~/content/favicon/android-icon-144x144.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/content/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/content/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/content/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/content/favicon/favicon-96x96.png">
+    <meta name="msapplication-square70x70logo" content="~/content/favicon/ms-icon-70x70.png">
+    <meta name="msapplication-square150x150logo" content="~/content/favicon/ms-icon-150x150.png">
+    <meta name="msapplication-square310x310logo" content="~/content/favicon/ms-icon-310x310.png">
+    <meta name="msapplication-TileColor" content="#C84D59">
+    <meta name="msapplication-TileImage" content="~/content/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#C84D59">
+
+    <title>
+        @if (!string.IsNullOrEmpty(ViewBag.Title))
+        {
+            {@ViewBag.Title <text> - URU</text>}
+        }
+        else
+        {
+            <text>URU</text>
+        }
+    </title>
+
+</head>
+
+<body>
+    <nav>
+        <h2 class="logo"><a class="" asp-controller="Home" asp-action="Index">URU</a></h2>
+        <ul class="main-nav">
+            @if (ViewBag.Title == "Home" || ViewBag.Title == "Hjem")
+            {
+                <li><a class="navbar-link" role="button" onclick="jumpPage('about-me');">@StringLocalizer["Layout_About"]</a></li>
+                <li><a class="navbar-link" role="button" onclick="jumpPage('projects');">@StringLocalizer["Layout_Projects"]</a></li>}
+            else
+            {
+                <li><a class="navbar-link" asp-controller="Home" asp-action="Index" asp-route-id="about-me">@StringLocalizer["Layout_About"]</a></li>
+                <li><a class="navbar-link" asp-controller="Home" asp-action="Index" asp-route-id="projects">@StringLocalizer["Layout_Projects"]</a></li>
+            }
+            <li><a class="navbar-link" asp-controller="Home" asp-action="Contact">@StringLocalizer["Layout_Contact"]</a></li>
+            <li>
+                <a class="navbar-item" aria-label="GitHub" target="_blank" href="https://github.com/Adrrei">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a class="navbar-item" aria-label="LinkedIn" target="_blank" href="https://www.linkedin.com/in/adrianreithaug/">
+                    <span class="icon">
+                        <i class="fab fa-linkedin-in"></i>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="main-wrapper">
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div>
+            @await Html.PartialAsync("_SelectLanguagePartial")
+        </div>
+        <div>
+            <h1><a asp-controller="Home" asp-action="Index">URU</a></h1>
+        </div>
+        <div>
+            <a asp-controller="Home" asp-action="Contact">@StringLocalizer["Layout_Contact"]</a>
+        </div>
+
+        <div>
+            <p>@StringLocalizer["Layout_SourceCode"] <span><a class="link-to-github" href="https://github.com/Adrrei/URU">GitHub</a>.</span></p>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+
+    @* Eliminate render-blocking CSS and JavaScript in above-the-fold content *@
+    <environment include="Development">
+        <link rel="stylesheet" type="text/css" href="~/css/fontawesome.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="~/css/fonts.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="~/css/layout.css" asp-append-version="true">
+        <script async src="~/scripts/layout.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <link async rel="stylesheet" type="text/css" href="~/bundle/css/layout.min.css" asp-append-version="true">
+        <script async src="~/bundle/scripts/layout.min.js" asp-append-version="true"></script>
+    </environment>
+</body>
+</html>

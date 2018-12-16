@@ -1,0 +1,120 @@
+﻿@model URU.ViewModels.SpotifyViewModel
+
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer StringLocalizer
+
+<div class="container">
+
+    @if (Model.User != null)
+    {
+        <h1>
+            <a id="spotify-exquisite-uri">
+                @* Dynamically loaded from spotify.js -> getSpotifyLatestAddition() *@
+            </a>
+        </h1>
+        <div class="row">
+            <div>
+                <p>@StringLocalizer["Spotify_Songs"]</p>
+                <p class="number" id="spotify-exquisite-total">
+                    1..
+                    @* Dynamically loaded from spotify.js -> getSpotifyLatestAddition() *@
+                </p>
+            </div>
+            <div>
+                <iframe src="https://open.spotify.com/follow/1/?uri=spotify:user:@Model.User.UserId&size=detail&theme=light&show-count=0" width="180" height="80"></iframe>
+            </div>
+            <div>
+                <p id="hours-of-music">@StringLocalizer["Spotify_Hours"]</p>
+                <p class="number" id="spotify-playtime">
+                    1..
+                    @* Dynamically loaded from spotify.js -> getSpotifyPlaytime() *@
+                </p>
+            </div>
+        </div>
+
+        <div id="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="left">@StringLocalizer["Spotify_Genres"]</th>
+                        <th class="right">@StringLocalizer["Spotify_Songs"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Dynamically loaded from spotify.js -> getSpotifyFavorites() *@
+                </tbody>
+            </table>
+        </div>
+        
+        <h2>@StringLocalizer["Spotify_LatestAddition"]</h2>
+        
+        <div id="spotify-latest-addition">
+            @* Dynamically loaded from spotify.js -> getSpotifyLatestAddition() *@
+        </div>
+
+        <h2>
+            @StringLocalizer["Spotify_Favorites"]
+        </h2>
+
+        <p>
+            @StringLocalizer["Spotify_FavoritesDescription1"] <strong id="spotify-favorites-count"></strong> @StringLocalizer["Spotify_FavoritesDescription2"] <strong id="spotify-exquisite-name"></strong>).
+        </p>
+
+        <a id="spotify-cards-reset" onclick="resetGetSpotifyFavorites()">
+            @StringLocalizer["Spotify_FavoritesClickReset"]
+        </a>
+
+        <div id="cards">
+            @* Dynamically loaded from spotify.js -> getSpotifyFavorites() *@
+        </div>
+
+        <h2>@StringLocalizer["Spotify_ViewPlaylist"]</h2>
+
+        <iframe class="spotify-playlist" src="https://open.spotify.com/embed/user/@Model.User.UserId/playlist/@Model.User.PlaylistId" width="640" height="720" allow="encrypted-media"></iframe>
+    }
+    else
+    {
+        <h2>@StringLocalizer["Spotify_NoConnection"]</h2>
+    }
+    <br />
+
+    <h2>
+        @StringLocalizer["Spotify_API"]
+    </h2>
+
+    <p>
+        @StringLocalizer["Spotify_ProjectPurposeALongVersion"]
+    </p>
+    <p>
+        @StringLocalizer["Spotify_ProjectDescriptionIts"] <em>@StringLocalizer["Spotify_ProjectDescriptionStill"]</em> @StringLocalizer["Spotify_ProjectDescriptionNotPossible"]<a href="https://en.wikipedia.org/wiki/Chronological_snobbery">@StringLocalizer["Spotify_ProjectDescriptionYearJoke1"]</a>@StringLocalizer["Spotify_ProjectDescriptionYearJoke2"]
+    </p>
+</div>
+
+@* Eliminate render-blocking CSS and JavaScript in above-the-fold content *@
+
+@section Scripts {
+    <script>
+        var uru = uru || {};
+        uru.Urls = uru.Urls || {};
+        uru.Urls.GetSpotifyPlaytime = '@Url.Action("GetSpotifyPlaytime")';
+        uru.Urls.GetSpotifyPlaylists = '@Url.Action("GetSpotifyPlaylists")';
+        uru.Urls.GetSpotifyFavorites = '@Url.Action("GetSpotifyFavorites")';
+    </script>
+
+    <environment include="Development">
+        <script async src="~/scripts/spotify.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script async src="~/bundle/scripts/spotify.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<environment include="Development">
+    <link async rel="stylesheet" type="text/css" href="~/css/spotify.css" asp-append-version="true">
+</environment>
+
+<environment exclude="Development">
+    <link async rel="stylesheet" type="text/css" href="~/bundle/css/spotify.min.css" asp-append-version="true">
+</environment>

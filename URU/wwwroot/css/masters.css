@@ -1,0 +1,26 @@
+﻿.responsive-video {
+    width: 100vw;
+    height: 56.2vw;
+    max-width: 1920px;
+    max-height: 1080px;
+}
+
+html, body {
+    text-align: center;
+    width: 100%;
+}
+
+iframe {
+    border-width: 0px;
+}
+
+object {
+    padding-top: 1em;
+    font-family: 'Open Sans';
+    color: #4f4f4f;
+    font-size: 0.9rem;
+}
+
+.container {
+    margin-bottom: 3em;
+}

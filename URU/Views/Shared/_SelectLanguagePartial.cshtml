@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer StringLocalizer
+
+@{
+    var currentPath = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+
+<a href='@Url.Action("SetLanguage", "Home", new { returnUrl = currentPath })'>
+    @StringLocalizer["Layout_English"] / @StringLocalizer["Layout_Norwegian"]
+</a>
