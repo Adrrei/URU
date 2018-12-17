@@ -9,16 +9,15 @@
     @if (Model.User != null)
     {
         <h1>
-            <a id="spotify-exquisite-uri">
-                @* Dynamically loaded from spotify.js -> getSpotifyLatestAddition() *@
+            <a href="@Model.ExquisiteEdm.Uri" id="spotify-exquisite-uri">
+                @Model.ExquisiteEdm.Name
             </a>
         </h1>
         <div class="row">
             <div>
                 <p>@StringLocalizer["Spotify_Songs"]</p>
-                <p class="number" id="spotify-exquisite-total">
-                    1..
-                    @* Dynamically loaded from spotify.js -> getSpotifyLatestAddition() *@
+                <p class="number">
+                    @Model.ExquisiteEdm.Total
                 </p>
             </div>
             <div>
@@ -26,8 +25,7 @@
             </div>
             <div>
                 <p id="hours-of-music">@StringLocalizer["Spotify_Hours"]</p>
-                <p class="number" id="spotify-playtime">
-                    1..
+                <p class="number loading" id="spotify-playtime">
                     @* Dynamically loaded from spotify.js -> getSpotifyPlaytime() *@
                 </p>
             </div>
@@ -58,7 +56,7 @@
         </h2>
 
         <p>
-            @StringLocalizer["Spotify_FavoritesDescription1"] <strong id="spotify-favorites-count"></strong> @StringLocalizer["Spotify_FavoritesDescription2"] <strong id="spotify-exquisite-name"></strong>).
+            @StringLocalizer["Spotify_FavoritesDescription1"] <strong id="spotify-favorites-count"></strong> @StringLocalizer["Spotify_FavoritesDescription2"] <strong>@Model.ExquisiteEdm.Name</strong>).
         </p>
 
         <a id="spotify-cards-reset" onclick="resetGetSpotifyFavorites()">

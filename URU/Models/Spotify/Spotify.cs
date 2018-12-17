@@ -2,8 +2,11 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -199,7 +202,7 @@ namespace URU.Models
             }
         }
 
-        public async Task<long> GetSpotifyPlaytime<T>(User user)
+        public async Task<long> GetSpotifyPlaytime<T>(User user, long numberOfSongs)
         {
             if (user == null)
             {
@@ -216,38 +219,46 @@ namespace URU.Models
                 var sectionSpotify = _configuration.GetSection("Spotify");
                 var redirectUri = sectionSpotify["RedirectUri"];
 
-                Playlist playlist = default;
-                long numTracks = 1;
 
-                while (user.Offset < numTracks)
+                var client = new HttpClient();
+
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+                IList <HttpRequestMessage> urls = new List<HttpRequestMessage>();
+
+                while (user.Offset < numberOfSongs)
                 {
-                    string url = GetPlaylistTracks(user, "?offset=" + user.Offset);
-                    WebRequest webRequest = WebRequest.Create(url);
-                    webRequest.Method = "GET";
-                    webRequest.ContentType = "application/x-www-form-urlencoded";
-                    webRequest.Headers.Add("Authorization: Bearer " + accessToken);
-
-                    using (WebResponse webResponse = webRequest.GetResponse())
+                    string spotifyUrl = GetPlaylistTracks(user, "?offset=" + user.Offset + "&fields=items(track(duration_ms))");
+                    var httpRequestMessage = new HttpRequestMessage
                     {
-                        using (Stream streamResponse = webResponse.GetResponseStream())
-                        {
-                            using (StreamReader streamReader = new StreamReader(streamResponse))
-                            {
-                                string serverResponse = await streamReader.ReadToEndAsync();
-                                playlist = JsonConvert.DeserializeObject<Playlist>(serverResponse);
-
-                                foreach (var track in playlist.Items)
-                                {
-                                    milliseconds += track.Track.DurationMs;
-                                }
-                                if (numTracks == 1)
-                                {
-                                    numTracks = playlist.Total;
-                                }
-                                user.Offset += 100;
-                                streamReader.Close();
-                            }
+                        RequestUri = new Uri(spotifyUrl),
+                        Method = HttpMethod.Get,
+                        Headers = {
+                            { HttpRequestHeader.ContentType.ToString(), "application/x-www-form-urlencoded" }
                         }
+                    };
+
+                    urls.Add(httpRequestMessage);
+                    user.Offset += 100;
+                }
+
+                var requests = urls.Select(url => client.GetAsync(url.RequestUri));
+
+                var responses = requests.Select
+                    (
+                        task => task.Result
+                    );
+
+                foreach (var response in responses)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(content);
+
+                    foreach (var track in playlist.Items)
+                    {
+                        milliseconds += track.Track.DurationMs;
                     }
                 }
 
@@ -257,7 +268,7 @@ namespace URU.Models
             {
                 return default;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

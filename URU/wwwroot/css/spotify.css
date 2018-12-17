@@ -53,6 +53,38 @@ iframe {
     margin: 0.5em;
 }
 
+/* Loading spinner while waiting for AJAX request for 'Hours of Music' */
+.loading {
+    margin-left: -1em;
+}
+
+.loading:after {
+    animation: dots 2s steps(1, end) infinite;
+    content: ' .';
+}
+
+@keyframes dots {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    50% {
+        text-shadow: .5em 0;
+    }
+
+    75% {
+        text-shadow: .5em 0, 1em 0;
+    }
+
+    100% {
+        text-shadow: .5em 0, 1em 0;
+    }
+}
+
 @media (max-width: 680px) {
     .spotify-playlist {
         width: 450px;

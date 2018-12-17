@@ -134,21 +134,31 @@ namespace URU.Controllers
                 Limit = 1
             };
 
+            Spotify spotify = new Spotify(_configuration);
+            Playlist exquisiteEdm = spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
+
+            Playlist playlist = new Playlist()
+            {
+                Name = exquisiteEdm.Name,
+                Uri = exquisiteEdm.Uri,
+                Total = exquisiteEdm.Tracks.Total
+            };
+
             SpotifyViewModel spotifyViewModel = new SpotifyViewModel
             {
-                User = user
+                User = user,
+                ExquisiteEdm = playlist
             };
 
             return View(spotifyViewModel);
         }
-
-
+        
         public JsonResult GetSpotifyFavorites()
         {
             try
             {
                 const string MY_USER = "11157411586";
-                const string EXQUISITE_EDM = "7ssZYYankNsiAfeyPATtXe";
+                const string EXQUISITE_EDM = "48HcflR8QplI2zgAutNDnT";
                 User user = new User
                 {
                     UserId = MY_USER,
@@ -163,7 +173,7 @@ namespace URU.Controllers
                 IEnumerable<Item> favoriteItems = IEnumerableHelper.Randomize(favorites.Tracks.Items);
                 favoriteItems = favoriteItems.Take(5);
 
-                var result = new { Favorites = favoriteItems, ExquisiteEdmName = favorites.Name, ExquisiteEdmUri = favorites.Uri };
+                var result = new { Favorites = favoriteItems };
 
                 return Json(result);
             }
@@ -248,7 +258,9 @@ namespace URU.Controllers
                 };
 
                 Spotify spotify = new Spotify(_configuration);
-                long milliseconds = await spotify.GetSpotifyPlaytime<Playlist>(user);
+                Playlist playlist = spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
+
+                long milliseconds = await spotify.GetSpotifyPlaytime<Playlist>(user, playlist.Tracks.Total);
                 int hoursOfPlaytime = (int)TimeSpan.FromMilliseconds(milliseconds).TotalHours;
 
                 var result = new { Hours = hoursOfPlaytime };
