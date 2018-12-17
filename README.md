@@ -6,6 +6,8 @@ The current version is developed with **C#**, **[ASP.NET Core (v2.2.0)](https://
 
 ## Noteworthy Development Discussions
 
+Have a look at the **[Offline Changeset](https://github.com/Adrrei/URU/wiki/Offline-Changeset)** for changes in this project before it was made public.
+
 #### September 25th, 2018 - Complete Redesign
 
 **Bulma** has been removed, and so has **jQuery**. Bulma was great to work with, and I can recommend it for prototyping. However, the hassle of overriding styles got to me, and I ended up tossing it and moving on to something more minimal.
