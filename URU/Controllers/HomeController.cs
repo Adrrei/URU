@@ -120,7 +120,7 @@ namespace URU.Controllers
         }
 
         [HttpGet]
-        public IActionResult Spotify()
+        public async Task<IActionResult> Spotify()
         {
             ViewBag.Title = _stringLocalizer["HomeController_Spotify"];
 
@@ -135,7 +135,7 @@ namespace URU.Controllers
             };
 
             Spotify spotify = new Spotify(_configuration);
-            Playlist exquisiteEdm = spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
+            Playlist exquisiteEdm = await spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
 
             Playlist playlist = new Playlist()
             {
@@ -153,7 +153,7 @@ namespace URU.Controllers
             return View(spotifyViewModel);
         }
         
-        public JsonResult GetSpotifyFavorites()
+        public async Task<JsonResult> GetSpotifyFavorites()
         {
             try
             {
@@ -169,7 +169,7 @@ namespace URU.Controllers
 
                 Spotify spotify = new Spotify(_configuration);
 
-                Playlist favorites = spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
+                Playlist favorites = await spotify.GetSpotify<Playlist>(user, Method.GetPlaylist, "?limit=50");
                 IEnumerable<Item> favoriteItems = IEnumerableHelper.Randomize(favorites.Tracks.Items);
                 favoriteItems = favoriteItems.Take(5);
 
@@ -198,7 +198,7 @@ namespace URU.Controllers
                 };
 
                 Spotify spotify = new Spotify(_configuration);
-                Playlist personalPlaylists = spotify.GetSpotify<Playlist>(user, Method.GetPlaylists);
+                Playlist personalPlaylists = await spotify.GetSpotify<Playlist>(user, Method.GetPlaylists);
                 user.Offset = personalPlaylists.Items[0].Tracks.Total - 1;
 
                 Dictionary<string, long> edmPlaylists = new Dictionary<string, long>();
@@ -258,7 +258,7 @@ namespace URU.Controllers
                 };
 
                 Spotify spotify = new Spotify(_configuration);
-                Playlist playlist = spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
+                Playlist playlist = await spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
 
                 long milliseconds = await spotify.GetSpotifyPlaytime<Playlist>(user, playlist.Tracks.Total);
                 int hoursOfPlaytime = (int)TimeSpan.FromMilliseconds(milliseconds).TotalHours;

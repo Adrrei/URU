@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,246 +13,231 @@ namespace URU.Models
     public class Spotify
     {
         private readonly IConfiguration _configuration;
+        private static string accessToken;
+        private static DateTimeOffset tokenExpiryDate;
 
         public Spotify(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public string GetAccessToken()
+        public async Task<string> VerifyAndIssueAccessToken()
         {
+            if (string.IsNullOrEmpty(accessToken) || DateTimeOffset.Now.CompareTo(tokenExpiryDate) > 0)
+            {
+                await GetAccessToken();
+            }
+
+            return accessToken;
+        }
+
+        public async Task GetAccessToken()
+        {
+
             var sectionSpotify = _configuration.GetSection("Spotify");
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(sectionSpotify["TokenUri"]),
+                Content = new StringContent(
+                    "grant_type=client_credentials",
+                    Encoding.UTF8,
+                    "application/x-www-form-urlencoded"
+                )
+            };
+
             var clientId = sectionSpotify["ClientId"];
             var clientSecret = sectionSpotify["ClientSecret"];
             var base64Credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", clientId, clientSecret)));
 
+            var httpClient = new HttpClient() {
+                DefaultRequestHeaders =
+                {
+                    { "Authorization", "Basic " + base64Credentials },
+                    { "Connection", "Keep-Alive" },
+                    { "Accept", "application/json" }
+                }
+            };
+
             try
             {
-                WebRequest webRequest = WebRequest.Create("https://accounts.spotify.com/api/token");
-                webRequest.Method = "POST";
-                webRequest.ContentType = "application/x-www-form-urlencoded";
-                webRequest.Headers.Add("Authorization: Basic " + base64Credentials);
-
-                var request = ("grant_type=client_credentials");
-                byte[] requestBytes = Encoding.ASCII.GetBytes(request);
-                webRequest.ContentLength = requestBytes.Length;
-
-                Stream requestStream = webRequest.GetRequestStream();
-                requestStream.Write(requestBytes, 0, requestBytes.Length);
-                requestStream.Close();
-
-                using (WebResponse webResponse = webRequest.GetResponse())
+                HttpResponseMessage response = await httpClient.PostAsync(httpRequestMessage.RequestUri, httpRequestMessage.Content);
+                if (response.IsSuccessStatusCode)
                 {
-                    using (Stream streamResponse = webResponse.GetResponseStream())
-                    {
-                        using (StreamReader streamReader = new StreamReader(streamResponse))
-                        {
-                            string serverResponse = streamReader.ReadToEnd();
-                            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(serverResponse);
-                            streamReader.Close();
-
-                            return (string)jsonResponse["access_token"];
-                        }
-                    }
+                    JObject jsonResponse = await response.Content.ReadAsAsync<JObject>();
+                    accessToken = (string)jsonResponse["access_token"];
+                    string expiresIn = (string)jsonResponse["expires_in"];
+                    tokenExpiryDate = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 100);
                 }
             }
             catch (WebException)
             {
-                return "";
-            }
-            catch (Exception)
-            {
-                return "";
-            }
-        }
-
-        public enum Method
-        {
-            GetPlaylist,
-            GetPlaylists,
-            GetPlaylistTracks
-        }
-
-        public string GetPlaylist(User user, string parameters)
-        {
-            return $"https://api.spotify.com/v1/users/{user.UserId}/playlists/{user.PlaylistId}" + parameters;
-        }
-
-        public string GetPlaylists(User user)
-        {
-            return $"https://api.spotify.com/v1/users/{user.UserId}/playlists?limit=50";
-        }
-
-        public string GetPlaylistTracks(User user, string parameters)
-        {
-            return $"https://api.spotify.com/v1/playlists/{user.PlaylistId}/tracks" + parameters;
-        }
-
-        public T GetSpotify<T>(User user, Method method, string parameters = "")
-        {
-            if (user == null)
-            {
-                return default;
-            }
-
-            try
-            {
-                string accessToken = GetAccessToken();
-                user.Token = accessToken;
-
-                var sectionSpotify = _configuration.GetSection("Spotify");
-                var redirectUri = sectionSpotify["RedirectUri"];
-
-                string url = "";
-                switch (method)
-                {
-                    case Method.GetPlaylist:
-                        url = GetPlaylist(user, parameters);
-                        break;
-
-                    case Method.GetPlaylists:
-                        url = GetPlaylists(user);
-                        break;
-
-                    case Method.GetPlaylistTracks:
-                        url = GetPlaylistTracks(user, parameters);
-                        break;
-
-                    default:
-                        break;
-                }
-
-                WebRequest webRequest = WebRequest.Create(url);
-                webRequest.Method = "GET";
-                webRequest.ContentType = "application/x-www-form-urlencoded";
-                webRequest.Headers.Add("Authorization: Bearer " + accessToken);
-
-                T type = default;
-
-                using (WebResponse webResponse = webRequest.GetResponse())
-                {
-                    using (Stream streamResponse = webResponse.GetResponseStream())
-                    {
-                        using (StreamReader streamReader = new StreamReader(streamResponse))
-                        {
-                            string serverResponse = streamReader.ReadToEnd();
-                            type = JsonConvert.DeserializeObject<T>(serverResponse);
-                            streamReader.Close();
-                        }
-                    }
-                }
-                return type;
-            }
-            catch (WebException ex)
-            {
-                throw ex;
+                throw;
             }
             catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<Playlist> GetPlaylists<Playlist>(User user)
-        {
-            if (user == null)
-            {
-                return default;
-            }
-
-            try
-            {
-                string accessToken = GetAccessToken();
-                user.Token = accessToken;
-
-                var sectionSpotify = _configuration.GetSection("Spotify");
-                var redirectUri = sectionSpotify["RedirectUri"];
-
-                Playlist playlist = default;
-
-                var method = GetPlaylistTracks(user, "?offset=" + user.Offset + "&limit=" + user.Limit);
-                WebRequest webRequest = WebRequest.Create(method);
-                webRequest.Method = "GET";
-                webRequest.ContentType = "application/x-www-form-urlencoded";
-                webRequest.Headers.Add("Authorization: Bearer " + accessToken);
-
-                using (WebResponse webResponse = webRequest.GetResponse())
-                {
-                    using (Stream streamResponse = webResponse.GetResponseStream())
-                    {
-                        using (StreamReader streamReader = new StreamReader(streamResponse))
-                        {
-                            string serverResponse = await streamReader.ReadToEndAsync();
-                            playlist = JsonConvert.DeserializeObject<Playlist>(serverResponse);
-                            streamReader.Close();
-                        }
-                    }
-                }
-                return playlist;
-            }
-            catch (WebException)
-            {
-                return default;
-            }
-            catch (Exception)
             {
                 throw;
             }
         }
 
-        public async Task<long> GetSpotifyPlaytime<T>(User user, long numberOfSongs)
+        public async Task<T> GetSpotify<T>(User user, Method method, string parameters = "")
         {
             if (user == null)
+                return default;
+
+            string spotifyUrl = "";
+            switch (method)
+            {
+                case Method.GetPlaylist:
+                    spotifyUrl += GetPlaylist(user, parameters);
+                    break;
+
+                case Method.GetPlaylists:
+                    spotifyUrl += GetPlaylists(user, parameters);
+                    break;
+
+                case Method.GetPlaylistTracks:
+                    spotifyUrl += GetPlaylistTracks(user, parameters);
+                    break;
+
+                default:
+                    return default;
+            }
+
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(spotifyUrl),
+                Headers =
+                {
+                    { HttpRequestHeader.ContentType.ToString(), "application/x-www-form-urlencoded" }
+                }
+            };
+
+            user.Token = await VerifyAndIssueAccessToken();
+            var httpClient = new HttpClient()
+            {
+                DefaultRequestHeaders =
+                {
+                    { "Authorization", "Bearer " + user.Token },
+                    { "Connection", "Keep-Alive" },
+                    { "Accept", "application/json" }
+                }
+            };
+
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(httpRequestMessage.RequestUri);
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<T>();
+                }
+            }
+            catch (WebException)
             {
                 return default;
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return default;
+        }
+
+        public async Task<Playlist> GetPlaylists<Playlist>(User user)
+        {
+            if (user == null)
+                return default;
+
+
+            string spotifyUrl = GetPlaylistTracks(user, "?offset=" + user.Offset + "&limit=" + user.Limit);
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(spotifyUrl),
+                Headers =
+                {
+                    { HttpRequestHeader.ContentType.ToString(), "application/x-www-form-urlencoded" }
+                }
+            };
+
+            user.Token = await VerifyAndIssueAccessToken();
+            var httpClient = new HttpClient()
+            {
+                DefaultRequestHeaders =
+                {
+                    { "Authorization", "Bearer " + user.Token },
+                    { "Connection", "Keep-Alive" },
+                    { "Accept", "application/json" }
+                }
+            };
+
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(httpRequestMessage.RequestUri);
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<Playlist>();
+                }
+            }
+            catch (WebException)
+            {
+                return default;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return default;
+        }
+
+        public async Task<long> GetSpotifyPlaytime<T>(User user, long numberOfSongs)
+        {
+            if (user == null)
+                return default;
+            
+            IList<HttpRequestMessage> urls = new List<HttpRequestMessage>();
+
+            while (user.Offset < numberOfSongs)
+            {
+                string spotifyUrl = GetPlaylistTracks(user, "?offset=" + user.Offset + "&fields=items(track(duration_ms))");
+                var httpRequestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(spotifyUrl),
+                    Headers =
+                    {
+                        { HttpRequestHeader.ContentType.ToString(), "application/x-www-form-urlencoded" }
+                    }
+                };
+
+                urls.Add(httpRequestMessage);
+                user.Offset += 100;
+            }
+
+            user.Token = await VerifyAndIssueAccessToken();
+            var httpClient = new HttpClient()
+            {
+                DefaultRequestHeaders =
+                {
+                    { "Authorization", "Bearer " + user.Token },
+                    { "Connection", "Keep-Alive" },
+                    { "Accept", "application/json" }
+                }
+            };
 
             long milliseconds = 0;
 
             try
             {
-                string accessToken = GetAccessToken();
-                user.Token = accessToken;
-
-                var sectionSpotify = _configuration.GetSection("Spotify");
-                var redirectUri = sectionSpotify["RedirectUri"];
-
-
-                var client = new HttpClient();
-
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-
-                IList <HttpRequestMessage> urls = new List<HttpRequestMessage>();
-
-                while (user.Offset < numberOfSongs)
-                {
-                    string spotifyUrl = GetPlaylistTracks(user, "?offset=" + user.Offset + "&fields=items(track(duration_ms))");
-                    var httpRequestMessage = new HttpRequestMessage
-                    {
-                        RequestUri = new Uri(spotifyUrl),
-                        Method = HttpMethod.Get,
-                        Headers = {
-                            { HttpRequestHeader.ContentType.ToString(), "application/x-www-form-urlencoded" }
-                        }
-                    };
-
-                    urls.Add(httpRequestMessage);
-                    user.Offset += 100;
-                }
-
-                var requests = urls.Select(url => client.GetAsync(url.RequestUri));
-
-                var responses = requests.Select
-                    (
-                        task => task.Result
-                    );
+                var requests = urls.Select(url => httpClient.GetAsync(url.RequestUri));
+                var responses = requests.Select(task => task.Result);
 
                 foreach (var response in responses)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(content);
+                    Playlist playlist = await response.Content.ReadAsAsync<Playlist>();
 
                     foreach (var track in playlist.Items)
                     {
@@ -272,6 +255,34 @@ namespace URU.Models
             {
                 throw;
             }
+        }
+
+        public enum Method
+        {
+            GetPlaylist,
+            GetPlaylists,
+            GetPlaylistTracks
+        }
+
+        public string GetPlaylist(User user, string parameters)
+        {
+            string endpoint = _configuration.GetSection("Spotify")["Endpoint"];
+            string data = $"users/{user.UserId}/playlists/{user.PlaylistId}";
+            return endpoint + data + parameters;
+        }
+
+        public string GetPlaylists(User user, string parameters)
+        {
+            string endpoint = _configuration.GetSection("Spotify")["Endpoint"];
+            string data = $"users/{user.UserId}/playlists";
+            return endpoint + data + parameters;
+        }
+
+        public string GetPlaylistTracks(User user, string parameters)
+        {
+            string endpoint = _configuration.GetSection("Spotify")["Endpoint"];
+            string data = $"playlists/{user.PlaylistId}/tracks";
+            return endpoint + data + parameters;
         }
     }
 }
