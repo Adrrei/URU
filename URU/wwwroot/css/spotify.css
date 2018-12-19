@@ -40,9 +40,9 @@ iframe {
     justify-content: center;
 }
 
-#cards iframe {
-    margin: 0.5em;
-}
+    #cards iframe {
+        margin: 0.5em;
+    }
 
 #spotify-cards-reset {
     color: #005A9C;
@@ -58,10 +58,10 @@ iframe {
     margin-left: -1em;
 }
 
-.loading:after {
-    animation: dots 2s steps(1, end) infinite;
-    content: ' .';
-}
+    .loading:after {
+        animation: dots 2s steps(1, end) infinite;
+        content: ' .';
+    }
 
 @keyframes dots {
     0% {
@@ -131,7 +131,6 @@ iframe {
     .spotify-playlist {
         width: 200px;
     }
-
 
     #cards iframe {
         width: 260px;

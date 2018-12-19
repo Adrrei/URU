@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace URU.Migrations
 {
-    public partial class InitialCreationWithContact : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,14 +52,12 @@ namespace URU.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    DateTime = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    Matter = table.Column<int>(nullable: false),
+                    DateTime = table.Column<DateTimeOffset>(nullable: false),
+                    Subject = table.Column<string>(nullable: false),
                     Message = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    PhoneCode = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Subject = table.Column<string>(nullable: false)
+                    PhoneNumber = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

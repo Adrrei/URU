@@ -354,9 +354,9 @@ namespace URU.Models
 
         public string Token { get; set; }
 
-        public long Offset { get; set; }
+        public long Offset { get; set; } = 0;
 
-        public long Limit { get; set; }
+        public long Limit { get; set; } = 1;
     }
 
     internal static class Converter

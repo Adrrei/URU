@@ -17,6 +17,7 @@ namespace URU.Controllers
 {
     public class HomeController : Controller
     {
+        private Spotify _spotify;
         private readonly IConfiguration _configuration;
         private readonly IRepository _repository;
         private readonly IStringLocalizer<HomeController> _stringLocalizer;
@@ -124,18 +125,17 @@ namespace URU.Controllers
         {
             ViewBag.Title = _stringLocalizer["HomeController_Spotify"];
 
-            const string MY_USER = "11157411586";
-            const string EXQUISITE_EDM = "7ssZYYankNsiAfeyPATtXe";
+            var sectionSpotify = _configuration.GetSection("Spotify");
             User user = new User
             {
-                UserId = MY_USER,
-                PlaylistId = EXQUISITE_EDM,
-                Offset = 0,
-                Limit = 1
+                UserId = sectionSpotify["UserId"],
+                PlaylistId = sectionSpotify["ExquisiteEdmId"],
             };
 
             Spotify spotify = new Spotify(_configuration);
-            Playlist exquisiteEdm = await spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
+
+            string spotifyUrl = spotify.GetEndpoint(user, Method.GetPlaylist);
+            Playlist exquisiteEdm = await spotify.GetSpotify<Playlist>(spotifyUrl);
 
             Playlist playlist = new Playlist()
             {
@@ -152,24 +152,40 @@ namespace URU.Controllers
 
             return View(spotifyViewModel);
         }
-        
+
+        private void CreateSpotifyClient()
+        {
+            _spotify = new Spotify(_configuration);
+        }
+
+        private void EnsureSpotifyCreated()
+        {
+            if (_spotify == null)
+            {
+                CreateSpotifyClient();
+            }
+        }
+
         public async Task<JsonResult> GetSpotifyFavorites()
         {
             try
             {
-                const string MY_USER = "11157411586";
-                const string EXQUISITE_EDM = "48HcflR8QplI2zgAutNDnT";
+                var sectionSpotify = _configuration.GetSection("Spotify");
                 User user = new User
                 {
-                    UserId = MY_USER,
-                    PlaylistId = EXQUISITE_EDM,
-                    Offset = 0,
-                    Limit = 1
+                    UserId = sectionSpotify["UserId"],
+                    PlaylistId = sectionSpotify["FavoritesId"],
+                    Limit = 50
                 };
 
-                Spotify spotify = new Spotify(_configuration);
+                EnsureSpotifyCreated();
 
-                Playlist favorites = await spotify.GetSpotify<Playlist>(user, Method.GetPlaylist, "?limit=50");
+                (string, string)[] parameters = {
+                    ("limit", user.Limit.ToString())
+                };
+
+                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist, parameters);
+                Playlist favorites = await _spotify.GetSpotify<Playlist>(spotifyUrl);
                 IEnumerable<Item> favoriteItems = IEnumerableHelper.Randomize(favorites.Tracks.Items);
                 favoriteItems = favoriteItems.Take(5);
 
@@ -187,18 +203,17 @@ namespace URU.Controllers
         {
             try
             {
-                const string MY_USER = "11157411586";
-                const string EXQUISITE_EDM = "7ssZYYankNsiAfeyPATtXe";
+                var sectionSpotify = _configuration.GetSection("Spotify");
                 User user = new User
                 {
-                    UserId = MY_USER,
-                    PlaylistId = EXQUISITE_EDM,
-                    Offset = 0,
-                    Limit = 1
+                    UserId = sectionSpotify["UserId"],
+                    PlaylistId = sectionSpotify["ExquisiteEdmId"],
                 };
 
-                Spotify spotify = new Spotify(_configuration);
-                Playlist personalPlaylists = await spotify.GetSpotify<Playlist>(user, Method.GetPlaylists);
+                EnsureSpotifyCreated();
+
+                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylists);
+                Playlist personalPlaylists = await _spotify.GetSpotify<Playlist>(spotifyUrl);
                 user.Offset = personalPlaylists.Items[0].Tracks.Total - 1;
 
                 Dictionary<string, long> edmPlaylists = new Dictionary<string, long>();
@@ -233,7 +248,13 @@ namespace URU.Controllers
                     }
                 }
 
-                Playlist exquisiteEdm = await spotify.GetPlaylists<Playlist>(user);
+                (string, string)[] parameters = {
+                    ("offset", user.Offset.ToString()),
+                    ("limit", user.Limit.ToString())
+                };
+                spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylistTracks, parameters);
+                Playlist exquisiteEdm = await _spotify.GetSpotify<Playlist>(spotifyUrl);
+
                 var result = new { ExquisiteEdm = exquisiteEdm, Playlists = edmPlaylists };
 
                 return Json(result);
@@ -248,19 +269,20 @@ namespace URU.Controllers
         {
             try
             {
-                const string MY_USER = "11157411586";
-                const string EXQUISITE_EDM = "7ssZYYankNsiAfeyPATtXe";
+                var sectionSpotify = _configuration.GetSection("Spotify");
                 User user = new User
                 {
-                    UserId = MY_USER,
-                    PlaylistId = EXQUISITE_EDM,
-                    Offset = 0
+                    UserId = sectionSpotify["UserId"],
+                    PlaylistId = sectionSpotify["ExquisiteEdmId"],
+                    Limit = 0
                 };
 
-                Spotify spotify = new Spotify(_configuration);
-                Playlist playlist = await spotify.GetSpotify<Playlist>(user, Method.GetPlaylist);
+                EnsureSpotifyCreated();
 
-                long milliseconds = await spotify.GetSpotifyPlaytime<Playlist>(user, playlist.Tracks.Total);
+                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
+                Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
+
+                long milliseconds = await _spotify.GetSpotifyPlaytime<Playlist>(user, playlist.Tracks.Total);
                 int hoursOfPlaytime = (int)TimeSpan.FromMilliseconds(milliseconds).TotalHours;
 
                 var result = new { Hours = hoursOfPlaytime };

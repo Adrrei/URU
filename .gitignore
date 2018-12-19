@@ -6,7 +6,6 @@ robots.txt
 sitemap.txt
 
 # ASP.NET Core appsettings
-URU.csproj
 appsettings.json
 appsettings.production.json
 appsettings.development.json

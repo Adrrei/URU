@@ -83,7 +83,6 @@ function getSpotifyFavorites(initial) {
 
                 document.getElementById('cards').replaceChild(iframe, placeholders[initial++]);
             });
-
         }
     };
 }
