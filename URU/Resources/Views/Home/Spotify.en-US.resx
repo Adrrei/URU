@@ -120,6 +120,15 @@
   <data name="Spotify_API" xml:space="preserve">
     <value>Spotify API Integration</value>
   </data>
+  <data name="Spotify_Artists" xml:space="preserve">
+    <value>Artists</value>
+  </data>
+  <data name="Spotify_ArtistsDescription" xml:space="preserve">
+    <value>The table displays the ten most popular artists in the playlist.</value>
+  </data>
+  <data name="Spotify_Count" xml:space="preserve">
+    <value>Songs</value>
+  </data>
   <data name="Spotify_Favorites" xml:space="preserve">
     <value>Favorites</value>
   </data>
@@ -135,6 +144,9 @@
   <data name="Spotify_Genres" xml:space="preserve">
     <value>Genres</value>
   </data>
+  <data name="Spotify_GenresDescription" xml:space="preserve">
+    <value>The table displays the genres in the playlist, as well as the number of songs in each respective genre.</value>
+  </data>
   <data name="Spotify_Hours" xml:space="preserve">
     <value>Hours of Music</value>
   </data>
@@ -143,6 +155,15 @@
   </data>
   <data name="Spotify_NoConnection" xml:space="preserve">
     <value>Could not establish a connection to Spotify. Please try again later.</value>
+  </data>
+  <data name="Spotify_OverviewArtists" xml:space="preserve">
+    <value>Top Ten Artists</value>
+  </data>
+  <data name="Spotify_OverviewDescription" xml:space="preserve">
+    <value>This is a page dedicated to my EDM playlist, of which I've already spent far too many hours curating..</value>
+  </data>
+  <data name="Spotify_OverviewGenres" xml:space="preserve">
+    <value>Genres in the Playlist</value>
   </data>
   <data name="Spotify_ProjectDescriptionIts" xml:space="preserve">
     <value>It's</value>

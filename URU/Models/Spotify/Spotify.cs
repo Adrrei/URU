@@ -177,14 +177,14 @@ namespace URU.Models
             return default;
         }
 
-        public async Task<long> GetSpotifyPlaytime<T>(User user, long numberOfSongs)
+        public async Task<long> GetSpotifyPlaytime<T>(User user, long numberOfSongsInPlaylist)
         {
             if (user == null)
                 return default;
 
             IList<HttpRequestMessage> urls = new List<HttpRequestMessage>();
 
-            while (user.Offset < numberOfSongs)
+            while (user.Offset < numberOfSongsInPlaylist)
             {
                 (string, string)[] parameters = {
                     ("offset", user.Offset.ToString()),
@@ -229,6 +229,73 @@ namespace URU.Models
                 return default;
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Dictionary<string, int>> GetSpotifyTopArtists<T>(User user, long numberOfSongsInPlaylist)
+        {
+            if (user == null)
+                return default;
+
+            IList<HttpRequestMessage> urls = new List<HttpRequestMessage>();
+
+            while (user.Offset < numberOfSongsInPlaylist)
+            {
+                (string, string)[] parameters = {
+                    ("offset", user.Offset.ToString()),
+                    ("fields", "items(track(artists(name)))")
+                };
+
+                string spotifyUrl = GetEndpoint(user, Method.GetPlaylistTracks, parameters);
+                var httpRequestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(spotifyUrl)
+                };
+
+                urls.Add(httpRequestMessage);
+                user.Offset += 100;
+            }
+
+            EnsureHttpClientCreated();
+            await VerifyAndIssueAccessToken();
+
+            var artistsCount = new Dictionary<string, int>();
+
+            try
+            {
+                var requests = urls.Select(url => _httpClient.GetAsync(url.RequestUri));
+                var responses = requests.Select(task => task.Result);
+
+                foreach (var response in responses)
+                {
+                    Playlist playlist = await response.Content.ReadAsAsync<Playlist>();
+
+                    foreach (var artists in playlist.Items)
+                    {
+                        foreach(var artist in artists.Track.Artists)
+                        {
+                            if (artistsCount.TryGetValue(artist.Name, out int val))
+                            {
+                                artistsCount[artist.Name] = val + 1;
+                            }
+                            else
+                            {
+                                artistsCount.Add(artist.Name, 1);
+                            }
+                        }
+                    }
+                }
+
+                return artistsCount;
+            }
+            catch (WebException ex)
+            {
+                return default;
+            }
+            catch (Exception ex)
             {
                 throw;
             }

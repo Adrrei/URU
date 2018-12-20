@@ -13,6 +13,9 @@
                 @Model.ExquisiteEdm.Name
             </a>
         </h1>
+
+        <p>@StringLocalizer["Spotify_OverviewDescription"]</p>
+
         <div class="row">
             <div>
                 <p>@StringLocalizer["Spotify_Songs"]</p>
@@ -31,7 +34,16 @@
             </div>
         </div>
 
-        <div id="table-wrapper">
+        <h2>@StringLocalizer["Spotify_LatestAddition"]</h2>
+
+        <div id="spotify-latest-addition">
+            @* Dynamically loaded from spotify.js -> getSpotifyLatestAddition() *@
+        </div>
+
+        <h2>@StringLocalizer["Spotify_OverviewGenres"]</h2>
+        <p>@StringLocalizer["Spotify_GenresDescription"]</p>
+
+        <div id="table-genres">
             <table>
                 <thead>
                     <tr>
@@ -43,12 +55,6 @@
                     @* Dynamically loaded from spotify.js -> getSpotifyFavorites() *@
                 </tbody>
             </table>
-        </div>
-
-        <h2>@StringLocalizer["Spotify_LatestAddition"]</h2>
-
-        <div id="spotify-latest-addition">
-            @* Dynamically loaded from spotify.js -> getSpotifyLatestAddition() *@
         </div>
 
         <h2>
@@ -65,6 +71,23 @@
 
         <div id="cards">
             @* Dynamically loaded from spotify.js -> getSpotifyFavorites() *@
+        </div>
+
+        <h2>@StringLocalizer["Spotify_OverviewArtists"]</h2>
+        <p>@StringLocalizer["Spotify_ArtistsDescription"]</p>
+
+        <div id="table-top-artists">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="left">@StringLocalizer["Spotify_Artists"]</th>
+                        <th class="right">@StringLocalizer["Spotify_Count"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Dynamically loaded from spotify.js -> getSpotifyTopArtists() *@
+                </tbody>
+            </table>
         </div>
 
         <h2>@StringLocalizer["Spotify_ViewPlaylist"]</h2>
@@ -98,6 +121,7 @@
         uru.Urls.GetSpotifyPlaytime = '@Url.Action("GetSpotifyPlaytime")';
         uru.Urls.GetSpotifyPlaylists = '@Url.Action("GetSpotifyPlaylists")';
         uru.Urls.GetSpotifyFavorites = '@Url.Action("GetSpotifyFavorites")';
+        uru.Urls.GetSpotifyTopArtists = '@Url.Action("GetSpotifyTopArtists")';
     </script>
 
     <environment include="Development">

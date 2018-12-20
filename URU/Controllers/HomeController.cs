@@ -294,6 +294,35 @@ namespace URU.Controllers
             }
         }
 
+        public async Task<JsonResult> GetSpotifyTopArtists()
+        {
+            try
+            {
+                var sectionSpotify = _configuration.GetSection("Spotify");
+                User user = new User
+                {
+                    UserId = sectionSpotify["UserId"],
+                    PlaylistId = sectionSpotify["ExquisiteEdmId"],
+                    Limit = 0
+                };
+
+                EnsureSpotifyCreated();
+
+                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
+                Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
+
+                Dictionary<string, int> artists = await _spotify.GetSpotifyTopArtists<Playlist>(user, playlist.Tracks.Total);
+                var topTenArtists = artists.OrderByDescending(a => a.Value).Take(10);
+
+                var result = new { Artists = topTenArtists };
+                return Json(result);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         [Route("Home/SetLanguage")]
         public IActionResult SetLanguage(string returnUrl)
         {

@@ -2,6 +2,11 @@
     text-align: center;
 }
 
+.container p {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
 .row {
     display: flex;
     justify-content: center;
@@ -124,12 +129,12 @@ iframe {
 }
 
 @media (max-width: 320px) {
-    #spotify-latest-addition {
+    #spotify-latest-addition iframe {
         width: 260px;
     }
 
     .spotify-playlist {
-        width: 200px;
+        width: 230px;
     }
 
     #cards iframe {
@@ -147,7 +152,7 @@ table {
     border-collapse: collapse;
     line-height: 1.333em;
     margin: 0 auto;
-    width: 60%;
+    width: 50%;
 }
 
     table th,

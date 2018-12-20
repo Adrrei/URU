@@ -2,6 +2,7 @@
     getSpotifyLatestAddition();
     getSpotifyFavorites(1);
     getSpotifyPlaytime();
+    getSpotifyTopArtists();
 };
 
 function getSpotifyLatestAddition() {
@@ -18,9 +19,10 @@ function getSpotifyLatestAddition() {
             iframe.src = 'https://open.spotify.com/embed/track/' + response.exquisiteEdm.items[0].track.id;
             iframe.height = 80;
             iframe.width = 300;
+            iframe.setVolume = 0.1;
             document.getElementById('spotify-latest-addition').appendChild(iframe);
 
-            var table = document.getElementById('table-wrapper').getElementsByTagName('tbody')[0];
+            var table = document.getElementById('table-genres').getElementsByTagName('tbody')[0];
             for (let [key, value] of Object.entries(response.playlists)) {
                 var tableRow = '<tr><th class="left">' + key + '</th><td class="right">' + value + '</td></tr>';
                 table.innerHTML += tableRow;
@@ -80,6 +82,7 @@ function getSpotifyFavorites(initial) {
                 iframe.src = 'https://open.spotify.com/embed/track/' + item.track.id;
                 iframe.height = 240;
                 iframe.width = 240;
+                iframe.setVolume = 0.1;
 
                 document.getElementById('cards').replaceChild(iframe, placeholders[initial++]);
             });
@@ -107,6 +110,25 @@ function getSpotifyPlaytime() {
                 }
                 document.getElementById('spotify-playtime').textContent = hoursCounter;
             }, 15);
+        }
+    };
+}
+
+function getSpotifyTopArtists() {
+    var request = new XMLHttpRequest();
+    request.open('GET', uru.Urls.GetSpotifyTopArtists, true);
+    request.responseType = 'json';
+    request.send();
+
+    request.onload = function () {
+        if (request.status === 200) {
+            var artists = request.response.artists;
+
+            var table = document.getElementById('table-top-artists').getElementsByTagName('tbody')[0];
+            for (let i = 0; i < artists.length; i++) {
+                var tableRow = '<tr><th class="left">' + artists[i].key + '</th><td class="right">' + artists[i].value + '</td></tr>';
+                table.innerHTML += tableRow;
+            }
         }
     };
 }
