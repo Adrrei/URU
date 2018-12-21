@@ -124,7 +124,7 @@
     <value>Artists</value>
   </data>
   <data name="Spotify_ArtistsDescription" xml:space="preserve">
-    <value>The table displays the ten most popular artists in the playlist.</value>
+    <value>The following table show the ten most popular artists in the playlist.</value>
   </data>
   <data name="Spotify_Count" xml:space="preserve">
     <value>Songs</value>
@@ -135,17 +135,17 @@
   <data name="Spotify_FavoritesClickReset" xml:space="preserve">
     <value>Click here to load additional ones.</value>
   </data>
-  <data name="Spotify_FavoritesDescription1" xml:space="preserve">
-    <value>Here's</value>
-  </data>
-  <data name="Spotify_FavoritesDescription2" xml:space="preserve">
+  <data name="Spotify_FavoritesDescriptionClosing" xml:space="preserve">
     <value>of my ~40 favorite songs (from</value>
+  </data>
+  <data name="Spotify_FavoritesDescriptionIntro" xml:space="preserve">
+    <value>Here's</value>
   </data>
   <data name="Spotify_Genres" xml:space="preserve">
     <value>Genres</value>
   </data>
   <data name="Spotify_GenresDescription" xml:space="preserve">
-    <value>The table displays the genres in the playlist, as well as the number of songs in each respective genre.</value>
+    <value>Here are the genres in the playlist, as well as the number of songs in each respective genre.</value>
   </data>
   <data name="Spotify_Hours" xml:space="preserve">
     <value>Hours of Music</value>
@@ -160,33 +160,33 @@
     <value>Top Ten Artists</value>
   </data>
   <data name="Spotify_OverviewDescription" xml:space="preserve">
-    <value>This is a page dedicated to my EDM playlist, of which I've already spent far too many hours curating..</value>
+    <value>This page is dedicated to my EDM playlist, of which I've already spent far too many hours curating..</value>
   </data>
   <data name="Spotify_OverviewGenres" xml:space="preserve">
-    <value>Genres in the Playlist</value>
+    <value>Playlist Genres</value>
   </data>
-  <data name="Spotify_ProjectDescriptionIts" xml:space="preserve">
-    <value>It's</value>
+  <data name="Spotify_ProjectPurposeClosing" xml:space="preserve">
+    <value>I'm still hopeful that some day it will be possible to change your Spotify display name for instance, a feature that has been requested since 2012 («</value>
   </data>
-  <data name="Spotify_ProjectDescriptionNotPossible" xml:space="preserve">
-    <value>not possible to change your display name for instance («</value>
-  </data>
-  <data name="Spotify_ProjectDescriptionStill" xml:space="preserve">
-    <value>still</value>
-  </data>
-  <data name="Spotify_ProjectDescriptionYearJoke1" xml:space="preserve">
-    <value>but it's the current year</value>
-  </data>
-  <data name="Spotify_ProjectDescriptionYearJoke2" xml:space="preserve">
+  <data name="Spotify_ProjectPurposeClosingEnd" xml:space="preserve">
     <value>!»).</value>
   </data>
-  <data name="Spotify_ProjectPurposeALongVersion" xml:space="preserve">
-    <value>The purpose of this page is to provide a little insight in regard to the type of music I like. Spotify should obviously be the logical place for that, but Spotify is still lacking basic functionalities.</value>
+  <data name="Spotify_ProjectPurposeClosingUrl" xml:space="preserve">
+    <value>but it's the current year</value>
+  </data>
+  <data name="Spotify_ProjectPurposeIntro" xml:space="preserve">
+    <value>The Spotify project's purpose is to gather statistics from my Spotify account that Spotify does not (yet) offer.</value>
   </data>
   <data name="Spotify_Songs" xml:space="preserve">
     <value>Songs</value>
   </data>
   <data name="Spotify_ViewPlaylist" xml:space="preserve">
     <value>The Playlist</value>
+  </data>
+  <data name="Spotify_VolumeDescriptionClosing" xml:space="preserve">
+    <value>I have no access to the volume settings, and their default level is at 100%.</value>
+  </data>
+  <data name="Spotify_VolumeDescriptionIntro" xml:space="preserve">
+    <value>Please, turn down your volume before playing either of the songs on this page.</value>
   </data>
 </root>

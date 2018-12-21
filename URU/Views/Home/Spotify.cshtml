@@ -36,6 +36,13 @@
 
         <h2>@StringLocalizer["Spotify_LatestAddition"]</h2>
 
+        <p class="adjacent-paragraph-top">
+            @StringLocalizer["Spotify_VolumeDescriptionIntro"]
+        </p>
+        <p class="adjacent-paragraph-bottom">
+            @StringLocalizer["Spotify_VolumeDescriptionClosing"]
+        </p>
+
         <div id="spotify-latest-addition">
             @* Dynamically loaded from spotify.js -> getSpotifyLatestAddition() *@
         </div>
@@ -62,7 +69,7 @@
         </h2>
 
         <p>
-            @StringLocalizer["Spotify_FavoritesDescription1"] <strong id="spotify-favorites-count"></strong> @StringLocalizer["Spotify_FavoritesDescription2"] <strong>@Model.ExquisiteEdm.Name</strong>).
+            @StringLocalizer["Spotify_FavoritesDescriptionIntro"] <strong id="spotify-favorites-count"></strong> @StringLocalizer["Spotify_FavoritesDescriptionClosing"] <strong>@Model.ExquisiteEdm.Name</strong>).
         </p>
 
         <a id="spotify-cards-reset" onclick="resetGetSpotifyFavorites()">
@@ -104,11 +111,11 @@
         @StringLocalizer["Spotify_API"]
     </h2>
 
-    <p>
-        @StringLocalizer["Spotify_ProjectPurposeALongVersion"]
+    <p class="adjacent-paragraph-top">
+        @StringLocalizer["Spotify_ProjectPurposeIntro"]
     </p>
-    <p>
-        @StringLocalizer["Spotify_ProjectDescriptionIts"] <em>@StringLocalizer["Spotify_ProjectDescriptionStill"]</em> @StringLocalizer["Spotify_ProjectDescriptionNotPossible"]<a href="https://en.wikipedia.org/wiki/Chronological_snobbery">@StringLocalizer["Spotify_ProjectDescriptionYearJoke1"]</a>@StringLocalizer["Spotify_ProjectDescriptionYearJoke2"]
+    <p class="adjacent-paragraph-bottom">
+        @StringLocalizer["Spotify_ProjectPurposeClosing"]<a href="https://en.wikipedia.org/wiki/Chronological_snobbery">@StringLocalizer["Spotify_ProjectPurposeClosingUrl"]</a>@StringLocalizer["Spotify_ProjectPurposeClosingEnd"]
     </p>
 </div>
 

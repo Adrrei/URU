@@ -48,9 +48,16 @@ namespace URU
             {
                 routes.MapRoute(
                     name: "default",
+                    template: "{action}",
+                    defaults: new { controller = "Home" }
+                );
+
+                routes.MapRoute(
+                    name: "full",
                     template: "{controller=Home}/{action=Index}/{id?}"
-                    );
+                );
             });
+
         }
 
         public void ConfigureServices(IServiceCollection services)

@@ -88,13 +88,21 @@ li a.navbar-item, li a.navbar-link {
 a {
     cursor: pointer;
     text-decoration: none;
-    color: #4f4f4f;
+    color: #c84d59;
 }
 
     a:hover {
         text-decoration: underline;
         color: #7a7a7a;
     }
+
+    a.content__icon {
+        color: #4f4f4f;
+    }
+
+h2 a {
+    color: #4f4f4f;
+}
 
 footer {
     display: flex;

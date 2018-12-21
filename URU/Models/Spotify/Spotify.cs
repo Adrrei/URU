@@ -291,11 +291,11 @@ namespace URU.Models
 
                 return artistsCount;
             }
-            catch (WebException ex)
+            catch (WebException)
             {
                 return default;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

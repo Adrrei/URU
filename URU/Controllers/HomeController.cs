@@ -98,8 +98,7 @@ namespace URU.Controllers
         {
             if (string.Equals(id, "projects") || string.Equals(id, "about-me"))
             {
-                var url = Url.Action(nameof(Index));
-                url = url.Substring(0, url.LastIndexOf('/')) + "#" + url.Substring(url.LastIndexOf('/') + 1);
+                var url = Url.Action(nameof(Index)) + "#" + id;
                 return Redirect(url);
             }
 

@@ -50,12 +50,19 @@ iframe {
     }
 
 #spotify-cards-reset {
-    color: #005A9C;
     font-weight: bold;
 }
 
 .spotify-card-margin {
     margin: 0.5em;
+}
+
+p.adjacent-paragraph-bottom {
+    margin-top: 0;
+}
+
+p.adjacent-paragraph-top {
+    margin-bottom: 0;
 }
 
 /* Loading spinner while waiting for AJAX request for 'Hours of Music' */
