@@ -185,10 +185,10 @@ namespace URU.Controllers
 
                 string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist, parameters);
                 Playlist favorites = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-                IEnumerable<Item> favoriteItems = IEnumerableHelper.Randomize(favorites.Tracks.Items);
-                favoriteItems = favoriteItems.Take(5);
+                IEnumerable<Item> favoriteTracks = IEnumerableHelper.Randomize(favorites.Tracks.Items);
+                favoriteTracks = favoriteTracks.Take(5);
 
-                var result = new { Favorites = favoriteItems };
+                var result = new { Favorites = favoriteTracks };
 
                 return Json(result);
             }
@@ -216,7 +216,7 @@ namespace URU.Controllers
                 user.Offset = personalPlaylists.Items[0].Tracks.Total - 1;
 
                 Dictionary<string, long> edmPlaylists = new Dictionary<string, long>();
-                List<string> keepPlaylists = new List<string>
+                List<string> genres = new List<string>
                 {
                     "Big Room",
                     "Breakbeat",
@@ -240,7 +240,7 @@ namespace URU.Controllers
                 foreach (var playlist in personalPlaylists.Items.OrderByDescending(t => t.Tracks.Total))
                 {
                     string name = playlist.Name;
-                    bool isValid = keepPlaylists.Any(id => name.Contains(id));
+                    bool isValid = genres.Any(id => name.Contains(id));
                     if (isValid)
                     {
                         edmPlaylists.Add(name, playlist.Tracks.Total);
@@ -254,7 +254,7 @@ namespace URU.Controllers
                 spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylistTracks, parameters);
                 Playlist exquisiteEdm = await _spotify.GetSpotify<Playlist>(spotifyUrl);
 
-                var result = new { ExquisiteEdm = exquisiteEdm, Playlists = edmPlaylists };
+                var result = new { ExquisiteEdm = exquisiteEdm, Genres = edmPlaylists };
 
                 return Json(result);
             }
