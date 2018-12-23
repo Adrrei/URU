@@ -92,6 +92,6 @@ h1, h2, h3, h4, h5, h6, .title, .subtitle {
     font-family: Raleway;
 }
 
-a, p, text, textarea, span, li, ul, th, td {
+a, p, text, textarea, span, li, ul, th, td, input {
     font-family: 'Open Sans';
 }

@@ -293,7 +293,8 @@ namespace URU.Controllers
             }
         }
 
-        public async Task<JsonResult> GetSpotifyTopArtists()
+        [HttpPost]
+        public async Task<JsonResult> GetSpotifyTopArtists(string numberOfArtists)
         {
             try
             {
@@ -311,9 +312,16 @@ namespace URU.Controllers
                 Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
 
                 Dictionary<string, int> artists = await _spotify.GetSpotifyTopArtists<Playlist>(user, playlist.Tracks.Total);
-                var topTenArtists = artists.OrderByDescending(a => a.Value).Take(10);
 
-                var result = new { Artists = topTenArtists };
+                bool validNumber = int.TryParse(numberOfArtists, out int artistCount);
+                if (!validNumber || artistCount > artists.Count)
+                {
+                    artistCount = 10;
+                }
+
+                var topArtists = artists.OrderByDescending(a => a.Value).Take(artistCount);
+
+                var result = new { Artists = topArtists };
                 return Json(result);
             }
             catch (Exception)

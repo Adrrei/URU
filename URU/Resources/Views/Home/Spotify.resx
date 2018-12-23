@@ -124,7 +124,7 @@
     <value>Artister</value>
   </data>
   <data name="Spotify_ArtistsDescription" xml:space="preserve">
-    <value>Følgende tabell viser de ti mest populære artistene i spillelisten.</value>
+    <value>Følgende tabell viser de mest populære artistene i spillelisten.</value>
   </data>
   <data name="Spotify_Count" xml:space="preserve">
     <value>Sanger</value>
@@ -150,6 +150,9 @@
   <data name="Spotify_Hours" xml:space="preserve">
     <value>Timer med musikk</value>
   </data>
+  <data name="Spotify_InputHelp" xml:space="preserve">
+    <value>Skriv et nummer og forlat feltet for å oppdatere tabellen.</value>
+  </data>
   <data name="Spotify_LatestAddition" xml:space="preserve">
     <value>Nyeste tillegg</value>
   </data>
@@ -157,7 +160,7 @@
     <value>Kunne ikke etablere en forbindelse med Spotify. Vennligst prøv igjen senere.</value>
   </data>
   <data name="Spotify_OverviewArtists" xml:space="preserve">
-    <value>Topp ti artister</value>
+    <value>Topp artister</value>
   </data>
   <data name="Spotify_OverviewDescription" xml:space="preserve">
     <value>Denne siden er dedikert til EDM spillelisten min, og den har jeg brukt 'litt' vel mye tid på å kuratere..</value>

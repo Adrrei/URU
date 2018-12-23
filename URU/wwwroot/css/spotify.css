@@ -24,6 +24,36 @@
     font-size: 1.3em;
 }
 
+input {
+    border: none;
+    border-bottom: 1px solid #aaaaaa;
+    color: #aaaaaa;
+    font-size: 1.7em;
+    margin-bottom: 0.5em;
+    text-align: center;
+    width: 7em;
+}
+
+    input:focus {
+        border: none;
+        border-bottom: 1px solid #c84d59;
+        color: #c84d59;
+        outline: none;
+    }
+
+    input:hover {
+        border-bottom: 1px solid #c84d59;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
 iframe {
     border-width: 0;
 }

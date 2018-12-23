@@ -124,7 +124,7 @@
     <value>Artists</value>
   </data>
   <data name="Spotify_ArtistsDescription" xml:space="preserve">
-    <value>The following table show the ten most popular artists in the playlist.</value>
+    <value>The following table show the most popular artists in the playlist.</value>
   </data>
   <data name="Spotify_Count" xml:space="preserve">
     <value>Songs</value>
@@ -150,6 +150,9 @@
   <data name="Spotify_Hours" xml:space="preserve">
     <value>Hours of Music</value>
   </data>
+  <data name="Spotify_InputHelp" xml:space="preserve">
+    <value>Enter a number and leave the field to update the table.</value>
+  </data>
   <data name="Spotify_LatestAddition" xml:space="preserve">
     <value>Latest Addition</value>
   </data>
@@ -157,7 +160,7 @@
     <value>Could not establish a connection to Spotify. Please try again later.</value>
   </data>
   <data name="Spotify_OverviewArtists" xml:space="preserve">
-    <value>Top Ten Artists</value>
+    <value>Top Artists</value>
   </data>
   <data name="Spotify_OverviewDescription" xml:space="preserve">
     <value>This page is dedicated to my EDM playlist, of which I've already spent far too many hours curating..</value>

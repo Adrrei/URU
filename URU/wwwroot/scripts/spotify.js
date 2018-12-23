@@ -2,9 +2,11 @@
     getSpotifyLatestAddition();
     getSpotifyFavorites(1);
     getSpotifyPlaytime();
-    getSpotifyTopArtists();
+    getSpotifyTopArtists(10);
 
     handleLocalStorage();
+
+    document.getElementById('spotify-set-artist-count').addEventListener('blur', resetTableSpotifyArtists);
 };
 
 function handleLocalStorage() {
@@ -178,17 +180,30 @@ function getSpotifyFavorites(initial) {
     };
 }
 
-function getSpotifyTopArtists() {
+function resetTableSpotifyArtists() {
+    var numberOfArtists = document.getElementById('spotify-set-artist-count').value;
+    getSpotifyTopArtists(numberOfArtists);
+}
+
+function getSpotifyTopArtists(numberOfArtists) {
     var localArtists = getItemFromStorage('Artists');
-    if (localArtists) {
+    if (numberOfArtists === '') {
+        numberOfArtists = 10;
+    }
+
+    if (localArtists && localArtists.Artists.length === parseInt(numberOfArtists)) {
         createTableSpotifyArtists(localArtists.Artists);
         return;
     }
 
     var request = new XMLHttpRequest();
-    request.open('GET', uru.Urls.GetSpotifyTopArtists, true);
+    request.open('POST', uru.Urls.GetSpotifyTopArtists, true);
     request.responseType = 'json';
-    request.send();
+
+    var payload = new FormData();
+    payload.append('numberOfArtists', numberOfArtists);
+
+    request.send(payload);
 
     request.onload = function () {
         if (request.status === 200) {
@@ -203,6 +218,8 @@ function getSpotifyTopArtists() {
 
 function createTableSpotifyArtists(artists) {
     var table = document.getElementById('table-top-artists').getElementsByTagName('tbody')[0];
+    table.innerHTML = '';
+
     for (let i = 0; i < artists.length; i++) {
         var tableRow = '<tr><th class="left">' + artists[i].key + '</th><td class="right">' + artists[i].value + '</td></tr>';
         table.innerHTML += tableRow;
