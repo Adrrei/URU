@@ -126,9 +126,6 @@
   <data name="About_MastersDegree" xml:space="preserve">
     <value>Mastegrad</value>
   </data>
-  <data name="About_MastersDegreeIn" xml:space="preserve">
-    <value>Mastergrad i programutvikling</value>
-  </data>
   <data name="Index_AboutMe" xml:space="preserve">
     <value>Om meg</value>
   </data>
@@ -139,16 +136,10 @@
     <value>Prosjekter</value>
   </data>
   <data name="Projects_DeepLearningDescription" xml:space="preserve">
-    <value>Masteroppgaven min, hvor hovedmålet var å bruke dyp læring til å gjenkjenne fisk. Føring av statistikk over fiskemengden i elver, samt redusere mengden lagrede data var også i fokus.</value>
+    <value>Gjenkjenning og sporing av fisk med dyp læring, en undergruppe av maskinlæring. Løsningen kan også brukes på hvilket som helst objekt.</value>
   </data>
   <data name="Projects_DeepLearningTitle" xml:space="preserve">
     <value>Bruk av dyp læring til fiskegjenkjenning</value>
-  </data>
-  <data name="Projects_July" xml:space="preserve">
-    <value>Juli</value>
-  </data>
-  <data name="Projects_June" xml:space="preserve">
-    <value>Juni</value>
   </data>
   <data name="Projects_ReadMore" xml:space="preserve">
     <value>Les mer</value>
@@ -167,5 +158,11 @@
   </data>
   <data name="Index_SkillSet" xml:space="preserve">
     <value>Tekniske ferdigheter</value>
+  </data>
+  <data name="Projects_MastersThesis" xml:space="preserve">
+    <value>Masteroppgave</value>
+  </data>
+  <data name="Projects_RestApi" xml:space="preserve">
+    <value>REST API</value>
   </data>
 </root>

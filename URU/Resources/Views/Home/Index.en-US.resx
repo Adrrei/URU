@@ -126,9 +126,6 @@
   <data name="About_MastersDegree" xml:space="preserve">
     <value>Master's Degree</value>
   </data>
-  <data name="About_MastersDegreeIn" xml:space="preserve">
-    <value>Master's Degree in Software Engineering</value>
-  </data>
   <data name="Index_AboutMe" xml:space="preserve">
     <value>About Me</value>
   </data>
@@ -136,16 +133,10 @@
     <value>// Generic 'Intro'</value>
   </data>
   <data name="Projects_DeepLearningDescription" xml:space="preserve">
-    <value>My master's thesis, where the primary goal was to use deep learning for fish recognition. Calculating the amount of fish in rivers and reduce storage space were other goals.</value>
+    <value>Identify and track fish with deep learning, a subset of machine learning. The solution can be applied to any other object as well.</value>
   </data>
   <data name="Projects_DeepLearningTitle" xml:space="preserve">
     <value>Employing Deep Learning for Fish Recognition</value>
-  </data>
-  <data name="Projects_July" xml:space="preserve">
-    <value>July</value>
-  </data>
-  <data name="Projects_June" xml:space="preserve">
-    <value>June</value>
   </data>
   <data name="Index_Projects" xml:space="preserve">
     <value>Projects</value>
@@ -167,5 +158,11 @@
   </data>
   <data name="Index_SkillSet" xml:space="preserve">
     <value>Technical Skill Set</value>
+  </data>
+  <data name="Projects_MastersThesis" xml:space="preserve">
+    <value>Master's Thesis</value>
+  </data>
+  <data name="Projects_RestApi" xml:space="preserve">
+    <value>REST API</value>
   </data>
 </root>

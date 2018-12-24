@@ -68,7 +68,7 @@ li a.navbar-item, li a.navbar-link {
         opacity: 1;
     }
 
-@media all and (min-width: 469px) {
+@media all and (min-width: 524px) {
     nav,
     .main-nav {
         display: flex;
