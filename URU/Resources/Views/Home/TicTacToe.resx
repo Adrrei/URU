@@ -117,34 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HomeController_About" xml:space="preserve">
-    <value>About</value>
+  <data name="TicTacToe_PlayAlone" xml:space="preserve">
+    <value>Vil du teste spillet for deg selv? Start en ny instanse av nettleseren din (f.eks. inkognito) og bytt mellom dem.</value>
   </data>
-  <data name="HomeController_Contact" xml:space="preserve">
-    <value>Contact</value>
+  <data name="TicTacToe_PlayerOne" xml:space="preserve">
+    <value>Spiller 1</value>
   </data>
-  <data name="HomeController_ContactError" xml:space="preserve">
-    <value>Please fill out the fields (phone number not required).</value>
+  <data name="TicTacToe_Players" xml:space="preserve">
+    <value>Spillere</value>
   </data>
-  <data name="HomeController_ContactSuccess" xml:space="preserve">
-    <value>Thank you for the inquiry! I will get back to you as soon as possible!</value>
+  <data name="TicTacToe_PlayerTwo" xml:space="preserve">
+    <value>Spiller 2</value>
   </data>
-  <data name="HomeController_Error" xml:space="preserve">
-    <value>Error</value>
+  <data name="TicTacToe_RoomName" xml:space="preserve">
+    <value>Du spiller i rom: </value>
   </data>
-  <data name="HomeController_Home" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="HomeController_Masters" xml:space="preserve">
-    <value>Master's Thesis</value>
-  </data>
-  <data name="HomeController_Projects" xml:space="preserve">
-    <value>Projects</value>
-  </data>
-  <data name="HomeController_Spotify" xml:space="preserve">
-    <value>Spotify</value>
-  </data>
-  <data name="HomeController_TicTacToe" xml:space="preserve">
-    <value>Tic Tac Toe</value>
+  <data name="TicTacToe_Title" xml:space="preserve">
+    <value>Bondesjakk</value>
   </data>
 </root>

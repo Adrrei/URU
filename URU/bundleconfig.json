@@ -74,6 +74,18 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/bundle/css/game.min.css",
+    "inputFiles": [
+      "wwwroot/css/game.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/bundle/scripts/layout.min.js",
     "inputFiles": [
       "wwwroot/scripts/layout.js"
@@ -101,6 +113,31 @@
     "outputFileName": "wwwroot/bundle/scripts/spotify.min.js",
     "inputFiles": [
       "wwwroot/scripts/spotify.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/scripts/game.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/gameHub.js",
+      "wwwroot/scripts/tictactoe.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/bundle/scripts/signalr.min.js",
+    "inputFiles": [
+      "wwwroot/lib/signalr/signalr.js"
     ],
     "minify": {
       "enabled": true,

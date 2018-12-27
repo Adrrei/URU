@@ -81,39 +81,11 @@
 </div>
 
 <div class="project-container">
-    <div class="card">
-        <!-- media container -->
-        <div class="card__object">
-            <div class="object__image" style="background-image: url(/content/images/Music.jpg);" alt="@StringLocalizer["Projects_Dj"]"></div>
-        </div>
-        <!-- body container -->
-        <div class="card__body">
-            <span class="body__subtle">@StringLocalizer["Projects_RestApi"]</span>
-            <span class="body__heading">@StringLocalizer["Projects_SpotifyTitle"]</span>
-            <div class="body__bottom">
-                <span class="bottom__text body__subtle">@StringLocalizer["Projects_SpotifyDescription"]</span>
-                <span class="bottom__text body__subtle float-right"></span>
-            </div>
-            <div class="body__bottom body__bottom-reveal">
-                <span class="bottom__text body__subtle">@StringLocalizer["Projects_SpotifyDescription"]</span>
-                <a class="bottom__text float-right" asp-controller="Home" asp-action="Spotify">
-                    <i class="fab fa-spotify"></i> @StringLocalizer["Projects_ReadMore"]
-                </a>
-            </div>
-            <div class="body__bottom-mobile">
-                <a class="bottom__text float-right" asp-controller="Home" asp-action="Spotify">
-                    <i class="fab fa-spotify"></i> @StringLocalizer["Projects_ReadMore"]
-                </a>
-            </div>
-        </div>
-    </div>
 
     <div class="card">
-        <!-- media container -->
         <div class="card__object">
             <div class="object__image" style="background-image: url(/content/images/Salmon.jpg);" alt="@StringLocalizer["Projects_Salmon"]"></div>
         </div>
-        <!-- body container -->
         <div class="card__body">
             <span class="body__subtle">@StringLocalizer["Projects_MastersThesis"]</span>
             <span class="body__heading">@StringLocalizer["Projects_DeepLearningTitle"]</span>
@@ -130,6 +102,56 @@
             <div class="body__bottom-mobile">
                 <a class="bottom__text float-right" asp-controller="Home" asp-action="Masters">
                     <i class="fas fa-university"></i> @StringLocalizer["Projects_ReadMore"]
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card__object">
+            <div class="object__image" style="background-image: url(/content/images/Music.jpg);" alt="@StringLocalizer["Projects_Dj"]"></div>
+        </div>
+        <div class="card__body">
+            <span class="body__subtle">@StringLocalizer["Projects_RestApi"]</span>
+            <span class="body__heading">@StringLocalizer["Projects_SpotifyTitle"]</span>
+            <div class="body__bottom">
+                <span class="bottom__text body__subtle">@StringLocalizer["Projects_SpotifyDescription"]</span>
+                <span class="bottom__text body__subtle float-right"></span>
+            </div>
+            <div class="body__bottom body__bottom-reveal">
+                <span class="bottom__text body__subtle">@StringLocalizer["Projects_SpotifyDescription"]</span>
+                <a class="bottom__text float-right" asp-controller="Home" asp-action="Spotify">
+                    <i class="fab fa-spotify"></i> @StringLocalizer["Projects_Explore"]
+                </a>
+            </div>
+            <div class="body__bottom-mobile">
+                <a class="bottom__text float-right" asp-controller="Home" asp-action="Spotify">
+                    <i class="fab fa-spotify"></i> @StringLocalizer["Projects_Explore"]
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card__object">
+            <div class="object__image" style="background-image: url(/content/images/TicTacToe.jpg);" alt="@StringLocalizer["Projects_TicTacToe"]"></div>
+        </div>
+        <div class="card__body">
+            <span class="body__subtle">@StringLocalizer["Projects_SignalR"]</span>
+            <span class="body__heading">@StringLocalizer["Projects_TicTacToe"]</span>
+            <div class="body__bottom">
+                <span class="bottom__text body__subtle">@StringLocalizer["Projects_TicTacToeDescription"]</span>
+                <span class="bottom__text body__subtle float-right"></span>
+            </div>
+            <div class="body__bottom body__bottom-reveal">
+                <span class="bottom__text body__subtle">@StringLocalizer["Projects_TicTacToeDescription"]</span>
+                <a class="bottom__text float-right" asp-controller="Home" asp-action="TicTacToe">
+                    <i class="fas fa-gamepad"></i> @StringLocalizer["Projects_Play"]
+                </a>
+            </div>
+            <div class="body__bottom-mobile">
+                <a class="bottom__text float-right" asp-controller="Home" asp-action="TicTacToe">
+                    <i class="fas fa-gamepad"></i> @StringLocalizer["Projects_Play"]
                 </a>
             </div>
         </div>

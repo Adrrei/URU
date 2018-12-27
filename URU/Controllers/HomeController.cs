@@ -120,6 +120,16 @@ namespace URU.Controllers
         }
 
         [HttpGet]
+        public IActionResult TicTacToe()
+        {
+            ViewBag.Title = _stringLocalizer["HomeController_TicTacToe"];
+            GameViewModel gameViewModel = new GameViewModel
+            { };
+
+            return View(gameViewModel);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Spotify()
         {
             ViewBag.Title = _stringLocalizer["HomeController_Spotify"];

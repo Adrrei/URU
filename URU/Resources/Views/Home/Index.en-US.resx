@@ -165,4 +165,19 @@
   <data name="Projects_RestApi" xml:space="preserve">
     <value>REST API</value>
   </data>
+  <data name="Projects_Explore" xml:space="preserve">
+    <value>Explore</value>
+  </data>
+  <data name="Projects_Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Projects_SignalR" xml:space="preserve">
+    <value>ASP.NET Core SignalR</value>
+  </data>
+  <data name="Projects_TicTacToe" xml:space="preserve">
+    <value>Tic Tac Toe</value>
+  </data>
+  <data name="Projects_TicTacToeDescription" xml:space="preserve">
+    <value>Play tic tac toe in real-time versus other real players. Just choose a game room to get started!</value>
+  </data>
 </root>

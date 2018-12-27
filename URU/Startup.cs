@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Globalization;
+using URU.Hubs;
 using URU.Models;
 
 namespace URU
@@ -41,6 +42,11 @@ namespace URU
                 app.UseHsts();
             }
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<GameHub>("/gameHub");
+            });
+
             app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
             app.UseStaticFiles();
 
@@ -66,6 +72,8 @@ namespace URU
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("URUDatabase")));
             services.AddTransient<IRepository, Repository>();
+
+            services.AddSignalR();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()

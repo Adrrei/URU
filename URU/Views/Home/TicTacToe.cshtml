@@ -1,0 +1,60 @@
+﻿@model URU.ViewModels.GameViewModel
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer StringLocalizer
+
+
+<div class="container">
+    <h1>@StringLocalizer["TicTacToe_Title"]</h1>
+    <p>@StringLocalizer["TicTacToe_RoomName"]<span id="gameRoom"></span></p>
+
+    <input type="text" id="gameId" />
+
+    <div class="row">
+        <div id="gameBoard"></div>
+    </div>
+
+    <div class="row">
+        <div>
+            @StringLocalizer["TicTacToe_PlayerOne"]
+            <div id="player1">0</div>
+        </div>
+
+        <div>
+            @StringLocalizer["TicTacToe_PlayerTwo"]
+            <div id="player2">0</div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+    <h2>
+        @StringLocalizer["TicTacToe_Players"]
+    </h2>
+    <p id="gameLog"></p>
+
+    <p>
+        @StringLocalizer["TicTacToe_PlayAlone"]
+    </p>
+</div>
+
+@* Eliminate render-blocking CSS in above-the-fold content *@
+@section Scripts {
+    <script src="~/bundle/scripts/signalr.min.js" asp-append-version="true"></script>
+
+    <environment include="Development">
+        <script src="~/scripts/gameHub.js" asp-append-version="true"></script>
+        <script async src="~/scripts/tictactoe.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/bundle/scripts/game.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<environment include="Development">
+    <link async rel="stylesheet" type="text/css" href="~/css/game.css" asp-append-version="true">
+</environment>
+
+<environment exclude="Development">
+    <link async rel="stylesheet" type="text/css" href="~/bundle/css/game.min.css" asp-append-version="true">
+</environment>
