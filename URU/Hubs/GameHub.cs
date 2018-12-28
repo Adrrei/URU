@@ -30,11 +30,18 @@ namespace URU.Hubs
             await UpdateGroupValues(prevGroupName, groupName, true);
 
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, prevGroupName);
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+            if (!string.IsNullOrEmpty(groupName))
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            }
 
             UpdateSlots(prevGroupName, groupName, true);
 
-            await Clients.Group(groupName).SendAsync("Activity", _connections[groupName]);
+            if (!string.IsNullOrEmpty(groupName))
+            {
+                await Clients.Group(groupName).SendAsync("Activity", _connections[groupName]);
+            }
         }
 
         public async Task RemoveFromGroup(string prevGroupName, string groupName)
@@ -62,19 +69,22 @@ namespace URU.Hubs
 
         public void UpdateSlots(string prevGroupName, string groupName, bool add = false)
         {
-            var prevSlots = _gameSlots.GetValueOrDefault(prevGroupName);
-            if (!string.IsNullOrEmpty(prevSlots.Item1) && prevSlots.Item1.Equals(Context.ConnectionId))
+            if (!string.IsNullOrEmpty(prevGroupName))
             {
-                prevSlots.Item1 = null;
-            }
-            else if (!string.IsNullOrEmpty(prevSlots.Item2) && prevSlots.Item2.Equals(Context.ConnectionId))
-            {
-                prevSlots.Item2 = null;
+                var prevSlots = _gameSlots.GetValueOrDefault(prevGroupName);
+                if (!string.IsNullOrEmpty(prevSlots.Item1) && prevSlots.Item1.Equals(Context.ConnectionId))
+                {
+                    prevSlots.Item1 = null;
+                }
+                else if (!string.IsNullOrEmpty(prevSlots.Item2) && prevSlots.Item2.Equals(Context.ConnectionId))
+                {
+                    prevSlots.Item2 = null;
+                }
+
+                _gameSlots[prevGroupName] = prevSlots;
             }
 
-            _gameSlots[prevGroupName] = prevSlots;
-
-            if (add)
+            if (add && !string.IsNullOrEmpty(groupName))
             {
                 var slots = _gameSlots.GetValueOrDefault(groupName);
                 if (string.IsNullOrEmpty(slots.Item1))

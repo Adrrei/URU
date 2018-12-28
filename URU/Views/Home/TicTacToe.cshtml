@@ -10,29 +10,30 @@
 
     <input type="text" id="gameId" />
 
-    <div class="row">
-        <div id="gameBoard"></div>
-    </div>
+    <div id="gameBoard"></div>
 
     <div class="row">
-        <div>
+        <p>
             @StringLocalizer["TicTacToe_PlayerOne"]
-            <div id="player1">0</div>
-        </div>
+            <br/>
+            <span id="player1">0</span>
+        </p>
 
-        <div>
+        <p>
             @StringLocalizer["TicTacToe_PlayerTwo"]
-            <div id="player2">0</div>
-        </div>
-
-        <div class="clear"></div>
+            <br />
+            <span id="player2">0</span>
+        </p>
     </div>
-    <h2>
+    <h2 class="adjacent-paragraph-top">
         @StringLocalizer["TicTacToe_Players"]
     </h2>
-    <p id="gameLog"></p>
+    
+    <p class="adjacent-paragraph-bottom" id="gameLog"></p>
 
-    <p>
+    <hr />
+
+    <p class="muted">
         @StringLocalizer["TicTacToe_PlayAlone"]
     </p>
 </div>

@@ -24,6 +24,7 @@ function drawBoard() {
     var counter = 1;
     for (let x = 0; x < 3; x++) {
         var row = document.createElement('tr');
+        row.classList.add('row');
 
         for (let y = 0; y < 3; y++) {
             var col = document.createElement('td');

@@ -8,10 +8,10 @@
 }
 
 .row {
-    display: flex;
-    justify-content: center;
     align-content: center;
+    display: flex;
     flex-flow: row wrap;
+    justify-content: center;
 }
 
     .row div {
@@ -20,8 +20,8 @@
     }
 
 .number {
-    margin: 0;
     font-size: 1.3em;
+    margin: 0;
 }
 
 input {
@@ -64,14 +64,14 @@ iframe {
 
     .wrapper h1 {
         color: #fff;
-        text-align: center;
         font-weight: bold;
+        text-align: center;
     }
 
 #cards {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -154,8 +154,8 @@ p.adjacent-paragraph-top {
     }
 
     .row {
-        justify-content: center;
         flex-direction: column;
+        justify-content: center;
     }
 }
 
@@ -180,8 +180,8 @@ p.adjacent-paragraph-top {
 }
 
 #table-wrapper {
-    margin-top: 1em;
     margin-bottom: 1em;
+    margin-top: 1em;
 }
 
 table {
@@ -212,8 +212,8 @@ table {
 
 .left {
     background-color: #aaaaaa;
-    text-align: right;
     color: #FFF;
+    text-align: right;
 }
 
 .right {

@@ -1,8 +1,8 @@
 ﻿.responsive-video {
-    width: 100vw;
     height: 56.2vw;
-    max-width: 1920px;
     max-height: 1080px;
+    max-width: 1920px;
+    width: 100vw;
 }
 
 html, body {
@@ -15,10 +15,10 @@ iframe {
 }
 
 object {
-    padding-top: 1em;
-    font-family: 'Open Sans';
     color: #4f4f4f;
+    font-family: 'Open Sans';
     font-size: 0.9rem;
+    padding-top: 1em;
 }
 
 .container {
