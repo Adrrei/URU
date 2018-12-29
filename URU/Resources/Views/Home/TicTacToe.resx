@@ -135,4 +135,19 @@
   <data name="TicTacToe_Title" xml:space="preserve">
     <value>Bondesjakk</value>
   </data>
+  <data name="TicTacToe_Greetings" xml:space="preserve">
+    <value>Hei</value>
+  </data>
+  <data name="TicTacToe_Ready" xml:space="preserve">
+    <value>Klar</value>
+  </data>
+  <data name="TicTacToe_Welcome" xml:space="preserve">
+    <value>Hva vil du bli kalt?</value>
+  </data>
+  <data name="TicTacToe_NameRequirement" xml:space="preserve">
+    <value>Vennligst ha minst to tegn i navnet ditt.</value>
+  </data>
+  <data name="TicTacToe_Spectators" xml:space="preserve">
+    <value>Tilskuere</value>
+  </data>
 </root>

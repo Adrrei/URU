@@ -6,36 +6,41 @@
 
 <div class="container">
     <h1>@StringLocalizer["TicTacToe_Title"]</h1>
-    <p>@StringLocalizer["TicTacToe_RoomName"]<span id="gameRoom"></span></p>
 
-    <input type="text" id="gameId" />
+    <div id="name-container">
+        <p>@StringLocalizer["TicTacToe_Welcome"]</p>
+        <input type="text" id="playerId" autofocus />
+        <br />
+        <p id="nameError" class="invisible">@StringLocalizer["TicTacToe_NameRequirement"]</p>
 
-    <div id="gameBoard"></div>
+        <button class="btn" id="ready-button">@StringLocalizer["TicTacToe_Ready"]</button>
+    </div>
 
-    <div class="row">
-        <p>
-            @StringLocalizer["TicTacToe_PlayerOne"]
-            <br/>
-            <span id="player1">0</span>
-        </p>
+    <div id="play-container">
+        <p>@StringLocalizer["TicTacToe_Greetings"], <span id="player"></span>! @StringLocalizer["TicTacToe_RoomName"]<span id="gameRoom"></span></p>
 
-        <p>
-            @StringLocalizer["TicTacToe_PlayerTwo"]
-            <br />
-            <span id="player2">0</span>
+        <input type="text" id="gameId" autofocus />
+
+        <div id="gameBoard"></div>
+
+        <h2>
+            @StringLocalizer["TicTacToe_Players"]
+        </h2>
+
+        <p id="gamePlayers"></p>
+
+        <h2>
+            @StringLocalizer["TicTacToe_Spectators"]
+        </h2>
+
+        <p id="gameSpectators"></p>
+
+        <hr />
+
+        <p class="muted">
+            @StringLocalizer["TicTacToe_PlayAlone"]
         </p>
     </div>
-    <h2 class="adjacent-paragraph-top">
-        @StringLocalizer["TicTacToe_Players"]
-    </h2>
-    
-    <p class="adjacent-paragraph-bottom" id="gameLog"></p>
-
-    <hr />
-
-    <p class="muted">
-        @StringLocalizer["TicTacToe_PlayAlone"]
-    </p>
 </div>
 
 @* Eliminate render-blocking CSS in above-the-fold content *@

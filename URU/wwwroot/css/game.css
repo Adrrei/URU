@@ -60,13 +60,31 @@ input {
         margin-left: 12em;
     }
 
-.adjacent-paragraph-bottom {
-    margin-top: 0;
+.newline {
+    display: block;
 }
 
-.adjacent-paragraph-top {
-    margin-bottom: 0;
+.player-active {
+    color: green;
 }
+
+.invisible {
+    display: none;
+}
+
+.btn {
+    border: 0;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 0.0875em;
+    padding: 25px 25px;
+    text-transform: uppercase;
+}
+
+    .btn:hover {
+        background-color: #c84d59;
+    }
 
 @media (max-width: 600px) {
     .row > p:first-child, .row > p:last-child {

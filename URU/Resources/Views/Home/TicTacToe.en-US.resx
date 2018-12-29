@@ -135,4 +135,19 @@
   <data name="TicTacToe_Title" xml:space="preserve">
     <value>Tic Tac Toe</value>
   </data>
+  <data name="TicTacToe_Greetings" xml:space="preserve">
+    <value>Hi</value>
+  </data>
+  <data name="TicTacToe_Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="TicTacToe_Welcome" xml:space="preserve">
+    <value>What would you like to be called?</value>
+  </data>
+  <data name="TicTacToe_NameRequirement" xml:space="preserve">
+    <value>Please have at least two characters in your name.</value>
+  </data>
+  <data name="TicTacToe_Spectators" xml:space="preserve">
+    <value>Spectators</value>
+  </data>
 </root>

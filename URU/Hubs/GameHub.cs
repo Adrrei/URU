@@ -9,12 +9,13 @@ namespace URU.Hubs
 {
     public class GameHub : Hub
     {
-        public static readonly ConcurrentDictionary<string, IList<string>> _connections = new ConcurrentDictionary<string, IList<string>>();
-        public static readonly ConcurrentDictionary<string, string[,]> _gameStates = new ConcurrentDictionary<string, string[,]>();
-        public static readonly ConcurrentDictionary<string, int?> _gameTurns = new ConcurrentDictionary<string, int?>();
+        public static readonly ConcurrentDictionary<string, (string, int)> _players = new ConcurrentDictionary<string, (string, int)>();
         public static readonly ConcurrentDictionary<string, (string, string)> _gameSlots = new ConcurrentDictionary<string, (string, string)>();
+        public static readonly ConcurrentDictionary<string, IList<string>> _connections = new ConcurrentDictionary<string, IList<string>>();
+        public static readonly ConcurrentDictionary<string, int?> _gameTurns = new ConcurrentDictionary<string, int?>();
+        public static readonly ConcurrentDictionary<string, string[,]> _gameStates = new ConcurrentDictionary<string, string[,]>();
 
-        private readonly int[,] winningMoves = new int[,] {
+        private static readonly int[,] winningMoves = new int[,] {
             { 1, 2, 3 },
             { 4, 5, 6 },
             { 7, 8, 9 },
@@ -36,22 +37,16 @@ namespace URU.Hubs
                 await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
             }
 
+            UpdateSlots("", prevGroupName);
             UpdateSlots(prevGroupName, groupName, true);
+            await UpdateBoard(prevGroupName, -1, -1);
+            await UpdateBoard(groupName, -1, -1);
 
             if (!string.IsNullOrEmpty(groupName))
             {
-                await Clients.Group(groupName).SendAsync("Activity", _connections[groupName]);
+                var playerIds = GetRealPlayerIds(groupName);
+                await Clients.Group(groupName).SendAsync("Activity", playerIds);
             }
-        }
-
-        public async Task RemoveFromGroup(string prevGroupName, string groupName)
-        {
-            await UpdateGroupValues(prevGroupName, groupName);
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-
-            UpdateSlots(prevGroupName, groupName);
-
-            await Clients.Group(groupName).SendAsync("Activity", _connections[groupName]);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -61,10 +56,33 @@ namespace URU.Hubs
             {
                 await UpdateGroupValues("", groupName);
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-                await Clients.Group(groupName).SendAsync("Activity", _connections[groupName]);
+
+                UpdateSlots("", groupName);
+                await UpdateBoard(groupName, -1, -1);
+
+                var playerIds = GetRealPlayerIds(groupName);
+                await Clients.Group(groupName).SendAsync("Activity", playerIds);
             }
 
+            _players.Remove(Context.ConnectionId, out (string, int) ignore);
+
             await base.OnDisconnectedAsync(exception);
+        }
+
+        public void AddPlayer(string playerId)
+        {
+            _players[Context.ConnectionId] = (playerId, 0);
+        }
+
+        public IList<string> GetRealPlayerIds(string groupName)
+        {
+            IList<string> players = new List<string>();
+            foreach (var connection in _connections[groupName])
+            {
+                players.Add(_players[connection].Item1);
+            }
+
+            return players;
         }
 
         public void UpdateSlots(string prevGroupName, string groupName, bool add = false)
@@ -84,21 +102,57 @@ namespace URU.Hubs
                 _gameSlots[prevGroupName] = prevSlots;
             }
 
-            if (add && !string.IsNullOrEmpty(groupName))
+            if (!string.IsNullOrEmpty(groupName))
             {
                 var slots = _gameSlots.GetValueOrDefault(groupName);
-                if (string.IsNullOrEmpty(slots.Item1))
+
+                if (add)
                 {
-                    slots.Item1 = Context.ConnectionId;
+                    if (string.IsNullOrEmpty(slots.Item1))
+                    {
+                        slots.Item1 = Context.ConnectionId;
+                    }
+                    else if (string.IsNullOrEmpty(slots.Item2))
+                    {
+                        slots.Item2 = Context.ConnectionId;
+                    }
                 }
-                else if (string.IsNullOrEmpty(slots.Item2))
+                else
                 {
-                    slots.Item2 = Context.ConnectionId;
+                    if (!string.IsNullOrEmpty(slots.Item1) && slots.Item1.Equals(Context.ConnectionId))
+                    {
+                        slots.Item1 = null;
+                    }
+                    else if (!string.IsNullOrEmpty(slots.Item2) && slots.Item2.Equals(Context.ConnectionId))
+                    {
+                        slots.Item2 = null;
+                    }
+
+                    var potentialPlayers = _connections.GetValueOrDefault(groupName);
+                    if (potentialPlayers.Count >= 2)
+                    {
+                        foreach (var player in potentialPlayers)
+                        {
+                            if (slots.Item1 == null && slots.Item2 != player)
+                            {
+                                slots.Item1 = player;
+                                break;
+                            }
+                            else if (slots.Item2 == null && slots.Item1 != player)
+                            {
+                                slots.Item2 = player;
+                                break;
+                            }
+                        }
+                    }
+
                 }
 
                 _gameSlots[groupName] = slots;
             }
+
         }
+
 
         public async Task UpdateBoard(string groupName, int x, int y)
         {
@@ -120,47 +174,11 @@ namespace URU.Hubs
                     }
                 }
             }
-            if (x != -1 && y != -1)
-            {
-                var turn = _gameTurns.GetValueOrDefault(groupName);
 
-                if (turn == null)
-                {
-                    turn = 2;
-                }
+            var slots = _gameSlots.GetValueOrDefault(groupName);
+            if (slots.Item1 == null || slots.Item2 == null)
+                return;
 
-                var move = "";
-                var player = Context.ConnectionId;
-                var slots = _gameSlots.GetValueOrDefault(groupName);
-
-                if (player.Equals(slots.Item1) && turn == 2)
-                {
-                    turn = 1;
-                    move = "X";
-                }
-                else if (player.Equals(slots.Item2) && turn == 1)
-                {
-                    turn = 2;
-                    move = "O";
-                }
-
-                if (!string.IsNullOrEmpty(move))
-                {
-                    if (!grid[x, y].Equals("X") && !grid[x, y].Equals("O"))
-                    {
-                        _gameTurns[groupName] = turn;
-                        grid[x, y] = move;
-                    }
-                }
-            }
-
-            _gameStates[groupName] = grid;
-
-            await Clients.Group(groupName).SendAsync("ReceiveBoard", grid);
-        }
-
-        public async Task DoMove(string groupName)
-        {
             var turn = _gameTurns.GetValueOrDefault(groupName);
 
             if (turn == null)
@@ -169,25 +187,50 @@ namespace URU.Hubs
             }
 
             var move = "";
+            var opponent = "";
             var player = Context.ConnectionId;
-            var slots = _gameSlots.GetValueOrDefault(groupName);
+            IList<(string, string)> playerMoves = new List<(string, string)>();
 
-            if (player.Equals(slots.Item1) && turn == 2)
+            if (x == -1 && y == -1)
             {
-                turn = 1;
-                move = "X";
+                playerMoves.Add((_players.GetValueOrDefault(slots.Item2).Item1, "O - "));
+                playerMoves.Add((_players.GetValueOrDefault(slots.Item1).Item1, "X - "));
             }
-            else if (player.Equals(slots.Item2) && turn == 1)
+            else
             {
-                turn = 2;
-                move = "O";
+                if (player.Equals(slots.Item1) && turn == 2)
+                {
+                    turn = 1;
+                    move = "X";
+                    opponent = _players.GetValueOrDefault(slots.Item2).Item1;
+                    playerMoves.Add((opponent, "O - "));
+                    playerMoves.Add((_players.GetValueOrDefault(slots.Item1).Item1, "X - "));
+                }
+                else if (player.Equals(slots.Item2) && turn == 1)
+                {
+                    turn = 2;
+                    move = "O";
+                    opponent = _players.GetValueOrDefault(slots.Item1).Item1;
+                    playerMoves.Add((opponent, "X - "));
+                    playerMoves.Add((_players.GetValueOrDefault(slots.Item2).Item1, "O - "));
+                }
+
+                if (!string.IsNullOrEmpty(move))
+                {
+                    if (!grid[x, y].Equals("X") && !grid[x, y].Equals("O"))
+                    {
+                        _gameTurns[groupName] = turn;
+                        grid[x, y] = move;
+
+                        await Clients.Group(groupName).SendAsync("ReceiveTurn", opponent);
+                    }
+                }
+
             }
 
-            if (!string.IsNullOrEmpty(move))
-            {
-                _gameTurns[groupName] = turn;
-                await Clients.Group(groupName).SendAsync("ReceiveMove", move);
-            }
+            _gameStates[groupName] = grid;
+
+            await Clients.Group(groupName).SendAsync("ReceiveBoard", grid, playerMoves);
         }
 
         public async Task CheckWinner(string groupName)
@@ -249,8 +292,30 @@ namespace URU.Hubs
             if (!string.IsNullOrEmpty(winner))
             {
                 _gameStates[groupName] = null;
-                await Clients.Group(groupName).SendAsync("ReceiveWinner", winner);
+
+                var winningPlayer = _players[Context.ConnectionId];
+                var updateWinningPlayer = (winningPlayer.Item1, winningPlayer.Item2++);
+                _players.TryUpdate(Context.ConnectionId, winningPlayer, updateWinningPlayer);
+
+                await Clients.Group(groupName).SendAsync("ReceiveWinner", winningPlayer);
             }
+        }
+
+        public async Task UpdateScores(string groupName)
+        {
+            if (string.IsNullOrEmpty(groupName))
+                return;
+
+            var connections = _connections[groupName];
+            var playerScores = new List<(string, int)>();
+
+            foreach (var player in connections)
+            {
+                var current = _players[player];
+                playerScores.Add(current);
+            }
+
+            await Clients.Group(groupName).SendAsync("ReceiveScores", playerScores);
         }
 
         public async Task UpdateGroupValues(string prevGroupName, string groupName, bool add = false)
@@ -261,7 +326,9 @@ namespace URU.Hubs
 
                 prevPlayers.Remove(Context.ConnectionId);
                 _connections[prevGroupName] = prevPlayers;
-                await Clients.Group(prevGroupName).SendAsync("Activity", _connections[prevGroupName]);
+
+                var playerIds = GetRealPlayerIds(prevGroupName);
+                await Clients.Group(prevGroupName).SendAsync("Activity", playerIds);
             }
 
             var players = _connections.GetValueOrDefault(groupName);
