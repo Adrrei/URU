@@ -54,7 +54,7 @@ namespace URU
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{action}",
+                    template: "{action=Index}",
                     defaults: new { controller = "Home" }
                 );
 

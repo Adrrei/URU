@@ -87,9 +87,14 @@ namespace URU.Controllers
         public IActionResult Error(int? statusCode = null)
         {
             ViewBag.Title = _stringLocalizer["HomeController_Error"];
-            if (statusCode.HasValue && statusCode.Value == 404)
-                return View("Error/" + statusCode.ToString());
 
+            if (statusCode.HasValue && statusCode.Value == 404)
+            {
+                Response.StatusCode = 404;
+                return View("Error/" + statusCode.ToString());
+            }
+
+            Response.StatusCode = 500;
             return View("Error/Error");
         }
 

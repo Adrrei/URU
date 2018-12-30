@@ -1,11 +1,10 @@
 ﻿var previousRoom = '';
-var playerId = '';
 
 function joinRoom() {
     var room = document.getElementById('gameId').value;
 
-    connection.invoke('AddToGroup', previousRoom, room);
-    connection.invoke('UpdateBoard', room, -1, -1);
+    connection.invoke('InitializeGroup', previousRoom, room);
+    connection.invoke('InitializeBoard', room);
     connection.invoke('UpdateScores', room);
 
     document.getElementById('gameRoom').textContent = room;
@@ -14,7 +13,6 @@ function joinRoom() {
 
 window.onload = function () {
     document.getElementById('ready-button').addEventListener('click', generatePlayzone);
-
     document.getElementById('name-container').classList.remove('invisible');
     document.getElementById('play-container').classList.add('invisible');
 };
@@ -26,12 +24,11 @@ function generatePlayzone() {
         document.getElementById('nameError').classList.remove('invisible');
         return;
     }
-    document.getElementById('nameError').classList.add('invisible');
 
     connection.invoke('AddPlayer', playerName);
 
     document.getElementById('player').textContent = playerName;
-
+    document.getElementById('nameError').classList.add('invisible');
     document.getElementById('name-container').classList.toggle('invisible');
     document.getElementById('play-container').classList.toggle('invisible');
 
@@ -51,9 +48,9 @@ function drawBoard() {
         row.classList.add('row');
 
         for (let y = 0; y < 3; y++) {
-            var col = document.createElement('td');
-            col.id = counter;
-            col.innerHTML = counter;
+            var column = document.createElement('td');
+            column.innerHTML = counter;
+            column.id = counter;
 
             var handler = function () {
                 var room = document.getElementById('gameRoom').textContent;
@@ -61,9 +58,9 @@ function drawBoard() {
                 connection.invoke('CheckWinner', room);
             };
 
-            col.addEventListener('click', handler);
+            column.addEventListener('click', handler);
 
-            row.appendChild(col);
+            row.appendChild(column);
             counter++;
         }
 

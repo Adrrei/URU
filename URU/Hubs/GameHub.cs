@@ -15,6 +15,9 @@ namespace URU.Hubs
         public static readonly ConcurrentDictionary<string, int?> _gameTurns = new ConcurrentDictionary<string, int?>();
         public static readonly ConcurrentDictionary<string, string[,]> _gameStates = new ConcurrentDictionary<string, string[,]>();
 
+        private const string MARK_X = "X";
+        private const string MARK_O = "O";
+
         private static readonly int[,] winningMoves = new int[,] {
             { 1, 2, 3 },
             { 4, 5, 6 },
@@ -26,133 +29,51 @@ namespace URU.Hubs
             { 3, 5, 7 }
         };
 
-        public async Task AddToGroup(string prevGroupName, string groupName)
-        {
-            await UpdateGroupValues(prevGroupName, groupName, true);
-
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, prevGroupName);
-
-            if (!string.IsNullOrEmpty(groupName))
-            {
-                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-            }
-
-            UpdateSlots("", prevGroupName);
-            UpdateSlots(prevGroupName, groupName, true);
-            await UpdateBoard(prevGroupName, -1, -1);
-            await UpdateBoard(groupName, -1, -1);
-
-            if (!string.IsNullOrEmpty(groupName))
-            {
-                var playerIds = GetRealPlayerIds(groupName);
-                await Clients.Group(groupName).SendAsync("Activity", playerIds);
-            }
-        }
-
-        public override async Task OnDisconnectedAsync(Exception exception)
-        {
-            var groupName = _connections.Where(kvp => kvp.Value.Contains(Context.ConnectionId)).Select(kvp => kvp.Key).FirstOrDefault();
-            if (groupName != null)
-            {
-                await UpdateGroupValues("", groupName);
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-
-                UpdateSlots("", groupName);
-                await UpdateBoard(groupName, -1, -1);
-
-                var playerIds = GetRealPlayerIds(groupName);
-                await Clients.Group(groupName).SendAsync("Activity", playerIds);
-            }
-
-            _players.Remove(Context.ConnectionId, out (string, int) ignore);
-
-            await base.OnDisconnectedAsync(exception);
-        }
-
         public void AddPlayer(string playerId)
         {
             _players[Context.ConnectionId] = (playerId, 0);
         }
 
-        public IList<string> GetRealPlayerIds(string groupName)
-        {
-            IList<string> players = new List<string>();
-            foreach (var connection in _connections[groupName])
-            {
-                players.Add(_players[connection].Item1);
-            }
-
-            return players;
-        }
-
-        public void UpdateSlots(string prevGroupName, string groupName, bool add = false)
+        public async Task InitializeGroup(string prevGroupName, string groupName)
         {
             if (!string.IsNullOrEmpty(prevGroupName))
             {
-                var prevSlots = _gameSlots.GetValueOrDefault(prevGroupName);
-                if (!string.IsNullOrEmpty(prevSlots.Item1) && prevSlots.Item1.Equals(Context.ConnectionId))
-                {
-                    prevSlots.Item1 = null;
-                }
-                else if (!string.IsNullOrEmpty(prevSlots.Item2) && prevSlots.Item2.Equals(Context.ConnectionId))
-                {
-                    prevSlots.Item2 = null;
-                }
-
-                _gameSlots[prevGroupName] = prevSlots;
+                await RemoveFromGroup(prevGroupName);
+                RemoveFromPlayerList(prevGroupName);
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, prevGroupName);
             }
 
-            if (!string.IsNullOrEmpty(groupName))
-            {
-                var slots = _gameSlots.GetValueOrDefault(groupName);
+            if (string.IsNullOrEmpty(groupName))
+                return;
 
-                if (add)
-                {
-                    if (string.IsNullOrEmpty(slots.Item1))
-                    {
-                        slots.Item1 = Context.ConnectionId;
-                    }
-                    else if (string.IsNullOrEmpty(slots.Item2))
-                    {
-                        slots.Item2 = Context.ConnectionId;
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(slots.Item1) && slots.Item1.Equals(Context.ConnectionId))
-                    {
-                        slots.Item1 = null;
-                    }
-                    else if (!string.IsNullOrEmpty(slots.Item2) && slots.Item2.Equals(Context.ConnectionId))
-                    {
-                        slots.Item2 = null;
-                    }
+            AddToGroup(groupName);
+            AddToPlayerList(groupName);
 
-                    var potentialPlayers = _connections.GetValueOrDefault(groupName);
-                    if (potentialPlayers.Count >= 2)
-                    {
-                        foreach (var player in potentialPlayers)
-                        {
-                            if (slots.Item1 == null && slots.Item2 != player)
-                            {
-                                slots.Item1 = player;
-                                break;
-                            }
-                            else if (slots.Item2 == null && slots.Item1 != player)
-                            {
-                                slots.Item2 = player;
-                                break;
-                            }
-                        }
-                    }
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            await InitializeBoard(groupName);
 
-                }
-
-                _gameSlots[groupName] = slots;
-            }
-
+            var playerIds = GetRealPlayerIds(groupName);
+            await Clients.Group(groupName).SendAsync("Activity", playerIds);
         }
 
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            _players.Remove(Context.ConnectionId, out (string, int) ignore);
+            await base.OnDisconnectedAsync(exception);
+
+            var groupName = _connections.Where(kvp => kvp.Value.Contains(Context.ConnectionId)).Select(kvp => kvp.Key).FirstOrDefault();
+
+            if (string.IsNullOrEmpty(groupName))
+                return;
+
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+            await RemoveFromGroup(groupName);
+            RemoveFromPlayerList(groupName);
+
+            var playerIds = GetRealPlayerIds(groupName);
+            await Clients.Group(groupName).SendAsync("Activity", playerIds);
+        }
 
         public async Task UpdateBoard(string groupName, int x, int y)
         {
@@ -160,19 +81,7 @@ namespace URU.Hubs
 
             if (grid == null)
             {
-                const int MAX_X = 3;
-                const int MAX_Y = 3;
-                grid = new string[MAX_X, MAX_Y];
-
-                int counter = 0;
-                for (int i = 0; i < MAX_X; i++)
-                {
-                    for (int j = 0; j < MAX_Y; j++)
-                    {
-                        counter++;
-                        grid[i, j] = counter.ToString();
-                    }
-                }
+                grid = CreateGrid(3, 3);
             }
 
             var slots = _gameSlots.GetValueOrDefault(groupName);
@@ -180,7 +89,6 @@ namespace URU.Hubs
                 return;
 
             var turn = _gameTurns.GetValueOrDefault(groupName);
-
             if (turn == null)
             {
                 turn = 2;
@@ -191,42 +99,57 @@ namespace URU.Hubs
             var player = Context.ConnectionId;
             IList<(string, string)> playerMoves = new List<(string, string)>();
 
-            if (x == -1 && y == -1)
+            if (player.Equals(slots.Item1) && turn == 2)
             {
-                playerMoves.Add((_players.GetValueOrDefault(slots.Item2).Item1, "O - "));
-                playerMoves.Add((_players.GetValueOrDefault(slots.Item1).Item1, "X - "));
+                turn = 1;
+                move = MARK_X;
+                opponent = _players.GetValueOrDefault(slots.Item2).Item1;
+                playerMoves.Add((opponent, MARK_O));
+                playerMoves.Add((_players.GetValueOrDefault(slots.Item1).Item1, MARK_X));
             }
-            else
+            else if (player.Equals(slots.Item2) && turn == 1)
             {
-                if (player.Equals(slots.Item1) && turn == 2)
-                {
-                    turn = 1;
-                    move = "X";
-                    opponent = _players.GetValueOrDefault(slots.Item2).Item1;
-                    playerMoves.Add((opponent, "O - "));
-                    playerMoves.Add((_players.GetValueOrDefault(slots.Item1).Item1, "X - "));
-                }
-                else if (player.Equals(slots.Item2) && turn == 1)
-                {
-                    turn = 2;
-                    move = "O";
-                    opponent = _players.GetValueOrDefault(slots.Item1).Item1;
-                    playerMoves.Add((opponent, "X - "));
-                    playerMoves.Add((_players.GetValueOrDefault(slots.Item2).Item1, "O - "));
-                }
-
-                if (!string.IsNullOrEmpty(move))
-                {
-                    if (!grid[x, y].Equals("X") && !grid[x, y].Equals("O"))
-                    {
-                        _gameTurns[groupName] = turn;
-                        grid[x, y] = move;
-
-                        await Clients.Group(groupName).SendAsync("ReceiveTurn", opponent);
-                    }
-                }
-
+                turn = 2;
+                move = MARK_O;
+                opponent = _players.GetValueOrDefault(slots.Item1).Item1;
+                playerMoves.Add((opponent, MARK_X));
+                playerMoves.Add((_players.GetValueOrDefault(slots.Item2).Item1, MARK_O));
             }
+
+            if (!string.IsNullOrEmpty(move))
+            {
+                if (!grid[x, y].Equals(MARK_X) && !grid[x, y].Equals(MARK_O))
+                {
+                    _gameTurns[groupName] = turn;
+                    grid[x, y] = move;
+
+                    await Clients.Group(groupName).SendAsync("ReceiveTurn", opponent);
+                }
+            }
+
+            _gameStates[groupName] = grid;
+
+            await Clients.Group(groupName).SendAsync("ReceiveBoard", grid, playerMoves);
+        }
+
+        public async Task InitializeBoard(string groupName)
+        {
+            var grid = _gameStates.GetValueOrDefault(groupName);
+
+            if (grid == null)
+            {
+                grid = CreateGrid(3, 3);
+            }
+
+            var slots = _gameSlots.GetValueOrDefault(groupName);
+            if (slots.Item1 == null || slots.Item2 == null)
+                return;
+
+            IList<(string, string)> playerMoves = new List<(string, string)>
+            {
+                (_players.GetValueOrDefault(slots.Item2).Item1, MARK_O),
+                (_players.GetValueOrDefault(slots.Item1).Item1, MARK_X)
+            };
 
             _gameStates[groupName] = grid;
 
@@ -240,64 +163,55 @@ namespace URU.Hubs
             if (grid == null)
                 return;
 
-            string winner = "";
+            string winner = "T"; // Tie
+
+            // Matches the diagonals: [1, 5, 9] || [3, 5, 7]
             if (grid[0, 0].Equals(grid[1, 1]) && grid[1, 1].Equals(grid[2, 2]) || grid[0, 2].Equals(grid[1, 1]) && grid[1, 1].Equals(grid[2, 0]))
-            { // 1, 5, 9 || 3, 5, 7
-                winner = grid[0, 0];
+            {
+                winner = grid[1, 1];
             }
 
-            if (string.IsNullOrEmpty(winner))
+            bool finished = true;
+            for (int x = 0; x < 3; x++)
             {
-                for (int i = 0; i < 3; i++)
+                if (!winner.Equals("T"))
+                    break;
+
+                // Whether either position contains a number (in which case we keep going)
+                if (int.TryParse(grid[x, 0], out int ignore1) || int.TryParse(grid[x, 1], out int ignore2) || int.TryParse(grid[x, 2], out int ignore3))
                 {
-                    if (grid[i, 0].Equals(grid[i, 1]) && grid[i, 1].Equals(grid[i, 2]))
-                    { // 1, 2, 3 || 4, 5, 6 || 7, 8, 9
-                        winner = grid[i, 0];
+                    finished = false;
+                }
+
+                // Matches the following rows: [1, 2, 3] || [4, 5, 6] || [7, 8, 9]
+                if (grid[x, 0].Equals(grid[x, 1]) && grid[x, 1].Equals(grid[x, 2]))
+                {
+                    winner = grid[x, 0];
+                }
+
+                for (int y = 0; y < 3; y++)
+                {
+                    // Matches the following columns: [1, 4, 7] || [2, 5, 8] || [3, 6, 9]
+                    if (grid[0, y].Equals(grid[1, y]) && grid[1, y].Equals(grid[2, y]))
+                    {
+                        winner = grid[0, y];
                         break;
                     }
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (grid[0, j].Equals(grid[1, j]) && grid[1, j].Equals(grid[2, j]))
-                        { // 1, 4, 7 || 2, 5, 8 || 3, 6, 9
-                            winner = grid[0, j];
-                            break;
-                        }
-                    }
                 }
             }
 
-            if (string.IsNullOrEmpty(winner))
+            var winningPlayer = ("", 0);
+            if (!winner.Equals("T"))
             {
-                bool finished = true;
-                int counter = 0;
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        counter++;
-                        if (grid[i, j].Equals(counter.ToString()))
-                        {
-                            finished = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (finished)
-                {
-                    winner = "TIE";
-                }
-            }
-
-            if (!string.IsNullOrEmpty(winner))
-            {
-                _gameStates[groupName] = null;
-
-                var winningPlayer = _players[Context.ConnectionId];
+                winningPlayer = _players[Context.ConnectionId];
                 var updateWinningPlayer = (winningPlayer.Item1, winningPlayer.Item2++);
                 _players.TryUpdate(Context.ConnectionId, winningPlayer, updateWinningPlayer);
+            }
 
-                await Clients.Group(groupName).SendAsync("ReceiveWinner", winningPlayer);
+            if (finished || !winner.Equals("T"))
+            {
+                _gameStates[groupName] = null;
+                await Clients.Group(groupName).SendAsync("ReceiveWinner", winningPlayer, winner);
             }
         }
 
@@ -318,42 +232,118 @@ namespace URU.Hubs
             await Clients.Group(groupName).SendAsync("ReceiveScores", playerScores);
         }
 
-        public async Task UpdateGroupValues(string prevGroupName, string groupName, bool add = false)
+        public IList<string> GetRealPlayerIds(string groupName)
         {
-            if (!string.IsNullOrEmpty(prevGroupName))
+            IList<string> players = new List<string>();
+            foreach (var connection in _connections[groupName])
             {
-                var prevPlayers = _connections.GetValueOrDefault(prevGroupName);
-
-                prevPlayers.Remove(Context.ConnectionId);
-                _connections[prevGroupName] = prevPlayers;
-
-                var playerIds = GetRealPlayerIds(prevGroupName);
-                await Clients.Group(prevGroupName).SendAsync("Activity", playerIds);
+                players.Add(_players[connection].Item1);
             }
 
-            var players = _connections.GetValueOrDefault(groupName);
+            return players;
+        }
 
+        public string[,] CreateGrid(int rows, int columns)
+        {
+            var grid = new string[rows, columns];
+
+            int counter = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    counter++;
+                    grid[i, j] = counter.ToString();
+                }
+            }
+
+            return grid;
+        }
+
+        public void AddToPlayerList(string groupName)
+        {
+            if (string.IsNullOrEmpty(groupName))
+                return;
+
+            var slots = _gameSlots.GetValueOrDefault(groupName);
+
+            if (string.IsNullOrEmpty(slots.Item1))
+            {
+                slots.Item1 = Context.ConnectionId;
+            }
+            else if (string.IsNullOrEmpty(slots.Item2))
+            {
+                slots.Item2 = Context.ConnectionId;
+            }
+
+            _gameSlots[groupName] = slots;
+        }
+
+        public void RemoveFromPlayerList(string groupName)
+        {
+            if (string.IsNullOrEmpty(groupName))
+                return;
+
+            var slots = _gameSlots.GetValueOrDefault(groupName);
+            if (!string.IsNullOrEmpty(slots.Item1) && slots.Item1.Equals(Context.ConnectionId))
+            {
+                slots.Item1 = null;
+            }
+            else if (!string.IsNullOrEmpty(slots.Item2) && slots.Item2.Equals(Context.ConnectionId))
+            {
+                slots.Item2 = null;
+            }
+
+            var potentialPlayers = _connections.GetValueOrDefault(groupName);
+            if (potentialPlayers.Count >= 2)
+            {
+                foreach (var player in potentialPlayers)
+                {
+                    if (slots.Item1 == null && slots.Item2 != player)
+                    {
+                        slots.Item1 = player;
+                        break;
+                    }
+                    else if (slots.Item2 == null && slots.Item1 != player)
+                    {
+                        slots.Item2 = player;
+                        break;
+                    }
+                }
+            }
+
+            _gameSlots[groupName] = slots;
+        }
+
+        public void AddToGroup(string groupName)
+        {
+            if (string.IsNullOrEmpty(groupName))
+                return;
+
+            var players = _connections.GetValueOrDefault(groupName);
             if (players == null)
             {
                 players = new List<string>();
             }
 
-            if (add)
+            if (!players.Contains(Context.ConnectionId))
             {
-                if (!players.Contains(Context.ConnectionId))
-                {
-                    players.Add(Context.ConnectionId);
-                }
-            }
-            else
-            {
-                players.Remove(Context.ConnectionId);
+                players.Add(Context.ConnectionId);
             }
 
-            if (!string.IsNullOrEmpty(groupName))
-            {
-                _connections[groupName] = players;
-            }
+            _connections[groupName] = players;
+        }
+
+        public async Task RemoveFromGroup(string groupName)
+        {
+            if (string.IsNullOrEmpty(groupName))
+                return;
+
+            var players = _connections.GetValueOrDefault(groupName);
+            players.Remove(Context.ConnectionId);
+            _connections[groupName] = players;
+
+            await Clients.Group(groupName).SendAsync("Activity", GetRealPlayerIds(groupName));
         }
     }
 }

@@ -52,9 +52,9 @@ input {
     font-size: 1.1em;
 }
 
-.row > p:first-child {
-    margin-right: 12em;
-}
+    .row > p:first-child {
+        margin-right: 12em;
+    }
 
     .row > p:last-child {
         margin-left: 12em;
@@ -86,6 +86,49 @@ input {
         background-color: #c84d59;
     }
 
+#win-screen {
+    animation-duration: 2s;
+    animation-name: fadeInResult;
+    cursor: default;
+    font-size: 32em;
+    left: 50%;
+    opacity: 0.5;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -70%);
+}
+
+@keyframes fadeInResult {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        font-size: 33em;
+    }
+}
+
+@keyframes fadeInResult600 {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        font-size: 17em;
+    }
+}
+
 @media (max-width: 600px) {
     .row > p:first-child, .row > p:last-child {
         margin-left: 5em;
@@ -100,6 +143,20 @@ input {
         width: 4em;
         height: 4em;
     }
+
+    #win-screen {
+        animation-name: fadeInResult600;
+        font-size: 16em;
+        top: 44.5%;
+        transform: translate(-50%, -100%);
+    }
+}
+
+
+@media (max-width: 523px) {
+    #win-screen {
+        transform: translate(-50%, -51%);
+    }
 }
 
 @media (max-width: 490px) {
@@ -110,6 +167,10 @@ input {
     .row > p:first-child, .row > p:last-child {
         flex: 1;
         margin: 1em 0 0 0;
+    }
+
+    #win-screen {
+        transform: translate(-50%, -50%);
     }
 }
 
@@ -126,5 +187,10 @@ input {
     .row > p:first-child, .row > p:last-child {
         flex: 1;
         margin: 1em 0 0 0;
+    }
+
+    #win-screen {
+        font-size: 16em;
+        transform: translate(-50%, -55%);
     }
 }
