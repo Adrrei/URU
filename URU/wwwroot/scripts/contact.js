@@ -1,4 +1,6 @@
-﻿var numActiveFields = 0;
+﻿'use strict';
+
+var numActiveFields = 0;
 var fields = ['name', 'email', 'phone-number', 'subject', 'message'];
 
 function alteredValue() {

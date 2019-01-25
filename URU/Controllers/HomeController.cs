@@ -107,7 +107,6 @@ namespace URU.Controllers
                 return Redirect(url);
             }
 
-            ViewBag.Title = _stringLocalizer["HomeController_Home"];
             HomeViewModel homeViewModel = new HomeViewModel
             { };
 
@@ -222,11 +221,16 @@ namespace URU.Controllers
                 {
                     UserId = sectionSpotify["UserId"],
                     PlaylistId = sectionSpotify["ExquisiteEdmId"],
+                    Limit = 50
                 };
 
                 EnsureSpotifyCreated();
 
-                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylists);
+                (string query, string value)[] parameters = {
+                    ("limit", user.Limit.ToString())
+                };
+
+                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylists, parameters);
                 Playlist personalPlaylists = await _spotify.GetSpotify<Playlist>(spotifyUrl);
                 user.Offset = personalPlaylists.Items[0].Tracks.Total - 1;
 
@@ -262,7 +266,7 @@ namespace URU.Controllers
                     }
                 }
 
-                (string, string)[] parameters = {
+                parameters = new (string query, string value)[] {
                     ("offset", user.Offset.ToString()),
                     ("limit", user.Limit.ToString())
                 };

@@ -138,11 +138,11 @@
   <data name="TicTacToe_Greetings" xml:space="preserve">
     <value>Hei</value>
   </data>
-  <data name="TicTacToe_Ready" xml:space="preserve">
-    <value>Klar</value>
+  <data name="TicTacToe_Play" xml:space="preserve">
+    <value>Spill</value>
   </data>
   <data name="TicTacToe_Welcome" xml:space="preserve">
-    <value>Hva vil du bli kalt?</value>
+    <value>Hva heter du?</value>
   </data>
   <data name="TicTacToe_NameRequirement" xml:space="preserve">
     <value>Vennligst ha minst to tegn i navnet ditt.</value>

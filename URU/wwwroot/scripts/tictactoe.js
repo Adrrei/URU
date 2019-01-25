@@ -1,4 +1,27 @@
-﻿var previousRoom = '';
+﻿'use strict';
+
+window.onload = function () {
+    var buttonReady = document.getElementById('ready-button');
+    buttonReady.addEventListener('click', generatePlayzone);
+
+    var inputPlayerId = document.getElementById('playerId');
+    inputPlayerId.addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+            generatePlayzone();
+        }
+
+        if (inputPlayerId.value.length >= 2) {
+            buttonReady.classList.add('btn-ready');
+        } else {
+            buttonReady.classList.remove('btn-ready');
+        }
+    });
+
+    document.getElementById('name-container').classList.remove('invisible');
+    document.getElementById('play-container').classList.add('invisible');
+};
+
+var previousRoom = '';
 
 function joinRoom() {
     var room = document.getElementById('gameId').value;
@@ -6,16 +29,11 @@ function joinRoom() {
     connection.invoke('InitializeGroup', previousRoom, room);
     connection.invoke('InitializeBoard', room);
     connection.invoke('UpdateScores', room);
+    connection.invoke('UpdateScores', previousRoom);
 
     document.getElementById('gameRoom').textContent = room;
     previousRoom = room;
 }
-
-window.onload = function () {
-    document.getElementById('ready-button').addEventListener('click', generatePlayzone);
-    document.getElementById('name-container').classList.remove('invisible');
-    document.getElementById('play-container').classList.add('invisible');
-};
 
 function generatePlayzone() {
     var playerName = document.getElementById('playerId').value;

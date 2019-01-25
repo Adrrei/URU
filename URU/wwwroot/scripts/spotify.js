@@ -1,4 +1,6 @@
-﻿window.onload = function () {
+﻿'use strict';
+
+window.onload = function () {
     getSpotifyLatestAddition();
     getSpotifyFavorites(1);
     getSpotifyPlaytime();

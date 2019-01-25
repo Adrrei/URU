@@ -109,7 +109,7 @@ namespace URU.Models
             }
         }
 
-        public string GetEndpoint(User user, Method method, (string, string)[] parameters = null)
+        public string GetEndpoint(User user, Method method, (string query, string value)[] parameters = null)
         {
             var spotifyUrl = new StringBuilder(_configuration.GetSection("Spotify")["Endpoint"]);
             switch (method)
@@ -135,7 +135,7 @@ namespace URU.Models
                 var query = new StringBuilder();
                 foreach (var parameter in parameters)
                 {
-                    query.Append("&" + parameter.Item1 + "=" + parameter.Item2);
+                    query.Append("&" + parameter.query + "=" + parameter.value);
                 }
 
                 spotifyUrl.Append("?" + query);

@@ -1,4 +1,6 @@
-﻿var connection = new signalR.HubConnectionBuilder().withUrl('/gameHub').configureLogging(signalR.LogLevel.None).build();
+﻿'use strict';
+
+const connection = new signalR.HubConnectionBuilder().withUrl('/gameHub').configureLogging(signalR.LogLevel.None).build();
 
 connection.start().catch(function (err) {
     return console.error(err.toString());

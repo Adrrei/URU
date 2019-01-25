@@ -132,9 +132,6 @@
   <data name="HomeController_Error" xml:space="preserve">
     <value>Feil</value>
   </data>
-  <data name="HomeController_Home" xml:space="preserve">
-    <value>Hjem</value>
-  </data>
   <data name="HomeController_Masters" xml:space="preserve">
     <value>Masteroppgave</value>
   </data>

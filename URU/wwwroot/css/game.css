@@ -86,6 +86,10 @@ input {
         background-color: #c84d59;
     }
 
+.btn-ready {
+    background-color: #c84d59;
+}
+
 #win-screen {
     animation-duration: 2s;
     animation-name: fadeInResult;
