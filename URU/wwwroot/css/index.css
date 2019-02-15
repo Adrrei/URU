@@ -1,6 +1,7 @@
 ﻿/* ------------------------------
 // GENERAL
 ------------------------------ */
+
 * {
     box-sizing: border-box;
 }
@@ -28,7 +29,7 @@ html, body {
     .parallax.parallax--hero {
         background-color: #FFF;
         background-image: url("/content/images/Hero.jpg");
-        height: 45vh;
+        height: 32vh;
     }
 
 .parallax__content {

@@ -4,9 +4,6 @@
 @inject IViewLocalizer StringLocalizer
 
 <div class="parallax parallax--hero">
-    <div class="parallax__content">
-        <h2>@StringLocalizer["Index_Hero"]</h2>
-    </div>
 </div>
 
 <div class="parallax">
@@ -54,10 +51,10 @@
     <h1>@StringLocalizer["Index_SkillSet"]</h1>
 
     <div class="row--skill-container">
-        @{ string[] skills = new string[] { "C#", "Java", "JavaScript", "Python", "ASP.NET Core 2", "Bulma",
-                       "Bootstrap", "Semantic UI", "Ember.js", "TensorFlow", "HTML5", "CSS3", "MS SQL", "WiX Toolset" }; }
-        @{ string[] images = new string[] { "CSharp.png", "Java.png", "JavaScript.png", "Python.png", "DotNet.png", "Bulma.png",
-                       "Bootstrap.png", "SemanticUI.png", "Ember.png", "TensorFlow.png", "HTML5.png", "CSS3.png", "SQL.png", "WiX.png" }; }
+        @{ string[] skills = new string[] { "C#", "ASP.NET Core 2", "Java", "JavaScript", "Python",
+                       "Bootstrap", "TensorFlow", "HTML5", "CSS3", "MSSQL", "IdentityServer4", "Rest Web API", "SignalR"  }; }
+        @{ string[] images = new string[] { "CSharp.jpg", "AspDotNetCore.jpg", "Java.png", "JavaScript.png", "Python.png",
+                       "Bootstrap.png", "TensorFlow.jpg", "HTML5.png", "CSS3.png", "SQL.jpg", "IdentityServer.png", "RestAPI.png", "SignalR.png" }; }
 
         @for (int i = 0; i < skills.Length; i++)
         {

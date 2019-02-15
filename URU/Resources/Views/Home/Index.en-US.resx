@@ -129,9 +129,6 @@
   <data name="Index_AboutMe" xml:space="preserve">
     <value>About Me</value>
   </data>
-  <data name="Index_Hero" xml:space="preserve">
-    <value>// Generic 'Intro'</value>
-  </data>
   <data name="Projects_DeepLearningDescription" xml:space="preserve">
     <value>Identify and track fish with deep learning, a subset of machine learning. The solution can be applied to any other object as well.</value>
   </data>
@@ -157,7 +154,7 @@
     <value>Salmon</value>
   </data>
   <data name="Index_SkillSet" xml:space="preserve">
-    <value>Technical Skill Set</value>
+    <value>Highlighted skills</value>
   </data>
   <data name="Projects_MastersThesis" xml:space="preserve">
     <value>Master's Thesis</value>

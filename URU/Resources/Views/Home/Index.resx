@@ -129,9 +129,6 @@
   <data name="Index_AboutMe" xml:space="preserve">
     <value>Om meg</value>
   </data>
-  <data name="Index_Hero" xml:space="preserve">
-    <value>// Generisk 'Intro'</value>
-  </data>
   <data name="Index_Projects" xml:space="preserve">
     <value>Prosjekter</value>
   </data>
@@ -157,7 +154,7 @@
     <value>Laks</value>
   </data>
   <data name="Index_SkillSet" xml:space="preserve">
-    <value>Tekniske ferdigheter</value>
+    <value>Fremhevde ferdigheter</value>
   </data>
   <data name="Projects_MastersThesis" xml:space="preserve">
     <value>Masteroppgave</value>
