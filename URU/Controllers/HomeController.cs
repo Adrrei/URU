@@ -7,6 +7,7 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using URU.Models;
@@ -29,21 +30,41 @@ namespace URU.Controllers
             _stringLocalizer = stringLocalizer;
         }
 
-        [HttpGet]
+        public IActionResult Index(string id)
+        {
+            if (string.Equals(id, "projects") || string.Equals(id, "about-me"))
+            {
+                var url = Url.Action(nameof(Index)) + "#" + id;
+                return Redirect(url);
+            }
+
+            return View(new HomeViewModel());
+        }
+
+        public IActionResult Error(int? statusCode = null)
+        {
+            ViewBag.Title = _stringLocalizer["HomeController_Error"];
+
+            if (statusCode.HasValue && statusCode.Value == (int)HttpStatusCode.NotFound)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return View("Error/" + statusCode.ToString());
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return View("Error/Error");
+        }
+
         public IActionResult Contact()
         {
             ViewBag.Title = _stringLocalizer["HomeController_Contact"];
-            ContactViewModel contactViewModel = new ContactViewModel
-            { };
 
-            return View(contactViewModel);
+            return View(new ContactViewModel());
         }
 
         [HttpPost]
         public IActionResult Contact(ContactViewModel contactViewModel)
         {
-            ViewBag.Title = _stringLocalizer["HomeController_Contact"];
-
             bool isEmailValid = contactViewModel.Email != null;
             try
             {
@@ -82,58 +103,20 @@ namespace URU.Controllers
             return RedirectToAction("Contact");
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Error(int? statusCode = null)
-        {
-            ViewBag.Title = _stringLocalizer["HomeController_Error"];
-
-            if (statusCode.HasValue && statusCode.Value == 404)
-            {
-                Response.StatusCode = 404;
-                return View("Error/" + statusCode.ToString());
-            }
-
-            Response.StatusCode = 500;
-            return View("Error/Error");
-        }
-
-        [HttpGet]
-        public IActionResult Index(string id)
-        {
-            if (string.Equals(id, "projects") || string.Equals(id, "about-me"))
-            {
-                var url = Url.Action(nameof(Index)) + "#" + id;
-                return Redirect(url);
-            }
-
-            HomeViewModel homeViewModel = new HomeViewModel
-            { };
-
-            return View(homeViewModel);
-        }
-
-        [HttpGet]
         public IActionResult Masters()
         {
             ViewBag.Title = _stringLocalizer["HomeController_Masters"];
-            MastersViewModel mastersViewModel = new MastersViewModel
-            { };
 
-            return View(mastersViewModel);
+            return View(new MastersViewModel());
         }
 
-        [HttpGet]
         public IActionResult TicTacToe()
         {
             ViewBag.Title = _stringLocalizer["HomeController_TicTacToe"];
-            GameViewModel gameViewModel = new GameViewModel
-            { };
 
-            return View(gameViewModel);
+            return View(new GameViewModel());
         }
 
-        [HttpGet]
         public async Task<IActionResult> Spotify()
         {
             ViewBag.Title = _stringLocalizer["HomeController_Spotify"];
@@ -166,16 +149,11 @@ namespace URU.Controllers
             return View(spotifyViewModel);
         }
 
-        private void CreateSpotifyClient()
-        {
-            _spotify = new Spotify(_configuration);
-        }
-
-        private void EnsureSpotifyCreated()
+        private void EnsureSpotifyExist()
         {
             if (_spotify == null)
             {
-                CreateSpotifyClient();
+                _spotify = new Spotify(_configuration);
             }
         }
 
@@ -191,7 +169,7 @@ namespace URU.Controllers
                     Limit = 50
                 };
 
-                EnsureSpotifyCreated();
+                EnsureSpotifyExist();
 
                 (string, string)[] parameters = {
                     ("limit", user.Limit.ToString())
@@ -199,10 +177,9 @@ namespace URU.Controllers
 
                 string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist, parameters);
                 Playlist favorites = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-                IEnumerable<Item> favoriteTracks = IEnumerableHelper.Randomize(favorites.Tracks.Items);
-                favoriteTracks = favoriteTracks.Take(5);
+                IEnumerable<string> favoriteTracks = IEnumerableHelper.Randomize(favorites.Tracks.Items.Select(t => t.Track.Id)).Take(5);
 
-                var result = new { Favorites = favoriteTracks };
+                var result = new { Favorites = favoriteTracks};
 
                 return Json(result);
             }
@@ -224,7 +201,7 @@ namespace URU.Controllers
                     Limit = 50
                 };
 
-                EnsureSpotifyCreated();
+                EnsureSpotifyExist();
 
                 (string query, string value)[] parameters = {
                     ("limit", user.Limit.ToString())
@@ -295,7 +272,7 @@ namespace URU.Controllers
                     Limit = 0
                 };
 
-                EnsureSpotifyCreated();
+                EnsureSpotifyExist();
 
                 string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
                 Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
@@ -325,7 +302,7 @@ namespace URU.Controllers
                     Limit = 0
                 };
 
-                EnsureSpotifyCreated();
+                EnsureSpotifyExist();
 
                 string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
                 Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);

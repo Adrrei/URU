@@ -162,16 +162,15 @@ function getSpotifyFavorites(initial) {
 
     request.onload = function () {
         if (request.status === 200) {
-            var response = request.response;
-            var favorites = response.favorites;
+            var favorites = request.response.favorites;
 
             var numberOfFavorites = document.getElementById('spotify-favorites-count');
             numberOfFavorites.textContent = favorites.length;
             var placeholders = document.getElementById('cards').childNodes;
 
-            favorites.forEach(function (item) {
+            favorites.forEach(function (track) {
                 var iframe = document.createElement('iframe');
-                iframe.src = 'https://open.spotify.com/embed/track/' + item.track.id;
+                iframe.src = 'https://open.spotify.com/embed/track/' + track;
                 iframe.height = 240;
                 iframe.width = 240;
                 iframe.setVolume = 0.1;

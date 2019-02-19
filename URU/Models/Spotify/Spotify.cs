@@ -70,7 +70,7 @@ namespace URU.Models
             var sectionSpotify = _configuration.GetSection("Spotify");
             var clientId = sectionSpotify["ClientId"];
             var clientSecret = sectionSpotify["ClientSecret"];
-            var base64Credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", clientId, clientSecret)));
+            var base64Credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
 
             try
             {
@@ -93,8 +93,8 @@ namespace URU.Models
                     if (response.IsSuccessStatusCode)
                     {
                         JObject jsonResponse = await response.Content.ReadAsAsync<JObject>();
-                        accessToken = (string)jsonResponse["access_token"];
-                        string expiresIn = (string)jsonResponse["expires_in"];
+                        accessToken = jsonResponse["access_token"].ToString();
+                        string expiresIn = jsonResponse["expires_in"].ToString();
                         tokenExpiryDate = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 100);
                     }
                 }
@@ -107,6 +107,13 @@ namespace URU.Models
             {
                 throw;
             }
+        }
+
+        public enum Method
+        {
+            GetPlaylist,
+            GetPlaylists,
+            GetPlaylistTracks
         }
 
         public string GetEndpoint(User user, Method method, (string query, string value)[] parameters = null)
@@ -299,13 +306,6 @@ namespace URU.Models
             {
                 throw;
             }
-        }
-
-        public enum Method
-        {
-            GetPlaylist,
-            GetPlaylists,
-            GetPlaylistTracks
         }
     }
 }
