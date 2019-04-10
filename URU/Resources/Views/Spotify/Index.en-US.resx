@@ -117,10 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Arrival" xml:space="preserve">
-    <value>Du har nå ankommet en side som teknisk sett ikke eksisterer.</value>
+  <data name="API" xml:space="preserve">
+    <value>Spotify REST Web API</value>
   </data>
-  <data name="NoContent" xml:space="preserve">
-    <value>Det var stort sett alt.</value>
+  <data name="Artists" xml:space="preserve">
+    <value>Artists</value>
+  </data>
+  <data name="ArtistsDescription" xml:space="preserve">
+    <value>The following table show the most popular artists in the playlist.</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Songs</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="FavoritesClickReset" xml:space="preserve">
+    <value>Click here to load additional ones.</value>
+  </data>
+  <data name="FavoritesDescriptionClosing" xml:space="preserve">
+    <value>of my ~50 favorite songs (from</value>
+  </data>
+  <data name="FavoritesDescriptionIntro" xml:space="preserve">
+    <value>Here's</value>
+  </data>
+  <data name="Genres" xml:space="preserve">
+    <value>Genres</value>
+  </data>
+  <data name="GenresDescription" xml:space="preserve">
+    <value>Overview of the number of songs per genre in the playlist.</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>Hours of Music</value>
+  </data>
+  <data name="InputHelp" xml:space="preserve">
+    <value>Enter a number and leave the field to update the table.</value>
+  </data>
+  <data name="LatestAddition" xml:space="preserve">
+    <value>Latest Addition</value>
+  </data>
+  <data name="NoConnection" xml:space="preserve">
+    <value>Could not establish a connection to Spotify. Please try again later.</value>
+  </data>
+  <data name="OverviewArtists" xml:space="preserve">
+    <value>Top Artists</value>
+  </data>
+  <data name="OverviewGenres" xml:space="preserve">
+    <value>Playlist Genres</value>
+  </data>
+  <data name="ProjectPurposeIntro" xml:space="preserve">
+    <value>The purpose of this project is to gather and visualize interesting statistics from my Spotify account.</value>
+  </data>
+  <data name="Songs" xml:space="preserve">
+    <value>Songs</value>
+  </data>
+  <data name="ViewPlaylist" xml:space="preserve">
+    <value>The Playlist</value>
+  </data>
+  <data name="VolumeDescriptionClosing" xml:space="preserve">
+    <value>I have no access to the volume settings, and their default volume is set to 100%.</value>
+  </data>
+  <data name="VolumeDescriptionIntro" xml:space="preserve">
+    <value>I recommend lowering your volume before playing the songs on this page.</value>
   </data>
 </root>

@@ -117,37 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TicTacToe_PlayAlone" xml:space="preserve">
-    <value>Vil du teste spillet for deg selv? Start en ny instanse av nettleseren din (f.eks. inkognito) og bytt mellom dem.</value>
+  <data name="PlayAlone" xml:space="preserve">
+    <value>Tips: Spill bondesjakk lokalt ved å åpne en ny fane i nettleseren din, og finn det samme spillerommet i begge fanene.</value>
   </data>
-  <data name="TicTacToe_PlayerOne" xml:space="preserve">
-    <value>Spiller 1</value>
-  </data>
-  <data name="TicTacToe_Players" xml:space="preserve">
+  <data name="Players" xml:space="preserve">
     <value>Spillere</value>
   </data>
-  <data name="TicTacToe_PlayerTwo" xml:space="preserve">
-    <value>Spiller 2</value>
+  <data name="RoomName" xml:space="preserve">
+    <value>| Rom: </value>
   </data>
-  <data name="TicTacToe_RoomName" xml:space="preserve">
-    <value>Du spiller i rom: </value>
-  </data>
-  <data name="TicTacToe_Title" xml:space="preserve">
+  <data name="Title" xml:space="preserve">
     <value>Bondesjakk</value>
   </data>
-  <data name="TicTacToe_Greetings" xml:space="preserve">
-    <value>Hei</value>
+  <data name="PlayerName" xml:space="preserve">
+    <value>Spiller: </value>
   </data>
-  <data name="TicTacToe_Play" xml:space="preserve">
+  <data name="Play" xml:space="preserve">
     <value>Spill</value>
   </data>
-  <data name="TicTacToe_Welcome" xml:space="preserve">
-    <value>Hva heter du?</value>
+  <data name="Welcome" xml:space="preserve">
+    <value>Velg et spillernavn:</value>
   </data>
-  <data name="TicTacToe_NameRequirement" xml:space="preserve">
+  <data name="NameRequirement" xml:space="preserve">
     <value>Vennligst ha minst to tegn i navnet ditt.</value>
   </data>
-  <data name="TicTacToe_Spectators" xml:space="preserve">
+  <data name="Spectators" xml:space="preserve">
     <value>Tilskuere</value>
+  </data>
+  <data name="PlaceholderPlayer" xml:space="preserve">
+    <value>Randy</value>
+  </data>
+  <data name="PlaceholderRoom" xml:space="preserve">
+    <value>Trailer Park</value>
   </data>
 </root>

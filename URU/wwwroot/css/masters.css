@@ -1,26 +1,24 @@
-﻿.responsive-video {
-    height: 56.2vw;
-    max-height: 1080px;
-    max-width: 1920px;
-    width: 100vw;
-}
-
-html, body {
+﻿html, body {
     text-align: center;
-    width: 100%;
 }
 
 iframe {
-    border-width: 0px;
+    border: none;
 }
 
-object {
-    color: #4f4f4f;
-    font-family: 'Open Sans';
-    font-size: 0.9rem;
-    padding-top: 1em;
+.responsive-video {
+    margin-top: 1em;
+    height: 55.6vw;
+    max-height: 1080px;
+    max-width: 1920px;
+    width: 98vw;
 }
 
-.container {
-    margin-bottom: 3em;
+.abstract {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+p {
+    margin: 0 1em 0 1em;
 }

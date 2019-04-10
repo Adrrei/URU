@@ -117,31 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HomeController_About" xml:space="preserve">
-    <value>Om</value>
+  <data name="TitleError" xml:space="preserve">
+    <value>Feil - URU</value>
   </data>
-  <data name="HomeController_Contact" xml:space="preserve">
-    <value>Kontakt</value>
+  <data name="TitleMasters" xml:space="preserve">
+    <value>Masteroppgave - URU</value>
   </data>
-  <data name="HomeController_ContactError" xml:space="preserve">
-    <value>Vennligst fyll ut feltene (mobilnummer kreves ikke).</value>
-  </data>
-  <data name="HomeController_ContactSuccess" xml:space="preserve">
-    <value>Takk for henvendelsen! Jeg gir deg et svar så snart som mulig!</value>
-  </data>
-  <data name="HomeController_Error" xml:space="preserve">
-    <value>Feil</value>
-  </data>
-  <data name="HomeController_Masters" xml:space="preserve">
-    <value>Masteroppgave</value>
-  </data>
-  <data name="HomeController_Projects" xml:space="preserve">
-    <value>Prosjekter</value>
-  </data>
-  <data name="HomeController_Spotify" xml:space="preserve">
-    <value>Spotify</value>
-  </data>
-  <data name="HomeController_TicTacToe" xml:space="preserve">
-    <value>Bondesjakk</value>
+  <data name="TitleTicTacToe" xml:space="preserve">
+    <value>Bondesjakk - URU</value>
   </data>
 </root>

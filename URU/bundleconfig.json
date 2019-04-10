@@ -14,9 +14,9 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/bundle/css/index.min.css",
+    "outputFileName": "wwwroot/bundle/css/home.min.css",
     "inputFiles": [
-      "wwwroot/css/index.css"
+      "wwwroot/css/home.css"
     ],
     "minify": {
       "enabled": true,
@@ -62,9 +62,9 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/bundle/css/contact.min.css",
+    "outputFileName": "wwwroot/bundle/css/tictactoe.min.css",
     "inputFiles": [
-      "wwwroot/css/contact.css"
+      "wwwroot/css/tictactoe.css"
     ],
     "minify": {
       "enabled": true,
@@ -74,9 +74,9 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/bundle/css/game.min.css",
+    "outputFileName": "wwwroot/bundle/js/home.min.js",
     "inputFiles": [
-      "wwwroot/css/game.css"
+      "wwwroot/js/home.js"
     ],
     "minify": {
       "enabled": true,
@@ -86,9 +86,9 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/bundle/scripts/layout.min.js",
+    "outputFileName": "wwwroot/bundle/js/spotify.min.js",
     "inputFiles": [
-      "wwwroot/scripts/layout.js"
+      "wwwroot/js/spotify.js"
     ],
     "minify": {
       "enabled": true,
@@ -98,34 +98,10 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/bundle/scripts/contact.min.js",
+    "outputFileName": "wwwroot/bundle/js/tictactoe.min.js",
     "inputFiles": [
-      "wwwroot/scripts/contact.js"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
-  },
-  {
-    "outputFileName": "wwwroot/bundle/scripts/spotify.min.js",
-    "inputFiles": [
-      "wwwroot/scripts/spotify.js"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
-  },
-  {
-    "outputFileName": "wwwroot/bundle/scripts/game.min.js",
-    "inputFiles": [
-      "wwwroot/scripts/gameHub.js",
-      "wwwroot/scripts/tictactoe.js"
+      "wwwroot/js/tictactoe-hub.js",
+      "wwwroot/js/tictactoe.js"
     ],
     "minify": {
       "enabled": false,
@@ -135,7 +111,7 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/bundle/scripts/signalr.min.js",
+    "outputFileName": "wwwroot/bundle/js/signalr.min.js",
     "inputFiles": [
       "wwwroot/lib/signalr/signalr.js"
     ],

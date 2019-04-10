@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error_Arrival" xml:space="preserve">
+  <data name="Arrival" xml:space="preserve">
     <value>You have stumbled upon a page that does not exist.</value>
   </data>
-  <data name="Error_SorryFix" xml:space="preserve">
+  <data name="SorryFix" xml:space="preserve">
     <value>You can blame me for this one.</value>
   </data>
 </root>

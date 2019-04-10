@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -92,7 +93,8 @@ namespace URU.Models
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        JObject jsonResponse = await response.Content.ReadAsAsync<JObject>();
+                        string result = await response.Content.ReadAsStringAsync();
+                        JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
                         accessToken = jsonResponse["access_token"].ToString();
                         string expiresIn = jsonResponse["expires_in"].ToString();
                         tokenExpiryDate = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 100);
@@ -168,7 +170,9 @@ namespace URU.Models
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        return await response.Content.ReadAsAsync<T>();
+                        string result = await response.Content.ReadAsStringAsync();
+                        T jsonResponse = JsonConvert.DeserializeObject<T>(result);
+                        return jsonResponse;
                     }
                 }
             }
@@ -221,7 +225,8 @@ namespace URU.Models
 
                 foreach (var response in responses)
                 {
-                    Playlist playlist = await response.Content.ReadAsAsync<Playlist>();
+                    string result = await response.Content.ReadAsStringAsync();
+                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
                     foreach (var track in playlist.Items)
                     {
@@ -241,7 +246,88 @@ namespace URU.Models
             }
         }
 
-        public async Task<Dictionary<string, int>> GetSpotifyTopArtists<T>(User user, long numberOfSongsInPlaylist)
+        public async Task<dynamic> GetIdDurationArtists<T>(User user, long numberOfSongsInPlaylist)
+        {
+            if (user == null)
+                return default;
+
+            IList<HttpRequestMessage> urls = new List<HttpRequestMessage>();
+
+            while (user.Offset < numberOfSongsInPlaylist)
+            {
+                (string, string)[] parameters = {
+                    ("offset", user.Offset.ToString()),
+                    ("fields", "items(track(id, duration_ms, artists(name)))")
+                };
+
+                string spotifyUrl = GetEndpoint(user, Method.GetPlaylistTracks, parameters);
+                var httpRequestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(spotifyUrl)
+                };
+
+                urls.Add(httpRequestMessage);
+                user.Offset += 100;
+            }
+
+            EnsureHttpClientCreated();
+            await VerifyAndIssueAccessToken();
+
+            var artistsCount = new Dictionary<string, int>();
+            long milliseconds = 0;
+            string latestAddition = "";
+
+            try
+            {
+                var requests = urls.Select(url => _httpClient.GetAsync(url.RequestUri));
+                var responses = requests.Select(task => task.Result);
+
+                foreach (var response in responses)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(result);
+
+                    foreach (var item in playlist.Items)
+                    {
+                        milliseconds += item.Track.DurationMs;
+                        foreach (var artist in item.Track.Artists)
+                        {
+                            if (artistsCount.TryGetValue(artist.Name, out int val))
+                            {
+                                artistsCount[artist.Name] = val + 1;
+                            }
+                            else
+                            {
+                                artistsCount.Add(artist.Name, 1);
+                            }
+                        }
+                        latestAddition = item.Track.Id;
+                    }
+                }
+
+                int hours = (int)TimeSpan.FromMilliseconds(milliseconds).TotalHours;
+
+                var data = new
+                {
+                    Artists = artistsCount.OrderByDescending(a => a.Value).Take(10).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                    Time = hours,
+                    Latest = latestAddition
+                };
+
+                return data;
+            }
+            catch (WebException)
+            {
+                return default;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Dictionary<string, int>> GetTopArtists<T>(User user, long numberOfSongsInPlaylist, int numArtists)
         {
             if (user == null)
                 return default;
@@ -278,11 +364,12 @@ namespace URU.Models
 
                 foreach (var response in responses)
                 {
-                    Playlist playlist = await response.Content.ReadAsAsync<Playlist>();
+                    string result = await response.Content.ReadAsStringAsync();
+                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
-                    foreach (var artists in playlist.Items)
+                    foreach (var item in playlist.Items)
                     {
-                        foreach(var artist in artists.Track.Artists)
+                        foreach (var artist in item.Track.Artists)
                         {
                             if (artistsCount.TryGetValue(artist.Name, out int val))
                             {
@@ -296,7 +383,7 @@ namespace URU.Models
                     }
                 }
 
-                return artistsCount;
+                return artistsCount.OrderByDescending(a => a.Value).Take(numArtists).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
             catch (WebException)
             {

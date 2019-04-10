@@ -1,21 +1,14 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-
-@inject IViewLocalizer StringLocalizer
-
-<div class="container">
-    <h1>
-        @StringLocalizer["404_Arrival"]
-    </h1>
-    <h2>
-        @StringLocalizer["404_NoContent"]
-    </h2>
+﻿<div class="container">
+    <h1>@StringLocalizer["Arrival"]</h1>
+    <h2>@StringLocalizer["NoContent"]</h2>
 </div>
 
-@* Eliminate render-blocking CSS in above-the-fold content *@
-<environment include="Development">
-    <link async rel="stylesheet" type="text/css" href="~/css/error.css" asp-append-version="true">
-</environment>
+@section Styles  {
+    <environment include="Development">
+        <link rel="stylesheet" type="text/css" href="~/css/error.css" asp-append-version="true">
+    </environment>
 
-<environment exclude="Development">
-    <link async rel="stylesheet" type="text/css" href="~/bundle/css/error.min.css" asp-append-version="true">
-</environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" type="text/css" href="~/bundle/css/error.min.css" asp-append-version="true">
+    </environment>
+}

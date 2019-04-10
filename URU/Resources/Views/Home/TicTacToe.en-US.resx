@@ -117,37 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TicTacToe_PlayAlone" xml:space="preserve">
-    <value>Want to test the game for yourself? Start another instance of your browser (e.g. incognito) and swap between them.</value>
+  <data name="PlayAlone" xml:space="preserve">
+    <value>Hint: Play tic tac toe locally by opening a new tab in your browser, and join the same playroom in both tabs.</value>
   </data>
-  <data name="TicTacToe_PlayerOne" xml:space="preserve">
-    <value>Player 1</value>
-  </data>
-  <data name="TicTacToe_Players" xml:space="preserve">
+  <data name="Players" xml:space="preserve">
     <value>Players</value>
   </data>
-  <data name="TicTacToe_PlayerTwo" xml:space="preserve">
-    <value>Player 2</value>
+  <data name="RoomName" xml:space="preserve">
+    <value>| Room: </value>
   </data>
-  <data name="TicTacToe_RoomName" xml:space="preserve">
-    <value>You're playing in room: </value>
-  </data>
-  <data name="TicTacToe_Title" xml:space="preserve">
+  <data name="Title" xml:space="preserve">
     <value>Tic Tac Toe</value>
   </data>
-  <data name="TicTacToe_Greetings" xml:space="preserve">
-    <value>Hi</value>
+  <data name="PlayerName" xml:space="preserve">
+    <value>Player: </value>
   </data>
-  <data name="TicTacToe_Play" xml:space="preserve">
+  <data name="Play" xml:space="preserve">
     <value>Play</value>
   </data>
-  <data name="TicTacToe_Welcome" xml:space="preserve">
-    <value>What is your name?</value>
+  <data name="Welcome" xml:space="preserve">
+    <value>Enter your name:</value>
   </data>
-  <data name="TicTacToe_NameRequirement" xml:space="preserve">
+  <data name="NameRequirement" xml:space="preserve">
     <value>Please have at least two characters in your name.</value>
   </data>
-  <data name="TicTacToe_Spectators" xml:space="preserve">
+  <data name="Spectators" xml:space="preserve">
     <value>Spectators</value>
+  </data>
+  <data name="PlaceholderPlayer" xml:space="preserve">
+    <value>Randy</value>
+  </data>
+  <data name="PlaceholderRoom" xml:space="preserve">
+    <value>Trailer Park</value>
   </data>
 </root>

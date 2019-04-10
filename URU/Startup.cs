@@ -1,18 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using URU.Hubs;
 using URU.Models;
 
@@ -20,74 +17,29 @@ namespace URU
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, IConfiguration config)
-        {
-            Configuration = config;
-            HostingEnvironment = env;
-        }
+        private readonly string _allowOrigins = "allowOrigins";
 
         public IConfiguration Configuration { get; }
 
-        public IHostingEnvironment HostingEnvironment { get; }
-
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public Startup(IConfiguration config)
         {
-            app.UseAuthentication();
-            app.UseRequestLocalization(app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value);
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHttpsRedirection();
-                app.UseHsts();
-            }
-
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<GameHub>("/gameHub");
-            });
-
-            app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
-            app.UseStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{action=Index}",
-                    defaults: new { controller = "Home" }
-                );
-
-                routes.MapRoute(
-                    name: "full",
-                    template: "{controller=Home}/{action=Index}/{id?}"
-                );
-            });
-
+            Configuration = config;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("URUDatabase")));
-            services.AddTransient<IRepository, Repository>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_allowOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("https://open.spotify.com");
+                });
+            });
 
             services.AddSignalR();
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<AppDbContext>()
-            .AddDefaultTokenProviders();
-
-            services.AddMvc().AddDataAnnotationsLocalization()
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();
-
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 CultureInfo[] supportedCultures = new[] { new CultureInfo("nb-NO"), new CultureInfo("en-US") };
@@ -99,6 +51,45 @@ namespace URU
                     new QueryStringRequestCultureProvider(),
                     new CookieRequestCultureProvider()
                 };
+            });
+
+            services.AddMvc().AddDataAnnotationsLocalization()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization()
+                .AddNewtonsoftJson();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseRequestLocalization(app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value);
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
+
+            app.UseCors(_allowOrigins);
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<GameHub>("/gameHub");
+            });
+
+            app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+
+            app.UseRouting(routes =>
+            {
+                routes.MapControllerRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRazorPages();
             });
         }
     }

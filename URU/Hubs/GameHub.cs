@@ -15,19 +15,8 @@ namespace URU.Hubs
         public static readonly ConcurrentDictionary<string, int?> _gameTurns = new ConcurrentDictionary<string, int?>();
         public static readonly ConcurrentDictionary<string, string[,]> _gameStates = new ConcurrentDictionary<string, string[,]>();
 
-        private const string MARK_X = "X";
-        private const string MARK_O = "O";
-
-        private static readonly int[,] winningMoves = new int[,] {
-            { 1, 2, 3 },
-            { 4, 5, 6 },
-            { 7, 8, 9 },
-            { 1, 4, 7 },
-            { 2, 5, 8 },
-            { 3, 6, 9 },
-            { 1, 5, 9 },
-            { 3, 5, 7 }
-        };
+        private const string TAG_X = "X";
+        private const string TAG_O = "O";
 
         public void AddPlayer(string playerId)
         {
@@ -102,23 +91,23 @@ namespace URU.Hubs
             if (player.Equals(playerOne) && turn == 2)
             {
                 turn = 1;
-                move = MARK_X;
+                move = TAG_X;
                 opponent = _players.GetValueOrDefault(playerTwo).playerId;
-                playerMoves.Add((opponent, MARK_O));
-                playerMoves.Add((_players.GetValueOrDefault(playerOne).playerId, MARK_X));
+                playerMoves.Add((opponent, TAG_O));
+                playerMoves.Add((_players.GetValueOrDefault(playerOne).playerId, TAG_X));
             }
             else if (player.Equals(playerTwo) && turn == 1)
             {
                 turn = 2;
-                move = MARK_O;
+                move = TAG_O;
                 opponent = _players.GetValueOrDefault(playerOne).playerId;
-                playerMoves.Add((opponent, MARK_X));
-                playerMoves.Add((_players.GetValueOrDefault(playerTwo).playerId, MARK_O));
+                playerMoves.Add((opponent, TAG_X));
+                playerMoves.Add((_players.GetValueOrDefault(playerTwo).playerId, TAG_O));
             }
 
             if (!string.IsNullOrEmpty(move))
             {
-                if (!grid[x, y].Equals(MARK_X) && !grid[x, y].Equals(MARK_O))
+                if (!grid[x, y].Equals(TAG_X) && !grid[x, y].Equals(TAG_O))
                 {
                     _gameTurns[groupName] = turn;
                     grid[x, y] = move;
@@ -147,8 +136,8 @@ namespace URU.Hubs
 
             IList<(string playerOne, string playerTwo)> playerMoves = new List<(string, string)>
             {
-                (_players.GetValueOrDefault(playerTwo).playerId, MARK_O),
-                (_players.GetValueOrDefault(playerOne).playerId, MARK_X)
+                (_players.GetValueOrDefault(playerTwo).playerId, TAG_O),
+                (_players.GetValueOrDefault(playerOne).playerId, TAG_X)
             };
 
             _gameStates[groupName] = grid;
@@ -178,7 +167,7 @@ namespace URU.Hubs
                     break;
 
                 // Whether either position contains a number (in which case we keep going)
-                if (int.TryParse(grid[x, 0], out int ignore1) || int.TryParse(grid[x, 1], out int ignore2) || int.TryParse(grid[x, 2], out int ignore3))
+                if (int.TryParse(grid[x, 0], out _) || int.TryParse(grid[x, 1], out _) || int.TryParse(grid[x, 2], out _))
                 {
                     finished = false;
                 }

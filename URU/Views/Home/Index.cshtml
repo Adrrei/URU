@@ -1,166 +1,102 @@
 ﻿@model URU.ViewModels.HomeViewModel
 
-@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer StringLocalizer
-
-<div class="parallax parallax--hero">
+<div class="parallax parallax-hero">
 </div>
 
 <div class="parallax">
-    <div class="parallax__content">
-        <h1>@StringLocalizer["Index_AboutMe"]</h1>
-    </div>
-</div>
-
-<div class="container" id="about-me">
-    <div class="container__about">
-
-        <img draggable="false" src="~/content/images/Me.jpg" alt="Adrian Reithaug" />
-        <div class="about__body">
-            <div class="body__content">
-
-                <div class="content--rows-center">
-                    <h1>Adrian Reithaug</h1>
-                    <p class="adjacent-paragraph-bottom">@StringLocalizer["About_Location"]</p>
-                    <p>@StringLocalizer["About_Education"]</p>
-
-                    <p>
-                        <a class="content__icon" href="https://github.com/Adrrei" aria-label="GitHub">
-                            <span title="GitHub">
-                                <i class="fab fa-github" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                        <a class="content__icon" href="https://www.linkedin.com/in/adrianreithaug/" aria-label="LinkedIn">
-                            <span title="LinkedIn">
-                                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                        <a class="content__icon" href="https://www.uib.no/en/studies/MAMN-PROG" aria-label="UiB">
-                            <span title="@StringLocalizer["About_MastersDegree"]">
-                                <i class="fas fa-university" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <h1>@StringLocalizer["Index_SkillSet"]</h1>
-
-    <div class="row--skill-container">
-        @{ string[] skills = new string[] { "C#", "ASP.NET Core 2", "Java", "JavaScript", "Python",
-                       "Bootstrap", "TensorFlow", "HTML5", "CSS3", "MSSQL", "IdentityServer4", "Rest Web API", "SignalR"  }; }
-        @{ string[] images = new string[] { "CSharp.jpg", "AspDotNetCore.jpg", "Java.png", "JavaScript.png", "Python.png",
-                       "Bootstrap.png", "TensorFlow.jpg", "HTML5.png", "CSS3.png", "SQL.jpg", "IdentityServer.png", "RestAPI.png", "SignalR.png" }; }
-
-        @for (int i = 0; i < skills.Length; i++)
-        {
-            <div class="skill">
-                <div class="skill__image">
-                    <div class="image--overlay"></div>
-                    <img src="~/content/images/skills/@images[i]" alt="@skills[i]" />
-                </div>
-                <div class="skill__description">
-                    <p>@skills[i]</p>
-                </div>
-            </div>
-        }
-    </div>
-</div>
-
-<div class="parallax">
-    <div class="parallax__content">
-        <h1>@StringLocalizer["Index_Projects"]</h1>
+    <div class="parallax-content">
+        <h1>@StringLocalizer["Projects"]</h1>
     </div>
 </div>
 
 <div class="project-container" id="projects">
 
     <div class="card">
-        <div class="card__object">
-            <div class="object__image" style="background-image: url(/content/images/Salmon.jpg);" alt="@StringLocalizer["Projects_Salmon"]"></div>
-        </div>
-        <div class="card__body">
-            <span class="body__subtle">@StringLocalizer["Projects_MastersThesis"]</span>
-            <span class="body__heading">@StringLocalizer["Projects_DeepLearningTitle"]</span>
-            <div class="body__bottom">
-                <span class="bottom__text body__subtle">@StringLocalizer["Projects_DeepLearningDescription"]</span>
-                <span class="bottom__text body__subtle float-right"></span>
+        <a asp-controller="Home" asp-action="Masters">
+            <div class="card-object">
+                <div id="masters" class="card-object-image" alt="@StringLocalizer["Salmon"]"></div>
             </div>
-            <div class="body__bottom body__bottom-reveal">
-                <span class="bottom__text body__subtle">@StringLocalizer["Projects_DeepLearningDescription"]</span>
-                <a class="bottom__text float-right" asp-controller="Home" asp-action="Masters">
-                    <i class="fas fa-university"></i> @StringLocalizer["Projects_ReadMore"]
-                </a>
+            <div class="card-body">
+                <span class="body-header">@StringLocalizer["MastersThesis"]</span>
+                <span class="body-title">@StringLocalizer["DeepLearningTitle"]</span>
+                <span class="body-bottom">@StringLocalizer["DeepLearningDescription"]</span>
             </div>
-            <div class="body__bottom-mobile">
-                <a class="bottom__text float-right" asp-controller="Home" asp-action="Masters">
-                    <i class="fas fa-university"></i> @StringLocalizer["Projects_ReadMore"]
-                </a>
-            </div>
-        </div>
+        </a>
     </div>
 
     <div class="card">
-        <div class="card__object">
-            <div class="object__image" style="background-image: url(/content/images/Music.jpg);" alt="@StringLocalizer["Projects_Dj"]"></div>
-        </div>
-        <div class="card__body">
-            <span class="body__subtle">@StringLocalizer["Projects_RestApi"]</span>
-            <span class="body__heading">@StringLocalizer["Projects_SpotifyTitle"]</span>
-            <div class="body__bottom">
-                <span class="bottom__text body__subtle">@StringLocalizer["Projects_SpotifyDescription"]</span>
-                <span class="bottom__text body__subtle float-right"></span>
+        <a asp-controller="Spotify" asp-action="Index">
+            <div class="card-object">
+                <div id="spotify" class="card-object-image" alt="@StringLocalizer["Headphones"]"></div>
             </div>
-            <div class="body__bottom body__bottom-reveal">
-                <span class="bottom__text body__subtle">@StringLocalizer["Projects_SpotifyDescription"]</span>
-                <a class="bottom__text float-right" asp-controller="Home" asp-action="Spotify">
-                    <i class="fab fa-spotify"></i> @StringLocalizer["Projects_Explore"]
-                </a>
+            <div class="card-body">
+                <span class="body-header">REST Web API</span>
+                <span class="body-title">@StringLocalizer["SpotifyTitle"]</span>
+                <span class="body-bottom">@StringLocalizer["SpotifyDescription"]</span>
             </div>
-            <div class="body__bottom-mobile">
-                <a class="bottom__text float-right" asp-controller="Home" asp-action="Spotify">
-                    <i class="fab fa-spotify"></i> @StringLocalizer["Projects_Explore"]
-                </a>
-            </div>
-        </div>
+        </a>
     </div>
 
     <div class="card">
-        <div class="card__object">
-            <div class="object__image" style="background-image: url(/content/images/TicTacToe.jpg);" alt="@StringLocalizer["Projects_TicTacToe"]"></div>
-        </div>
-        <div class="card__body">
-            <span class="body__subtle">@StringLocalizer["Projects_SignalR"]</span>
-            <span class="body__heading">@StringLocalizer["Projects_TicTacToe"]</span>
-            <div class="body__bottom">
-                <span class="bottom__text body__subtle">@StringLocalizer["Projects_TicTacToeDescription"]</span>
-                <span class="bottom__text body__subtle float-right"></span>
+        <a asp-controller="Home" asp-action="TicTacToe">
+            <div class="card-object">
+                <div id="tic-tac-toe" class="card-object-image" alt="@StringLocalizer["TicTacToe"]"></div>
             </div>
-            <div class="body__bottom body__bottom-reveal">
-                <span class="bottom__text body__subtle">@StringLocalizer["Projects_TicTacToeDescription"]</span>
-                <a class="bottom__text float-right" asp-controller="Home" asp-action="TicTacToe">
-                    <i class="fas fa-gamepad"></i> @StringLocalizer["Projects_Play"]
-                </a>
+            <div class="card-body">
+                <span class="body-header">ASP.NET Core SignalR</span>
+                <span class="body-title">@StringLocalizer["TicTacToe"]</span>
+                <span class="body-bottom">@StringLocalizer["TicTacToeDescription"]</span>
             </div>
-            <div class="body__bottom-mobile">
-                <a class="bottom__text float-right" asp-controller="Home" asp-action="TicTacToe">
-                    <i class="fas fa-gamepad"></i> @StringLocalizer["Projects_Play"]
-                </a>
-            </div>
-        </div>
+        </a>
     </div>
-
 </div>
 
-@* Eliminate render-blocking CSS in above-the-fold content *@
-<environment include="Development">
-    <link async rel="stylesheet" type="text/css" href="~/css/index.css" asp-append-version="true">
-</environment>
+<div class="parallax">
+    <div class="parallax-content">
+        <h1>@StringLocalizer["Who"]</h1>
+    </div>
+</div>
 
-<environment exclude="Development">
-    <link async rel="stylesheet" type="text/css" href="~/bundle/css/index.min.css" asp-append-version="true">
-</environment>
+<div class="container" id="about-me">
+    <div class="container-body">
+        <h1>Adrian Reithaug</h1>
+        <p>@StringLocalizer["IamADeveloper"]</p>
+        <p>@StringLocalizer["MastersDegree2018"]</p>
+        <p>@StringLocalizer["WhatIsURU"]</p>
+        <p>@StringLocalizer["SourceCode"]</p>
+        <p>@StringLocalizer["YouCanReachMeHere"]</p>
+
+        <h2>@StringLocalizer["Knowledge"]</h2>
+
+        <p>@StringLocalizer["MyCoreKnowledge"]</p>
+        <p>@StringLocalizer["AlsoExperiencedWith"]</p>
+        <p>@StringLocalizer["ApplicationsWithSignalR"]</p>
+
+        <p>@StringLocalizer["DatabaseCodeFirst"]</p>
+        <p>@StringLocalizer["SingleSignOn"]</p>
+        <p>@StringLocalizer["RestWebApisAndSwagger"]</p>
+
+        <h2>@StringLocalizer["FurtherBack"]</h2>
+        <p>@StringLocalizer["OtherTechnologies"]</p>
+    </div>
+</div>
+
+@section Styles  {
+    <environment include="Development">
+        <link async rel="stylesheet" type="text/css" href="~/css/home.css" asp-append-version="true">
+    </environment>
+
+    <environment exclude="Development">
+        <link async rel="stylesheet" type="text/css" href="~/bundle/css/home.min.css" asp-append-version="true">
+    </environment>
+}
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/home.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/bundle/js/home.min.js" asp-append-version="true"></script>
+    </environment>
+}

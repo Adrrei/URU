@@ -2,10 +2,10 @@
     text-align: center;
 }
 
-.container p {
-    margin-left: 1em;
-    margin-right: 1em;
-}
+    .container p {
+        margin-left: 1em;
+        margin-right: 1em;
+    }
 
 .row {
     align-content: center;
@@ -15,9 +15,17 @@
 }
 
     .row div {
-        margin-left: 2rem;
-        margin-right: 2rem;
+        margin-left: 6rem;
+        margin-right: 6rem;
     }
+
+        .row div:first-child {
+            margin-left: 10rem;
+        }
+
+#follow {
+    padding-top: 1.5rem;
+}
 
 .number {
     font-size: 1.3em;
@@ -79,11 +87,11 @@ iframe {
         margin: 0.5em;
     }
 
-#spotify-cards-reset {
+#reset-favorites {
     font-weight: bold;
 }
 
-.spotify-card-margin {
+.card-margin {
     margin: 0.5em;
 }
 
@@ -124,58 +132,6 @@ p.adjacent-paragraph-top {
 
     100% {
         text-shadow: .5em 0, 1em 0;
-    }
-}
-
-@media (max-width: 680px) {
-    .spotify-playlist {
-        width: 450px;
-    }
-
-    .card {
-        margin-bottom: 4em;
-    }
-}
-
-@media (max-width: 580px) {
-    .spotify-playlist {
-        width: 450px;
-    }
-
-    #cards iframe {
-        height: 80px;
-        width: 320px;
-    }
-}
-
-@media (max-width: 480px) {
-    .spotify-playlist {
-        width: 350px;
-    }
-
-    .row {
-        flex-direction: column;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 380px) {
-    .spotify-playlist {
-        width: 250px;
-    }
-}
-
-@media (max-width: 320px) {
-    #spotify-latest-addition iframe {
-        width: 260px;
-    }
-
-    .spotify-playlist {
-        width: 230px;
-    }
-
-    #cards iframe {
-        width: 260px;
     }
 }
 
@@ -225,7 +181,18 @@ table tbody th, table tbody td {
     padding: 7px 10px;
 }
 
-@media all and (max-width: 900px) {
+@media (max-width: 1150px) {
+    .row div {
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+
+        .row div:first-child {
+            margin-left: 6rem;
+        }
+}
+
+@media (max-width: 900px) {
     .row {
         justify-content: space-around;
     }
@@ -234,6 +201,10 @@ table tbody th, table tbody td {
             margin-left: 0;
             margin-right: 0;
         }
+
+            .row div:first-child {
+                margin-left: 0;
+            }
 
     th.left {
         text-align: left;
@@ -244,7 +215,7 @@ table tbody th, table tbody td {
     }
 }
 
-@media all and (max-width: 575px) {
+@media (max-width: 575px) {
     #table-wrapper {
         overflow-x: scroll;
     }
@@ -268,5 +239,57 @@ table tbody th, table tbody td {
 
     thead tr th.right {
         border-top: 1px solid #FFF;
+    }
+}
+
+@media (max-width: 680px) {
+    .playlist {
+        width: 450px;
+    }
+
+    .card {
+        margin-bottom: 4em;
+    }
+}
+
+@media (max-width: 580px) {
+    .playlist {
+        width: 450px;
+    }
+
+    #cards iframe {
+        height: 80px;
+        width: 320px;
+    }
+}
+
+@media (max-width: 480px) {
+    .playlist {
+        width: 350px;
+    }
+
+    .row {
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 380px) {
+    .playlist {
+        width: 250px;
+    }
+}
+
+@media (max-width: 320px) {
+    #latest iframe {
+        width: 260px;
+    }
+
+    .playlist {
+        width: 230px;
+    }
+
+    #cards iframe {
+        width: 260px;
     }
 }

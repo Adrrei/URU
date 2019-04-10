@@ -1,329 +1,56 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
 using URU.Models;
 using URU.ViewModels;
-using static URU.Models.Spotify;
 
 namespace URU.Controllers
 {
+    [SecurityHeaders]
     public class HomeController : Controller
     {
-        private Spotify _spotify;
-        private readonly IConfiguration _configuration;
-        private readonly IRepository _repository;
         private readonly IStringLocalizer<HomeController> _stringLocalizer;
 
-        public HomeController(IConfiguration configuration, IRepository repository, IStringLocalizer<HomeController> stringLocalizer)
+        public HomeController(IStringLocalizer<HomeController> stringLocalizer)
         {
-            _configuration = configuration;
-            _repository = repository;
             _stringLocalizer = stringLocalizer;
         }
 
-        public IActionResult Index(string id)
+        public IActionResult Index()
         {
-            if (string.Equals(id, "projects") || string.Equals(id, "about-me"))
-            {
-                var url = Url.Action(nameof(Index)) + "#" + id;
-                return Redirect(url);
-            }
+            ViewBag.Title = "URU";
 
             return View(new HomeViewModel());
         }
 
         public IActionResult Error(int? statusCode = null)
         {
-            ViewBag.Title = _stringLocalizer["HomeController_Error"];
+            ViewBag.Title = _stringLocalizer["TitleError"];
 
-            if (statusCode.HasValue && statusCode.Value == (int)HttpStatusCode.NotFound)
+            if (statusCode.HasValue && statusCode.Value == StatusCodes.Status404NotFound)
             {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                Response.StatusCode = StatusCodes.Status404NotFound;
                 return View("Error/" + statusCode.ToString());
             }
 
-            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            Response.StatusCode = StatusCodes.Status500InternalServerError;
             return View("Error/Error");
-        }
-
-        public IActionResult Contact()
-        {
-            ViewBag.Title = _stringLocalizer["HomeController_Contact"];
-
-            return View(new ContactViewModel());
-        }
-
-        [HttpPost]
-        public IActionResult Contact(ContactViewModel contactViewModel)
-        {
-            bool isEmailValid = contactViewModel.Email != null;
-            try
-            {
-                if (isEmailValid)
-                {
-                    new MailAddress(contactViewModel.Email);
-                }
-            }
-            catch (FormatException)
-            {
-                isEmailValid = false;
-            }
-
-            string message = _stringLocalizer["HomeController_ContactError"];
-            if (!ModelState.IsValid || !isEmailValid)
-            {
-                TempData["Error"] = message;
-                return View(contactViewModel);
-            }
-
-            Contact contact = new Contact()
-            {
-                DateTime = DateTime.Now,
-                Email = contactViewModel.Email,
-                Message = contactViewModel.Message,
-                Name = contactViewModel.Name,
-                PhoneNumber = contactViewModel.Phone,
-                Subject = contactViewModel.Subject
-            };
-
-            _repository.AddContact(contact);
-
-            message = _stringLocalizer["HomeController_ContactSuccess"];
-            TempData["Success"] = message;
-
-            return RedirectToAction("Contact");
         }
 
         public IActionResult Masters()
         {
-            ViewBag.Title = _stringLocalizer["HomeController_Masters"];
+            ViewBag.Title = _stringLocalizer["TitleMasters"];
 
             return View(new MastersViewModel());
         }
 
         public IActionResult TicTacToe()
         {
-            ViewBag.Title = _stringLocalizer["HomeController_TicTacToe"];
+            ViewBag.Title = _stringLocalizer["TitleTicTacToe"];
 
             return View(new GameViewModel());
-        }
-
-        public async Task<IActionResult> Spotify()
-        {
-            ViewBag.Title = _stringLocalizer["HomeController_Spotify"];
-
-            var sectionSpotify = _configuration.GetSection("Spotify");
-            User user = new User
-            {
-                UserId = sectionSpotify["UserId"],
-                PlaylistId = sectionSpotify["ExquisiteEdmId"],
-            };
-
-            Spotify spotify = new Spotify(_configuration);
-
-            string spotifyUrl = spotify.GetEndpoint(user, Method.GetPlaylist);
-            Playlist exquisiteEdm = await spotify.GetSpotify<Playlist>(spotifyUrl);
-
-            Playlist playlist = new Playlist()
-            {
-                Name = exquisiteEdm.Name,
-                Uri = exquisiteEdm.Uri,
-                Total = exquisiteEdm.Tracks.Total
-            };
-
-            SpotifyViewModel spotifyViewModel = new SpotifyViewModel
-            {
-                User = user,
-                ExquisiteEdm = playlist
-            };
-
-            return View(spotifyViewModel);
-        }
-
-        private void EnsureSpotifyExist()
-        {
-            if (_spotify == null)
-            {
-                _spotify = new Spotify(_configuration);
-            }
-        }
-
-        public async Task<JsonResult> GetSpotifyFavorites()
-        {
-            try
-            {
-                var sectionSpotify = _configuration.GetSection("Spotify");
-                User user = new User
-                {
-                    UserId = sectionSpotify["UserId"],
-                    PlaylistId = sectionSpotify["FavoritesId"],
-                    Limit = 50
-                };
-
-                EnsureSpotifyExist();
-
-                (string, string)[] parameters = {
-                    ("limit", user.Limit.ToString())
-                };
-
-                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist, parameters);
-                Playlist favorites = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-                IEnumerable<string> favoriteTracks = IEnumerableHelper.Randomize(favorites.Tracks.Items.Select(t => t.Track.Id)).Take(5);
-
-                var result = new { Favorites = favoriteTracks};
-
-                return Json(result);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<JsonResult> GetSpotifyPlaylists()
-        {
-            try
-            {
-                var sectionSpotify = _configuration.GetSection("Spotify");
-                User user = new User
-                {
-                    UserId = sectionSpotify["UserId"],
-                    PlaylistId = sectionSpotify["ExquisiteEdmId"],
-                    Limit = 50
-                };
-
-                EnsureSpotifyExist();
-
-                (string query, string value)[] parameters = {
-                    ("limit", user.Limit.ToString())
-                };
-
-                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylists, parameters);
-                Playlist personalPlaylists = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-                user.Offset = personalPlaylists.Items[0].Tracks.Total - 1;
-
-                Dictionary<string, long> edmPlaylists = new Dictionary<string, long>();
-                List<string> genres = new List<string>
-                {
-                    "Big Room",
-                    "Breakbeat",
-                    "Dance",
-                    "Drum & Bass",
-                    "Dubstep",
-                    "Electronica / Downtempo",
-                    "Future Bass",
-                    "Glitch Hop",
-                    "Hard Electronic",
-                    "Deep House",
-                    "Electro House",
-                    "Future House",
-                    "House",
-                    "Progressive House",
-                    "Indie Dance / Nu Disco",
-                    "Trance",
-                    "Trap"
-                };
-
-                foreach (var playlist in personalPlaylists.Items.OrderByDescending(t => t.Tracks.Total))
-                {
-                    string name = playlist.Name;
-                    bool isValid = genres.Any(id => name.Contains(id));
-                    if (isValid)
-                    {
-                        edmPlaylists.Add(name, playlist.Tracks.Total);
-                    }
-                }
-
-                parameters = new (string query, string value)[] {
-                    ("offset", user.Offset.ToString()),
-                    ("limit", user.Limit.ToString())
-                };
-                spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylistTracks, parameters);
-                Playlist exquisiteEdm = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-
-                var result = new { ExquisiteEdm = exquisiteEdm, Genres = edmPlaylists };
-
-                return Json(result);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<JsonResult> GetSpotifyPlaytime()
-        {
-            try
-            {
-                var sectionSpotify = _configuration.GetSection("Spotify");
-                User user = new User
-                {
-                    UserId = sectionSpotify["UserId"],
-                    PlaylistId = sectionSpotify["ExquisiteEdmId"],
-                    Limit = 0
-                };
-
-                EnsureSpotifyExist();
-
-                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
-                Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-
-                long milliseconds = await _spotify.GetSpotifyPlaytime<Playlist>(user, playlist.Tracks.Total);
-                int hoursOfPlaytime = (int)TimeSpan.FromMilliseconds(milliseconds).TotalHours;
-
-                var result = new { Hours = hoursOfPlaytime };
-                return Json(result);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> GetSpotifyTopArtists(string numberOfArtists)
-        {
-            try
-            {
-                var sectionSpotify = _configuration.GetSection("Spotify");
-                User user = new User
-                {
-                    UserId = sectionSpotify["UserId"],
-                    PlaylistId = sectionSpotify["ExquisiteEdmId"],
-                    Limit = 0
-                };
-
-                EnsureSpotifyExist();
-
-                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
-                Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-
-                Dictionary<string, int> artists = await _spotify.GetSpotifyTopArtists<Playlist>(user, playlist.Tracks.Total);
-
-                bool validNumber = int.TryParse(numberOfArtists, out int artistCount);
-                if (!validNumber || artistCount > artists.Count)
-                {
-                    artistCount = 10;
-                }
-
-                var topArtists = artists.OrderByDescending(a => a.Value).Take(artistCount);
-
-                var result = new { Artists = topArtists };
-                return Json(result);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
 
         [Route("Home/SetLanguage")]
@@ -337,6 +64,7 @@ namespace URU.Controllers
                 cultureCookie = "en-US";
                 initialView = true;
             }
+
             string locale = cultureCookie.Contains("nb-NO") ? "en-US" : "nb-NO";
             locale = initialView ? locale.Contains("nb-NO") ? "en-US" : "nb-NO" : locale;
 
@@ -347,19 +75,9 @@ namespace URU.Controllers
             );
 
             if (Url.IsLocalUrl(returnUrl))
-            {
                 return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home");
-        }
-    }
 
-    public static class IEnumerableHelper
-    {
-        public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source)
-        {
-            Random random = new Random();
-            return source.OrderBy((item) => random.Next());
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,68 +1,63 @@
 ﻿@model URU.ViewModels.GameViewModel
 
-@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer StringLocalizer
-
-
 <div class="container">
-    <h1>@StringLocalizer["TicTacToe_Title"]</h1>
+    <h1>@StringLocalizer["Title"]</h1>
 
     <div id="name-container">
-        <p>@StringLocalizer["TicTacToe_Welcome"]</p>
-        <input type="text" id="playerId" autofocus />
+        <p>@StringLocalizer["Welcome"]</p>
+        <input type="text" id="player-id" placeholder="@StringLocalizer["PlaceholderPlayer"]" autofocus />
         <br />
-        <p id="nameError" class="invisible">@StringLocalizer["TicTacToe_NameRequirement"]</p>
+        <p id="name-error" class="invisible">@StringLocalizer["NameRequirement"]</p>
 
-        <button class="btn" id="ready-button">@StringLocalizer["TicTacToe_Play"]</button>
+        <button class="btn" id="ready-button">@StringLocalizer["Play"]</button>
     </div>
 
-    <div id="play-container">
-        <p>@StringLocalizer["TicTacToe_Greetings"], <span id="player"></span>! @StringLocalizer["TicTacToe_RoomName"]<span id="gameRoom"></span></p>
+    <div id="play-container" class="invisible">
+        <p>@StringLocalizer["PlayerName"] <span id="player"></span>@StringLocalizer["RoomName"]<span id="room"></span></p>
 
-        <input type="text" id="gameId" autofocus />
+        <input type="text" id="game-id" placeholder="@StringLocalizer["PlaceholderRoom"]" />
 
-        <div id="win-screen" class="invisible"></div>
+        <div id="results" class="invisible"></div>
 
-        <div id="gameBoard"></div>
+        <div id="board"></div>
 
-        <h2>
-            @StringLocalizer["TicTacToe_Players"]
+        <h2 class="information invisible">
+            @StringLocalizer["Players"]
         </h2>
 
-        <p id="gamePlayers"></p>
+        <p id="players"></p>
 
-        <h2>
-            @StringLocalizer["TicTacToe_Spectators"]
+        <h2 class="information invisible">
+            @StringLocalizer["Spectators"]
         </h2>
 
-        <p id="gameSpectators"></p>
+        <p id="spectators"></p>
 
         <hr />
 
-        <p class="muted">
-            @StringLocalizer["TicTacToe_PlayAlone"]
-        </p>
+        <p>@StringLocalizer["PlayAlone"]</p>
     </div>
 </div>
 
-@* Eliminate render-blocking CSS in above-the-fold content *@
-@section Scripts {
-    <script src="~/bundle/scripts/signalr.min.js" asp-append-version="true"></script>
-
+@section Styles  {
     <environment include="Development">
-        <script src="~/scripts/gameHub.js" asp-append-version="true"></script>
-        <script async src="~/scripts/tictactoe.js" asp-append-version="true"></script>
+        <link rel="stylesheet" type="text/css" href="~/css/tictactoe.css" asp-append-version="true">
     </environment>
 
     <environment exclude="Development">
-        <script src="~/bundle/scripts/game.min.js" asp-append-version="true"></script>
+        <link rel="stylesheet" type="text/css" href="~/bundle/css/tictactoe.min.css" asp-append-version="true">
     </environment>
 }
 
-<environment include="Development">
-    <link async rel="stylesheet" type="text/css" href="~/css/game.css" asp-append-version="true">
-</environment>
+@section Scripts {
+    <script src="~/bundle/js/signalr.min.js" asp-append-version="true"></script>
 
-<environment exclude="Development">
-    <link async rel="stylesheet" type="text/css" href="~/bundle/css/game.min.css" asp-append-version="true">
-</environment>
+    <environment include="Development">
+        <script src="~/js/tictactoe-hub.js" asp-append-version="true"></script>
+        <script src="~/js/tictactoe.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/bundle/js/tictactoe.min.js" asp-append-version="true"></script>
+    </environment>
+}

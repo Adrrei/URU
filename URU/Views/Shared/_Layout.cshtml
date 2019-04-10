@@ -1,11 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-@inject IViewLocalizer StringLocalizer
-
 <!DOCTYPE html>
 
 <html lang="en-us">
+
 <head>
+    <environment include="Development">
+        <link rel="stylesheet" type="text/css" href="~/css/fontawesome.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="~/css/fonts.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="~/css/layout.css" asp-append-version="true">
+    </environment>
+
+    <environment exclude="Development">
+        <link rel="stylesheet" type="text/css" href="~/bundle/css/layout.min.css" asp-append-version="true">
+    </environment>
+
+    @RenderSection("Styles", required: false)
+
     <meta title="URU" http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="author" content="Adrian Reithaug">
     <meta name="description" content="URU - A creative space.">
@@ -32,82 +43,23 @@
     <meta name="msapplication-wide310x150logo" content="~/content/favicon/mstile-310x150.png" />
     <meta name="msapplication-square310x310logo" content="~/content/favicon/mstile-310x310.png" />
 
-    <title>
-        @if (!string.IsNullOrEmpty(ViewBag.Title))
-        {
-            {@ViewBag.Title <text> - URU</text>}
-    }
-    else
-    {
-        <text>URU</text>
-    }
-    </title>
+    <title>@ViewBag.Title</title>
 </head>
-
 <body>
     <nav>
-        <h2 class="logo"><a class="" asp-controller="Home" asp-action="Index">URU</a></h2>
-        <ul class="main-nav">
-            @if (ViewBag.Title == "Home" || ViewBag.Title == "Hjem")
-            {
-                <li><a class="navbar-link" role="button" onclick="jumpPage('about-me');">@StringLocalizer["Layout_About"]</a></li>
-                <li><a class="navbar-link" role="button" onclick="jumpPage('projects');">@StringLocalizer["Layout_Projects"]</a></li>}
-            else
-            {
-                <li><a class="navbar-link" asp-controller="Home" asp-action="Index" asp-route-id="about-me">@StringLocalizer["Layout_About"]</a></li>
-                <li><a class="navbar-link" asp-controller="Home" asp-action="Index" asp-route-id="projects">@StringLocalizer["Layout_Projects"]</a></li>
-            }
-            <li><a class="navbar-link" asp-controller="Home" asp-action="Contact">@StringLocalizer["Layout_Contact"]</a></li>
-            <li>
-                <a class="navbar-item" aria-label="GitHub" target="_blank" href="https://github.com/Adrrei">
-                    <span class="icon">
-                        <i class="fab fa-github"></i>
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a class="navbar-item" aria-label="LinkedIn" target="_blank" href="https://www.linkedin.com/in/adrianreithaug/">
-                    <span class="icon">
-                        <i class="fab fa-linkedin-in"></i>
-                    </span>
-                </a>
-            </li>
+        <ul>
+            <li><a class="logo" asp-controller="Home" asp-action="Index">URU</a></li>
+            <li><a href="@Url.Action("SetLanguage", "Home", new { returnUrl = Context?.Request?.Path })"><i class="fas fa-cog"></i> @StringLocalizer["SelectedLanguage"]</a></li>
         </ul>
     </nav>
-    <div class="main-wrapper">
-        <main>
-            @RenderBody()
-        </main>
-    </div>
+    <main>
+        @RenderBody()
+    </main>
 
     <footer>
-        <div>
-            @await Html.PartialAsync("_SelectLanguagePartial")
-        </div>
-        <div>
-            <h1><a asp-controller="Home" asp-action="Index">URU</a></h1>
-        </div>
-        <div>
-            <a asp-controller="Home" asp-action="Contact">@StringLocalizer["Layout_Contact"]</a>
-        </div>
-
-        <div>
-            <p>@StringLocalizer["Layout_SourceCode"] <span><a class="link-to-github" href="https://github.com/Adrrei/URU">GitHub</a>.</span></p>
-        </div>
+        <h1><a class="footer-logo" asp-action="Index" asp-controller="Home">URU</a></h1>
     </footer>
+
     @RenderSection("Scripts", required: false)
-
-    @* Eliminate render-blocking CSS and JavaScript in above-the-fold content *@
-    <environment include="Development">
-        <link rel="stylesheet" type="text/css" href="~/css/fontawesome.css" asp-append-version="true">
-        <link rel="stylesheet" type="text/css" href="~/css/fonts.css" asp-append-version="true">
-        <link rel="stylesheet" type="text/css" href="~/css/layout.css" asp-append-version="true">
-        <script async src="~/scripts/layout.js" asp-append-version="true"></script>
-    </environment>
-
-    <environment exclude="Development">
-        <link async rel="stylesheet" type="text/css" href="~/bundle/css/layout.min.css" asp-append-version="true">
-        <script async src="~/bundle/scripts/layout.min.js" asp-append-version="true"></script>
-    </environment>
 </body>
 </html>
