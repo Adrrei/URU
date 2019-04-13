@@ -84,7 +84,7 @@ namespace URU.Controllers
 
                 string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist, parameters);
                 Playlist favorites = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-                IEnumerable<string> favoriteTracks = IEnumerableHelper.Randomize(favorites.Tracks.Items.Select(t => t.Track.Id)).Take(5);
+                IEnumerable<string> favoriteTracks = IEnumerableHelper.Randomize(favorites.Tracks.Items.Select(t => t.Track.Id)).Take(4);
 
                 var result = new
                 {
@@ -121,7 +121,7 @@ namespace URU.Controllers
                 Playlist personalPlaylists = await _spotify.GetSpotify<Playlist>(spotifyUrl);
                 user.Offset = personalPlaylists.Items[0].Tracks.Total - 1;
 
-                Dictionary<string, long> edmPlaylists = new Dictionary<string, long>();
+                Dictionary<string, (long, string)> edmPlaylists = new Dictionary<string, (long, string)>();
                 List<string> genres = new List<string>
                 {
                     "Big Room",
@@ -149,53 +149,13 @@ namespace URU.Controllers
                     bool isValid = genres.Any(id => name.Contains(id));
                     if (isValid)
                     {
-                        edmPlaylists.Add(name, playlist.Tracks.Total);
+                        edmPlaylists.Add(name, (playlist.Tracks.Total, playlist.Uri));
                     }
                 }
 
                 var data = new
                 {
                     Genres = edmPlaylists
-                };
-
-                return Json(data);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> GetTopArtists([FromQuery]string artists)
-        {
-            try
-            {
-                var sectionSpotify = _configuration.GetSection("Spotify");
-                User user = new User
-                {
-                    UserId = sectionSpotify["UserId"],
-                    PlaylistId = sectionSpotify["ExquisiteEdmId"],
-                    Limit = 0
-                };
-
-                bool validNumber = int.TryParse(artists, out int numArtists);
-
-                if (!validNumber)
-                {
-                    numArtists = 10;
-                }
-
-                EnsureSpotifyExist();
-
-                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
-                Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-
-                var result = await _spotify.GetTopArtists<Playlist>(user, playlist.Tracks.Total, numArtists);
-
-                var data = new
-                {
-                    Artists = result
                 };
 
                 return Json(data);

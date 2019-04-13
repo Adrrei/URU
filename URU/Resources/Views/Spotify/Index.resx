@@ -117,67 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="API" xml:space="preserve">
-    <value>Spotify REST Web API</value>
-  </data>
   <data name="Artists" xml:space="preserve">
     <value>Artister</value>
   </data>
-  <data name="ArtistsDescription" xml:space="preserve">
-    <value>Følgende tabell viser de mest populære artistene i spillelisten.</value>
+  <data name="Description" xml:space="preserve">
+    <value>Elektronisk Dansemusikk - Når kommer droppen?</value>
   </data>
-  <data name="Count" xml:space="preserve">
-    <value>Sanger</value>
-  </data>
-  <data name="Favorites" xml:space="preserve">
-    <value>Favoritter</value>
-  </data>
-  <data name="FavoritesClickReset" xml:space="preserve">
-    <value>Klikk her for å laste inn flere.</value>
-  </data>
-  <data name="FavoritesDescriptionClosing" xml:space="preserve">
-    <value>av mine ~50 favorittsanger (fra</value>
-  </data>
-  <data name="FavoritesDescriptionIntro" xml:space="preserve">
-    <value>Her er </value>
+  <data name="FetchOtherFavorites" xml:space="preserve">
+    <value>Hent andre favoritter</value>
   </data>
   <data name="Genres" xml:space="preserve">
     <value>Sjangre</value>
   </data>
-  <data name="GenresDescription" xml:space="preserve">
-    <value>Oversikt over antall sanger per sjanger i spillelisten.</value>
-  </data>
   <data name="Hours" xml:space="preserve">
-    <value>Timer med musikk</value>
-  </data>
-  <data name="InputHelp" xml:space="preserve">
-    <value>Skriv et nummer og forlat feltet for å oppdatere tabellen.</value>
-  </data>
-  <data name="LatestAddition" xml:space="preserve">
-    <value>Nyeste tillegg</value>
-  </data>
-  <data name="NoConnection" xml:space="preserve">
-    <value>Kunne ikke etablere en forbindelse med Spotify. Vennligst prøv igjen senere.</value>
-  </data>
-  <data name="OverviewArtists" xml:space="preserve">
-    <value>Topp artister</value>
-  </data>
-  <data name="OverviewGenres" xml:space="preserve">
-    <value>Spillelistens sjangre</value>
-  </data>
-  <data name="ProjectPurposeIntro" xml:space="preserve">
-    <value>Meningen med dette prosjektet er å hente ut og visualisere interessant statistikk fra Spotify-kontoen min.</value>
+    <value>TIMER</value>
   </data>
   <data name="Songs" xml:space="preserve">
-    <value>Sanger</value>
+    <value>SANGER</value>
   </data>
-  <data name="ViewPlaylist" xml:space="preserve">
-    <value>Spillelisten</value>
-  </data>
-  <data name="VolumeDescriptionClosing" xml:space="preserve">
-    <value>Jeg har ikke tilgang til lydinstillingene, og deres lydnivå er satt til 100% som standard.</value>
-  </data>
-  <data name="VolumeDescriptionIntro" xml:space="preserve">
-    <value>Anbefaler å skru ned volumet ditt før du spiller av sangene på denne siden.</value>
+  <data name="TopArtists" xml:space="preserve">
+    <value>Artister - Topp 75</value>
   </data>
 </root>

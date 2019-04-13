@@ -1,117 +1,62 @@
 ﻿@model URU.ViewModels.SpotifyViewModel
 
-<div class="container">
-
-    @if (Model.User != null)
-    {
-        <h1>
-            <a href="@Model.ExquisiteEdm.Uri" id="exquisite-uri">
-                @Model.ExquisiteEdm.Name
-            </a>
-        </h1>
-
+<div class="banner">
+    <div class="content">
         <div class="row">
-            <div>
-                <p>@StringLocalizer["Songs"]</p>
-                <p class="number">
-                    @Model.ExquisiteEdm.Total
-                </p>
+            <div class="column header">
+                <a id="title" href="@Model.ExquisiteEdm.Uri">@Model.ExquisiteEdm.Name</a>
+                <span id="description">@StringLocalizer["Description"]</span>
+                <div id="details">
+                    <span>@StringLocalizer["Hours"]</span>
+                    <span id="hours" class="loading"> </span>
+                    <span>@StringLocalizer["Songs"]</span>
+                    <span id="songs">@Model.ExquisiteEdm.Total</span>
+                </div>
+                <div id="toggle">
+                    <input id="toggle-genres" type="radio" name="tabs" checked />
+                    <label for="toggle-genres">> @StringLocalizer["Genres"]</label>
+                    <input id="toggle-artists" type="radio" name="tabs" />
+                    <label for="toggle-artists">> @StringLocalizer["Artists"]</label>
+                </div>
             </div>
-            <div>
-                <iframe id="follow" src="https://open.spotify.com/follow/1/?uri=spotify:user:@Model.User.UserId&size=detail&theme=light&show-count=0" width="180" height="80"></iframe>
+            <div class="column scrollable">
+                <table id="genres">
+                    <thead>
+                        <tr>
+                            <td>@StringLocalizer["Genres"]</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <table id="artists" class="hidden">
+                    <thead>
+                        <tr>
+                            <td>@StringLocalizer["TopArtists"]</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
-            <div>
-                <p id="hours">@StringLocalizer["Hours"]</p>
-                <p class="number loading" id="playtime">
-                    @* AJAX --> getIdDurationArtists *@
-                </p>
+        </div>
+        <div id="get-favorites" class="row">
+            <div class="column">
+                <p id="reset-favorites">> @StringLocalizer["FetchOtherFavorites"]</p>
             </div>
         </div>
-
-        <h2>@StringLocalizer["LatestAddition"]</h2>
-
-        <p class="adjacent-paragraph-top">
-            @StringLocalizer["VolumeDescriptionIntro"]
-        </p>
-        <p class="adjacent-paragraph-bottom">
-            @StringLocalizer["VolumeDescriptionClosing"]
-        </p>
-
-        <div id="latest">
-            @* AJAX --> getIdDurationArtists *@
+        <div id="favorites" class="row">
+            <div class="column">
+            </div>
+            <div class="column">
+            </div>
+            <div class="column">
+            </div>
+            <div class="column">
+            </div>
         </div>
-
-        <h2>@StringLocalizer["OverviewGenres"]</h2>
-        <p>@StringLocalizer["GenresDescription"]</p>
-
-        <div id="table-genres">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="left">@StringLocalizer["Genres"]</th>
-                        <th class="right">@StringLocalizer["Songs"]</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @* AJAX --> getGenres *@
-                </tbody>
-            </table>
-        </div>
-
-        <h2>
-            @StringLocalizer["Favorites"]
-        </h2>
-
-        <p>
-            @StringLocalizer["FavoritesDescriptionIntro"] <strong id="favorites-count"></strong> @StringLocalizer["FavoritesDescriptionClosing"] <strong>@Model.ExquisiteEdm.Name</strong>).
-        </p>
-
-        <a id="reset-favorites">
-            @StringLocalizer["FavoritesClickReset"]
-        </a>
-
-        <div id="cards">
-            @* AJAX --> getFavorites *@
-        </div>
-
-        <h2>@StringLocalizer["OverviewArtists"]</h2>
-        <p>@StringLocalizer["ArtistsDescription"]</p>
-
-        <input type="number" id="set-artists" value="10" placeholder="10" title="@StringLocalizer["InputHelp"]" />
-
-        <div id="table-artists">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="left">@StringLocalizer["Artists"]</th>
-                        <th class="right">@StringLocalizer["Count"]</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @* AJAX --> getTopArtists / getIdDurationArtists *@
-                </tbody>
-            </table>
-        </div>
-
-        <h2>@StringLocalizer["ViewPlaylist"]</h2>
-        <iframe class="playlist" src="https://open.spotify.com/embed/user/@Model.User.UserId/playlist/@Model.User.PlaylistId" width="640" height="720" allow="encrypted-media"></iframe>
-
-    }
-    else
-    {
-        <h2>@StringLocalizer["NoConnection"]</h2>
-    }
-    <br />
-
-    <h2>
-        @StringLocalizer["API"]
-    </h2>
-
-    <p class="adjacent-paragraph-top">
-        @StringLocalizer["ProjectPurposeIntro"]
-    </p>
-    <p class="adjacent-paragraph-bottom">
-    </p>
+    </div>
 </div>
 
 @section Styles  {
@@ -123,13 +68,14 @@
         <link rel="stylesheet" type="text/css" href="~/bundle/css/spotify.min.css" asp-append-version="true">
     </environment>
 }
-
 @section Scripts {
     <environment include="Development">
+        <script async src="~/js/spotify-ie.js" asp-append-version="true"></script>
         <script src="~/js/spotify.js" asp-append-version="true"></script>
     </environment>
 
     <environment exclude="Development">
+        <script async src="~/bundle/js/spotify-ie.min.js" asp-append-version="true"></script>
         <script src="~/bundle/js/spotify.min.js" asp-append-version="true"></script>
     </environment>
 }

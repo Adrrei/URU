@@ -1,6 +1,4 @@
-﻿'use strict';
-
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     getGenres();
     getFavorites();
     getIdDurationArtists();
@@ -10,31 +8,33 @@ document.addEventListener('DOMContentLoaded', function () {
         getFavorites();
     });
 
-    let setArtists = document.getElementById('set-artists');
-    setArtists.addEventListener('blur', function () {
-        getTopArtists(this.value);
+    let toggleArtists = document.getElementById('toggle-artists');
+    let toggleGenres = document.getElementById('toggle-genres');
+    let tableArtists = document.getElementById('artists');
+    let tableGenres = document.getElementById('genres');
+
+    toggleArtists.addEventListener('click', function () {
+        tableArtists.classList.remove('hidden');
+        tableGenres.classList.add('hidden');
+    });
+
+    toggleGenres.addEventListener('click', function () {
+        tableArtists.classList.add('hidden');
+        tableGenres.classList.remove('hidden');
     });
 
     handleLocalStorage();
 });
 
 function getIdDurationArtists() {
-    let latest = getItemFromStorage('Latest');
     let playtime = getItemFromStorage('Playtime');
     let artists = getItemFromStorage('Artists');
 
-    let iframe = document.createElement('iframe');
-    iframe.height = 80;
-    iframe.width = 300;
-
-    if (latest && playtime && artists) {
-        iframe.src = 'https://open.spotify.com/embed/track/' + latest.id;
-        document.getElementById('latest').appendChild(iframe);
-
+    if (playtime && artists) {
         document.getElementsByClassName('loading')[0].classList.remove('loading');
-        document.getElementById('playtime').textContent = playtime.hours;
+        document.getElementById('hours').textContent = playtime.hours;
 
-        createTable(artists.artists, 'table-artists');
+        createTable(artists.artists, 'artists');
         return;
     }
 
@@ -46,17 +46,12 @@ function getIdDurationArtists() {
             document.getElementsByClassName('loading')[0].classList.remove('loading');
 
             let hours = responseJson.time;
-            document.getElementById('playtime').textContent = hours;
-
-            let latest = responseJson.latest;
-            iframe.src = 'https://open.spotify.com/embed/track/' + latest;
-            document.getElementById('latest').appendChild(iframe);
+            document.getElementById('hours').textContent = hours;
 
             let artists = responseJson.artists;
-            createTable(artists, 'table-artists');
+            createTable(artists, 'artists');
 
             setItemInStorage('Playtime', { hours: hours });
-            setItemInStorage('Latest', { id: latest });
             setItemInStorage('Artists', { artists: artists });
         });
 }
@@ -65,7 +60,7 @@ function getGenres() {
     let localGenres = getItemFromStorage('Genres');
 
     if (localGenres) {
-        createTable(localGenres.genres, 'table-genres');
+        createTable(localGenres.genres, 'genres');
     }
 
     fetch('/Spotify/GetGenres')
@@ -74,7 +69,7 @@ function getGenres() {
         })
         .then(function (responseJson) {
             let genres = responseJson.genres;
-            createTable(genres, 'table-genres');
+            createTable(genres, 'genres');
             setItemInStorage('Genres', { genres: genres });
         });
 }
@@ -82,34 +77,36 @@ function getGenres() {
 function getFavorites() {
     let width = window.innerWidth;
 
-    let albumSource = '/content/images/Spotify-';
+    let coverWidth;
+    let coverHeight;
+
     switch (true) {
-        case width > 580:
-            albumSource += '245x245.png';
+        case width > 880:
+            coverWidth = 245;
+            coverHeight = 245;
             break;
-        case width > 344:
-            albumSource += '320x80.png';
-            break;
-        case width > 320:
-            albumSource += '300x80.png';
+        case width > 360:
+            coverWidth = 320;
+            coverHeight = 80;
             break;
         default:
-            albumSource += '260x80.png';
+            coverWidth = 260;
+            coverHeight = 80;
     }
 
-    let cards = document.getElementById('cards');
-    cards.innerHTML = '';
+    let favorites = document.getElementById('favorites');
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
         var albumPlaceholder = new Image;
-
         albumPlaceholder.onload = function () {
-            cards.src = this.src;
+            favorites.src = this.src;
         };
-        albumPlaceholder.src = albumSource;
-        albumPlaceholder.classList.add('card-margin');
+        albumPlaceholder.src = '/content/images/Spotify-' + coverWidth + 'x' + coverHeight + '.png';
+        albumPlaceholder.classList.add('invisible');
 
-        cards.appendChild(albumPlaceholder);
+        let column = favorites.getElementsByClassName('column')[i];
+        column.innerHTML = '';
+        column.appendChild(albumPlaceholder);
     }
 
     fetch('/Spotify/GetFavorites')
@@ -117,42 +114,17 @@ function getFavorites() {
             return response.json();
         })
         .then(function (responseJson) {
-            let favorites = responseJson.favorites;
+            let songs = responseJson.favorites;
 
-            let numFavorites = document.getElementById('favorites-count');
-            numFavorites.textContent = favorites.length;
-            let placeholders = document.getElementById('cards').childNodes;
-
-            let i = 0;
-            favorites.forEach(function (track) {
+            let column = 0;
+            songs.forEach(function (track) {
                 let iframe = document.createElement('iframe');
                 iframe.src = 'https://open.spotify.com/embed/track/' + track;
-                iframe.height = 245;
-                iframe.width = 245;
+                iframe.height = coverHeight;
+                iframe.width = coverWidth;
 
-                document.getElementById('cards').replaceChild(iframe, placeholders[i++]);
+                favorites.getElementsByClassName('column')[column++].getElementsByTagName('img')[0].replaceWith(iframe);
             });
-        });
-}
-
-function getTopArtists(numArtists) {
-    let artists = getItemFromStorage('Artists');
-
-    if (artists && artists.artists.length === parseInt(numArtists)) {
-        createTable(artists.artists, 'table-artists');
-        return;
-    }
-
-    fetch('/Spotify/GetTopArtists?artists=' + numArtists)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (responseJson) {
-            let artists = responseJson.artists;
-
-            createTable(artists, 'table-artists');
-
-            setItemInStorage('Artists', { artists: artists });
         });
 }
 
@@ -165,15 +137,18 @@ function createTable(dictionary, tableId) {
         let row = table.insertRow();
 
         let leftColumn = row.insertCell(0);
-        leftColumn.classList.add('left');
         leftColumn.textContent = key;
 
         let rightColumn = row.insertCell(1);
-        rightColumn.classList.add('right');
-        rightColumn.textContent = value;
+        rightColumn.textContent = value.item1;
 
         row.appendChild(leftColumn);
         row.appendChild(rightColumn);
+        row.setAttribute('data-uri', value.item2);
+
+        row.addEventListener('click', function () {
+            window.location.href = row.dataset.uri;
+        });
 
         table.appendChild(row);
     });

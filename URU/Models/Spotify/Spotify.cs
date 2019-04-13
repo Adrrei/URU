@@ -257,7 +257,7 @@ namespace URU.Models
             {
                 (string, string)[] parameters = {
                     ("offset", user.Offset.ToString()),
-                    ("fields", "items(track(id, duration_ms, artists(name)))")
+                    ("fields", "items(track(id, duration_ms, artists(name, uri)))")
                 };
 
                 string spotifyUrl = GetEndpoint(user, Method.GetPlaylistTracks, parameters);
@@ -274,9 +274,8 @@ namespace URU.Models
             EnsureHttpClientCreated();
             await VerifyAndIssueAccessToken();
 
-            var artistsCount = new Dictionary<string, int>();
+            var artistsCount = new Dictionary<string, (int, string)>();
             long milliseconds = 0;
-            string latestAddition = "";
 
             try
             {
@@ -293,16 +292,15 @@ namespace URU.Models
                         milliseconds += item.Track.DurationMs;
                         foreach (var artist in item.Track.Artists)
                         {
-                            if (artistsCount.TryGetValue(artist.Name, out int val))
+                            if (artistsCount.TryGetValue(artist.Name, out (int Count, string Uri) val))
                             {
-                                artistsCount[artist.Name] = val + 1;
+                                artistsCount[artist.Name] = (val.Count + 1, val.Uri);
                             }
                             else
                             {
-                                artistsCount.Add(artist.Name, 1);
+                                artistsCount.Add(artist.Name, (1, artist.Uri));
                             }
                         }
-                        latestAddition = item.Track.Id;
                     }
                 }
 
@@ -310,80 +308,11 @@ namespace URU.Models
 
                 var data = new
                 {
-                    Artists = artistsCount.OrderByDescending(a => a.Value).Take(10).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-                    Time = hours,
-                    Latest = latestAddition
+                    Artists = artistsCount.OrderByDescending(a => a.Value).Take(75).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                    Time = hours
                 };
 
                 return data;
-            }
-            catch (WebException)
-            {
-                return default;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<Dictionary<string, int>> GetTopArtists<T>(User user, long numberOfSongsInPlaylist, int numArtists)
-        {
-            if (user == null)
-                return default;
-
-            IList<HttpRequestMessage> urls = new List<HttpRequestMessage>();
-
-            while (user.Offset < numberOfSongsInPlaylist)
-            {
-                (string, string)[] parameters = {
-                    ("offset", user.Offset.ToString()),
-                    ("fields", "items(track(artists(name)))")
-                };
-
-                string spotifyUrl = GetEndpoint(user, Method.GetPlaylistTracks, parameters);
-                var httpRequestMessage = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Get,
-                    RequestUri = new Uri(spotifyUrl)
-                };
-
-                urls.Add(httpRequestMessage);
-                user.Offset += 100;
-            }
-
-            EnsureHttpClientCreated();
-            await VerifyAndIssueAccessToken();
-
-            var artistsCount = new Dictionary<string, int>();
-
-            try
-            {
-                var requests = urls.Select(url => _httpClient.GetAsync(url.RequestUri));
-                var responses = requests.Select(task => task.Result);
-
-                foreach (var response in responses)
-                {
-                    string result = await response.Content.ReadAsStringAsync();
-                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(result);
-
-                    foreach (var item in playlist.Items)
-                    {
-                        foreach (var artist in item.Track.Artists)
-                        {
-                            if (artistsCount.TryGetValue(artist.Name, out int val))
-                            {
-                                artistsCount[artist.Name] = val + 1;
-                            }
-                            else
-                            {
-                                artistsCount.Add(artist.Name, 1);
-                            }
-                        }
-                    }
-                }
-
-                return artistsCount.OrderByDescending(a => a.Value).Take(numArtists).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
             catch (WebException)
             {

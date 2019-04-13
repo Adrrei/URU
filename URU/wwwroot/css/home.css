@@ -41,8 +41,9 @@ nav {
 .parallax-hero {
     margin-top: -5rem;
     background-color: #FFF;
-    background-image: url("/content/images/Hero.jpg");
+    background: url("/content/images/Hero.jpg") no-repeat center center fixed;
     height: 32vh;
+    background-size: cover;
 }
 
     .parallax-hero h1 {
@@ -70,7 +71,7 @@ nav {
 ------------------------------ */
 
 .container {
-    margin: 0 2rem;
+    margin: 0 0.5em 0 0.5em;
     text-align: center;
 }
 
@@ -90,7 +91,7 @@ nav {
 ------------------------------ */
 
 .project-container {
-    margin: 20px auto 0;
+    margin: 1em auto 0;
     width: 800px;
 }
 

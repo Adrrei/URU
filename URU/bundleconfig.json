@@ -86,6 +86,18 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/bundle/js/spotify-ie.min.js",
+    "inputFiles": [
+      "wwwroot/js/spotify-ie.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/bundle/js/spotify.min.js",
     "inputFiles": [
       "wwwroot/js/spotify.js"
