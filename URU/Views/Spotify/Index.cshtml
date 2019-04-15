@@ -4,7 +4,7 @@
     <div class="content">
         <div class="row">
             <div class="column header">
-                <a id="title" href="@Model.ExquisiteEdm.Uri">@Model.ExquisiteEdm.Name</a>
+                <span><a id="title" href="@Model.ExquisiteEdm.Uri">@Model.ExquisiteEdm.Name</a></span>
                 <span id="description">@StringLocalizer["Description"]</span>
                 <div id="details">
                     <span>@StringLocalizer["Hours"]</span>
@@ -13,10 +13,8 @@
                     <span id="songs">@Model.ExquisiteEdm.Total</span>
                 </div>
                 <div id="toggle">
-                    <input id="toggle-genres" type="radio" name="tabs" checked />
-                    <label for="toggle-genres">> @StringLocalizer["Genres"]</label>
-                    <input id="toggle-artists" type="radio" name="tabs" />
-                    <label for="toggle-artists">> @StringLocalizer["Artists"]</label>
+                    <label for="toggle-genres"><span id="toggle-genres" class="checked">> @StringLocalizer["Genres"]</span></label>
+                    <label for="toggle-artists"><span id="toggle-artists">> @StringLocalizer["Artists"]</span></label>
                 </div>
             </div>
             <div class="column scrollable">
@@ -43,7 +41,7 @@
         </div>
         <div id="get-favorites" class="row">
             <div class="column">
-                <p id="reset-favorites">> @StringLocalizer["FetchOtherFavorites"]</p>
+                <p><span id="reset-favorites">> @StringLocalizer["FetchOtherFavorites"]</span></p>
             </div>
         </div>
         <div id="favorites" class="row">

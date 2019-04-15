@@ -84,11 +84,10 @@ namespace URU.Controllers
 
                 string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist, parameters);
                 Playlist favorites = await _spotify.GetSpotify<Playlist>(spotifyUrl);
-                IEnumerable<string> favoriteTracks = IEnumerableHelper.Randomize(favorites.Tracks.Items.Select(t => t.Track.Id)).Take(4);
 
                 var result = new
                 {
-                    Favorites = favoriteTracks
+                    Favorites = favorites.Tracks.Items.Select(t => t.Track.Id)
                 };
 
                 return Json(result);
@@ -192,15 +191,6 @@ namespace URU.Controllers
             {
                 throw;
             }
-        }
-    }
-
-    public static class IEnumerableHelper
-    {
-        public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source)
-        {
-            Random random = new Random();
-            return source.OrderBy((item) => random.Next());
         }
     }
 }

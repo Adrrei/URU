@@ -16,11 +16,17 @@
     toggleArtists.addEventListener('click', function () {
         tableArtists.classList.remove('hidden');
         tableGenres.classList.add('hidden');
+
+        toggleArtists.classList.add('checked');
+        toggleGenres.classList.remove('checked');
     });
 
     toggleGenres.addEventListener('click', function () {
         tableArtists.classList.add('hidden');
         tableGenres.classList.remove('hidden');
+
+        toggleArtists.classList.remove('checked');
+        toggleGenres.classList.add('checked');
     });
 
     handleLocalStorage();
@@ -61,6 +67,7 @@ function getGenres() {
 
     if (localGenres) {
         createTable(localGenres.genres, 'genres');
+        return;
     }
 
     fetch('/Spotify/GetGenres')
@@ -75,6 +82,37 @@ function getGenres() {
 }
 
 function getFavorites() {
+    let localFavorites = getItemFromStorage('Favorites');
+
+    if (localFavorites) {
+        displayFavorites(localFavorites.favorites);
+        return;
+    }
+
+    fetch('/Spotify/GetFavorites')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (responseJson) {
+            let songs = responseJson.favorites;
+            displayFavorites(songs);
+
+            setItemInStorage('Favorites', { favorites: songs });
+        });
+}
+
+function displayFavorites(songs) {
+    let ids = [];
+    for (let i = 0; i < 4; i++) {
+        let position = randomNumber(songs.length);
+
+        while (ids.includes(position)) {
+            position = randomNumber(songs.length);
+        }
+
+        ids.push(position);
+    }
+
     let width = window.innerWidth;
 
     let coverWidth;
@@ -94,38 +132,20 @@ function getFavorites() {
             coverHeight = 80;
     }
 
-    let favorites = document.getElementById('favorites');
-
     for (let i = 0; i < 4; i++) {
-        var albumPlaceholder = new Image;
-        albumPlaceholder.onload = function () {
-            favorites.src = this.src;
-        };
-        albumPlaceholder.src = '/content/images/Spotify-' + coverWidth + 'x' + coverHeight + '.png';
-        albumPlaceholder.classList.add('invisible');
+        let iframe = document.createElement('iframe');
+        iframe.src = 'https://open.spotify.com/embed/track/' + songs[ids[i]];
+        iframe.height = coverHeight;
+        iframe.width = coverWidth;
 
-        let column = favorites.getElementsByClassName('column')[i];
-        column.innerHTML = '';
-        column.appendChild(albumPlaceholder);
+        let placement = document.getElementById('favorites').getElementsByClassName('column')[i];
+        placement.innerHTML = '';
+        placement.appendChild(iframe);
     }
+}
 
-    fetch('/Spotify/GetFavorites')
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (responseJson) {
-            let songs = responseJson.favorites;
-
-            let column = 0;
-            songs.forEach(function (track) {
-                let iframe = document.createElement('iframe');
-                iframe.src = 'https://open.spotify.com/embed/track/' + track;
-                iframe.height = coverHeight;
-                iframe.width = coverWidth;
-
-                favorites.getElementsByClassName('column')[column++].getElementsByTagName('img')[0].replaceWith(iframe);
-            });
-        });
+function randomNumber(max) {
+    return Math.floor(Math.random() * max);
 }
 
 function createTable(dictionary, tableId) {
