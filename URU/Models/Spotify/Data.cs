@@ -53,23 +53,44 @@ namespace URU.Models
         [JsonProperty("album_type")]
         public string AlbumType { get; set; }
 
+        [JsonProperty("artists")]
+        public List<Artist> Artists { get; set; }
+
         [JsonProperty("available_markets")]
-        public string[] AvailableMarkets { get; set; }
+        public List<string> AvailableMarkets { get; set; }
+
+        [JsonProperty("copyrights")]
+        public List<Copyright> Copyrights { get; set; }
+
+        [JsonProperty("external_ids")]
+        public ExternalIds ExternalIds { get; set; }
 
         [JsonProperty("external_urls")]
         public ExternalUrls ExternalUrls { get; set; }
 
+        [JsonProperty("genres")]
+        public List<object> Genres { get; set; }
+
         [JsonProperty("href")]
-        public string Href { get; set; }
+        public Uri Href { get; set; }
 
         [JsonProperty("id")]
         public string Id { get; set; }
 
         [JsonProperty("images")]
-        public AlbumImage[] Images { get; set; }
+        public List<Image> Images { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("popularity")]
+        public long Popularity { get; set; }
+
+        [JsonProperty("release_date")]
+        public string ReleaseDate { get; set; }
+
+        [JsonProperty("release_date_precision")]
+        public string ReleaseDatePrecision { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -88,6 +109,21 @@ namespace URU.Models
 
         [JsonProperty("width")]
         public long Width { get; set; }
+    }
+
+    public partial class Albums
+    {
+        [JsonProperty("albums")]
+        public List<Album> Items { get; set; }
+    }
+
+    public partial class Copyright
+    {
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
     }
 
     public partial class ExternalIds

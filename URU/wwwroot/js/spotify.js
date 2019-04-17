@@ -1,6 +1,7 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     getGenres();
     getFavorites();
+    getTracksByYear();
     getIdDurationArtists();
 
     let favorites = document.getElementById('reset-favorites');
@@ -10,23 +11,39 @@
 
     let toggleArtists = document.getElementById('toggle-artists');
     let toggleGenres = document.getElementById('toggle-genres');
+    let toggleTracksByYear = document.getElementById('toggle-tracks-by-year');
     let tableArtists = document.getElementById('artists');
     let tableGenres = document.getElementById('genres');
+    let tableTracksByYear = document.getElementById('tracks-by-year');
 
     toggleArtists.addEventListener('click', function () {
         tableArtists.classList.remove('hidden');
         tableGenres.classList.add('hidden');
+        tableTracksByYear.classList.add('hidden');
 
         toggleArtists.classList.add('checked');
         toggleGenres.classList.remove('checked');
+        toggleTracksByYear.classList.remove('checked');
     });
 
     toggleGenres.addEventListener('click', function () {
-        tableArtists.classList.add('hidden');
         tableGenres.classList.remove('hidden');
+        tableArtists.classList.add('hidden');
+        tableTracksByYear.classList.add('hidden');
 
-        toggleArtists.classList.remove('checked');
         toggleGenres.classList.add('checked');
+        toggleArtists.classList.remove('checked');
+        toggleTracksByYear.classList.remove('checked');
+    });
+
+    toggleTracksByYear.addEventListener('click', function () {
+        tableTracksByYear.classList.remove('hidden');
+        tableArtists.classList.add('hidden');
+        tableGenres.classList.add('hidden');
+
+        toggleTracksByYear.classList.add('checked');
+        toggleArtists.classList.remove('checked');
+        toggleGenres.classList.remove('checked');
     });
 
     handleLocalStorage();
@@ -59,6 +76,26 @@ function getIdDurationArtists() {
 
             setItemInStorage('Playtime', { hours: hours });
             setItemInStorage('Artists', { artists: artists });
+        });
+}
+
+function getTracksByYear() {
+    let tracksByYear = getItemFromStorage('TracksByYear');
+
+    if (tracksByYear) {
+        createTable(tracksByYear.tracks, 'tracks-by-year');
+        return;
+    }
+
+    fetch('/Spotify/GetTracksByYear')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (responseJson) {
+            let tracks = responseJson.tracksByYear;
+            createTable(tracks, 'tracks-by-year');
+
+            setItemInStorage('TracksByYear', { tracks: tracks });
         });
 }
 
@@ -157,18 +194,24 @@ function createTable(dictionary, tableId) {
         let row = table.insertRow();
 
         let leftColumn = row.insertCell(0);
-        leftColumn.textContent = key;
-
         let rightColumn = row.insertCell(1);
-        rightColumn.textContent = value.item1;
+
+        if (value.item1) {
+            leftColumn.textContent = key;
+            rightColumn.textContent = value.item1;
+
+            row.setAttribute('data-uri', value.item2);
+
+            row.addEventListener('click', function () {
+                window.location.href = row.dataset.uri;
+            });
+        } else {
+            leftColumn.textContent = value.key;
+            rightColumn.textContent = value.value;
+        }
 
         row.appendChild(leftColumn);
         row.appendChild(rightColumn);
-        row.setAttribute('data-uri', value.item2);
-
-        row.addEventListener('click', function () {
-            window.location.href = row.dataset.uri;
-        });
 
         table.appendChild(row);
     });

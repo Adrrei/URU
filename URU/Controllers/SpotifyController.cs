@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -156,6 +158,33 @@ namespace URU.Controllers
                 {
                     Genres = edmPlaylists
                 };
+
+                return Json(data);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetTracksByYear()
+        {
+            try
+            {
+                var sectionSpotify = _configuration.GetSection("Spotify");
+                User user = new User
+                {
+                    UserId = sectionSpotify["UserId"],
+                    PlaylistId = sectionSpotify["ExquisiteEdmId"],
+                    Limit = 0
+                };
+
+                EnsureSpotifyExist();
+                string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
+                Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
+
+                var data = await _spotify.GetTracksByYear(user, playlist.Tracks.Total);
 
                 return Json(data);
             }

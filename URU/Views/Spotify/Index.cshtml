@@ -15,6 +15,7 @@
                 <div id="toggle">
                     <label for="toggle-genres"><span id="toggle-genres" class="checked">> @StringLocalizer["Genres"]</span></label>
                     <label for="toggle-artists"><span id="toggle-artists">> @StringLocalizer["Artists"]</span></label>
+                    <label for="toggle-tracks-by-year"><span id="toggle-tracks-by-year">> @StringLocalizer["TracksByYear"]</span></label>
                 </div>
             </div>
             <div class="column scrollable">
@@ -32,6 +33,16 @@
                     <thead>
                         <tr>
                             <td>@StringLocalizer["TopArtists"]</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <table id="tracks-by-year" class="hidden">
+                    <thead>
+                        <tr>
+                            <td>@StringLocalizer["TracksByYear"]</td>
                             <td></td>
                         </tr>
                     </thead>

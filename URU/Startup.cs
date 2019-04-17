@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,7 +9,6 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Globalization;
 using URU.Hubs;
-using URU.Models;
 
 namespace URU
 {
@@ -73,8 +70,8 @@ namespace URU
                 app.UseHsts();
             }
 
-            app.UseCors(_allowOrigins);
             app.UseHttpsRedirection();
+            app.UseCors(_allowOrigins);
             app.UseStaticFiles();
 
             app.UseSignalR(routes =>

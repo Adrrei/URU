@@ -188,64 +188,6 @@ namespace URU.Models
             return default;
         }
 
-        public async Task<long> GetSpotifyPlaytime<T>(User user, long numberOfSongsInPlaylist)
-        {
-            if (user == null)
-                return default;
-
-            IList<HttpRequestMessage> urls = new List<HttpRequestMessage>();
-
-            while (user.Offset < numberOfSongsInPlaylist)
-            {
-                (string, string)[] parameters = {
-                    ("offset", user.Offset.ToString()),
-                    ("fields", "items(track(duration_ms))")
-                };
-
-                string spotifyUrl = GetEndpoint(user, Method.GetPlaylistTracks, parameters);
-                var httpRequestMessage = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Get,
-                    RequestUri = new Uri(spotifyUrl)
-                };
-
-                urls.Add(httpRequestMessage);
-                user.Offset += 100;
-            }
-
-            EnsureHttpClientCreated();
-            await VerifyAndIssueAccessToken();
-
-            long milliseconds = 0;
-
-            try
-            {
-                var requests = urls.Select(url => _httpClient.GetAsync(url.RequestUri));
-                var responses = requests.Select(task => task.Result);
-
-                foreach (var response in responses)
-                {
-                    string result = await response.Content.ReadAsStringAsync();
-                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(result);
-
-                    foreach (var track in playlist.Items)
-                    {
-                        milliseconds += track.Track.DurationMs;
-                    }
-                }
-
-                return milliseconds;
-            }
-            catch (WebException)
-            {
-                return default;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public async Task<dynamic> GetIdDurationArtists<T>(User user, long numberOfSongsInPlaylist)
         {
             if (user == null)
@@ -257,7 +199,7 @@ namespace URU.Models
             {
                 (string, string)[] parameters = {
                     ("offset", user.Offset.ToString()),
-                    ("fields", "items(track(id, duration_ms, artists(name, uri)))")
+                    ("fields", "items(track(id, duration_ms, artists(name, uri), album(id)))")
                 };
 
                 string spotifyUrl = GetEndpoint(user, Method.GetPlaylistTracks, parameters);
@@ -310,6 +252,133 @@ namespace URU.Models
                 {
                     Artists = artistsCount.OrderByDescending(a => a.Value).Take(75).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
                     Time = hours
+                };
+
+                return data;
+            }
+            catch (WebException)
+            {
+                return default;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This method is ugly, but the only way to retrieve a track's release date is via its album,
+        /// which has to be fetched via a completely different endpoint (I do cache the data at the client, though!).
+        /// Thus, fetch all tracks, get each track's album ID, fetch all albums, get each album's release date.
+        ///
+        /// I could retrieve the album IDs by storing them in a Session variable while GetIdDurationArtists(..) is executing (since it's doing this method's first part anyway),
+        /// and once it finishes execute the latter part of this method using said Session variable, but I fear it will be unreliable across various environments.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="numberOfSongsInPlaylist"></param>
+        /// <returns></returns>
+        public async Task<dynamic> GetTracksByYear(User user, long numberOfSongsInPlaylist)
+        {
+            IList<string> albumIds = new List<string>();
+
+            if (user == null)
+                return default;
+
+            IList<HttpRequestMessage> tracksUrls = new List<HttpRequestMessage>();
+
+            while (user.Offset < numberOfSongsInPlaylist)
+            {
+                (string, string)[] parameters = {
+                    ("offset", user.Offset.ToString()),
+                    ("fields", "items(track(album(id)))")
+                };
+
+                string spotifyTracksUrl = GetEndpoint(user, Method.GetPlaylistTracks, parameters);
+                var httpRequestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(spotifyTracksUrl)
+                };
+
+                tracksUrls.Add(httpRequestMessage);
+                user.Offset += 100;
+            }
+
+            EnsureHttpClientCreated();
+            await VerifyAndIssueAccessToken();
+
+            try
+            {
+                var requests = tracksUrls.Select(url => _httpClient.GetAsync(url.RequestUri));
+                var responses = requests.Select(task => task.Result);
+
+                foreach (var response in responses)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(result);
+
+                    foreach (var item in playlist.Items)
+                    {
+                        albumIds.Add(item.Track.Album.Id);
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                return default;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            IList<HttpRequestMessage> albumsUrls = new List<HttpRequestMessage>();
+
+            string spotifyAlbumsUrl = _configuration.GetSection("Spotify")["Endpoint"] + "albums/?ids=";
+
+            for (int i = 0; i < albumIds.Count; i += 20)
+            {
+                StringBuilder albumIdsConcat = new StringBuilder().AppendJoin(',', albumIds.Skip(i).Take(20));
+
+                var httpRequestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(spotifyAlbumsUrl + albumIdsConcat.ToString())
+                };
+
+                albumsUrls.Add(httpRequestMessage);
+            }
+
+            var songsByYear = new Dictionary<string, int>();
+
+            try
+            {
+                var requests = albumsUrls.Select(url => _httpClient.GetAsync(url.RequestUri));
+                var responses = requests.Select(task => task.Result);
+
+                foreach (var response in responses)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    Albums albums = JsonConvert.DeserializeObject<Albums>(result);
+
+                    foreach (var album in albums.Items)
+                    {
+                        string year = album.ReleaseDate.Substring(0, 4);
+
+                        if (songsByYear.TryGetValue(year, out int val))
+                        {
+                            songsByYear[year] = val + 1;
+                        }
+                        else
+                        {
+                            songsByYear.Add(year, 1);
+                        }
+                    }
+                }
+
+                var data = new
+                {
+                    TracksByYear = songsByYear.OrderByDescending(a => a.Key).ToArray(),
                 };
 
                 return data;

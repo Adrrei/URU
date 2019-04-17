@@ -138,4 +138,7 @@
   <data name="TopArtists" xml:space="preserve">
     <value>Artists - Top 75</value>
   </data>
+  <data name="TracksByYear" xml:space="preserve">
+    <value>Tracks by Year</value>
+  </data>
 </root>
