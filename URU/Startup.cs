@@ -50,7 +50,8 @@ namespace URU
                 };
             });
 
-            services.AddMvc().AddDataAnnotationsLocalization()
+            services.AddControllers();
+            services.AddRazorPages().AddDataAnnotationsLocalization()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
                 .AddNewtonsoftJson();
@@ -71,7 +72,6 @@ namespace URU
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(_allowOrigins);
             app.UseStaticFiles();
 
             app.UseSignalR(routes =>
@@ -81,12 +81,13 @@ namespace URU
 
             app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
-            app.UseRouting(routes =>
+            app.UseRouting();
+
+            app.UseCors(_allowOrigins);
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapControllerRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRazorPages();
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

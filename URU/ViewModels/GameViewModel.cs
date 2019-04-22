@@ -1,6 +1,4 @@
-﻿using URU.Models;
-
-namespace URU.ViewModels
+﻿namespace URU.ViewModels
 {
     public class GameViewModel
     {
