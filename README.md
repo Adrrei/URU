@@ -2,7 +2,7 @@
 
 URU is my personal website, where I create small projects (for fun!).
 
-The current version is developed with **C# 8.0**, **[ASP.NET Core (v3.0.0 Preview 3)](https://www.microsoft.com/net)**, **[Font Awesome](https://fontawesome.com/)**, **JavaScript**, and **HTML5 & CSS3**.
+The current version is developed with **C# 8.0**, **[ASP.NET Core (v3.0.0 Preview 4)](https://www.microsoft.com/net)**, **[Font Awesome](https://fontawesome.com/)**, **JavaScript**, and **HTML5 & CSS3**.
 
 Have a look at the **[Offline Changeset](https://github.com/Adrrei/URU/wiki/Offline-Changeset)** for a changelog of the project before it was made public.
 
