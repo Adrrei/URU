@@ -238,6 +238,10 @@ readers do not read off random characters that represent icons */
     content: "\f26e";
 }
 
+.fa-chevron-right:before {
+    content: "\f054";
+}
+
 .fa-cog:before {
     content: "\f013";
 }

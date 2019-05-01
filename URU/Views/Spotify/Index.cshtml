@@ -4,18 +4,18 @@
     <div class="content">
         <div class="row">
             <div class="column header">
-                <span><a id="title" href="@Model.ExquisiteEdm.Uri">@Model.ExquisiteEdm.Name</a></span>
+                <span><a id="title" href="spotify:user:@Model.User.UserId:playlist:@Model.User.PlaylistId">Exquisite EDM</a></span>
                 <span id="description">@StringLocalizer["Description"]</span>
                 <div id="details">
                     <span>@StringLocalizer["Hours"]</span>
                     <span id="hours" class="loading"> </span>
                     <span>@StringLocalizer["Songs"]</span>
-                    <span id="songs">@Model.ExquisiteEdm.Total</span>
+                    <span id="songs" class="loading"></span>
                 </div>
                 <div id="toggle">
-                    <label for="toggle-genres"><span id="toggle-genres" class="checked">> @StringLocalizer["Genres"]</span></label>
-                    <label for="toggle-artists"><span id="toggle-artists">> @StringLocalizer["Artists"]</span></label>
-                    <label for="toggle-tracks-by-year"><span id="toggle-tracks-by-year">> @StringLocalizer["TracksByYear"]</span></label>
+                    <label for="toggle-genres"><span id="toggle-genres" class="checked"><i class="fas fa-chevron-right"></i> @StringLocalizer["Genres"]</span></label>
+                    <label for="toggle-artists"><span id="toggle-artists"><i class="fas fa-chevron-right"></i> @StringLocalizer["Artists"]</span></label>
+                    <label for="toggle-tracks-by-year"><span id="toggle-tracks-by-year"><i class="fas fa-chevron-right"></i> @StringLocalizer["TracksByYear"]</span></label>
                 </div>
             </div>
             <div class="column scrollable">
@@ -52,7 +52,7 @@
         </div>
         <div id="get-favorites" class="row">
             <div class="column">
-                <p><span id="reset-favorites">> @StringLocalizer["FetchOtherFavorites"]</span></p>
+                <p><span id="reset-favorites"><i class="fas fa-chevron-right"></i> @StringLocalizer["FetchOtherFavorites"]</span></p>
             </div>
         </div>
         <div id="favorites" class="row">
@@ -69,6 +69,8 @@
 </div>
 
 @section Styles  {
+    <link rel="preload" href="~/content/images/Sunrise.jpg" as="image">
+
     <environment include="Development">
         <link rel="stylesheet" type="text/css" href="~/css/spotify.css" asp-append-version="true">
     </environment>
@@ -77,6 +79,7 @@
         <link rel="stylesheet" type="text/css" href="~/bundle/css/spotify.min.css" asp-append-version="true">
     </environment>
 }
+
 @section Scripts {
     <environment include="Development">
         <script async src="~/js/spotify-ie.js" asp-append-version="true"></script>

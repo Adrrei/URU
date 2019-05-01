@@ -15,6 +15,12 @@
         <link rel="stylesheet" type="text/css" href="~/bundle/css/layout.min.css" asp-append-version="true">
     </environment>
 
+    <link rel="preload" href="~/content/fonts/raleway/raleway-v12-latin-700.woff2" as="font" crossorigin>
+    <link rel="preload" href="~/content/fonts/webfonts/fa-solid-900.woff2" as="font" crossorigin>
+    <link rel="preload" href="~/content/fonts/open-sans/open-sans-v15-latin-regular.woff2" as="font" crossorigin>
+    <link rel="preload" href="~/content/fonts/open-sans/open-sans-v15-latin-700.woff2" as="font" crossorigin>
+    <link rel="preload" href="~/content/fonts/poppins/poppins-v5-latin-regular.woff2" as="font" crossorigin>
+
     @RenderSection("Styles", required: false)
 
     <meta title="URU" http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -56,10 +62,10 @@
         @RenderBody()
     </main>
 
+    @RenderSection("Scripts", required: false)
+
     <footer>
         <h1><a class="footer-logo" asp-action="Index" asp-controller="Home">URU</a></h1>
     </footer>
-
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

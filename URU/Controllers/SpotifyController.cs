@@ -24,7 +24,7 @@ namespace URU.Controllers
             _stringLocalizer = stringLocalizer;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             ViewBag.Title = _stringLocalizer["TitleSpotify"];
 
@@ -35,22 +35,9 @@ namespace URU.Controllers
                 PlaylistId = sectionSpotify["ExquisiteEdmId"],
             };
 
-            Spotify spotify = new Spotify(_configuration);
-
-            string spotifyUrl = spotify.GetEndpoint(user, Method.GetPlaylist);
-            Playlist exquisiteEdm = await spotify.GetSpotify<Playlist>(spotifyUrl);
-
-            Playlist playlist = new Playlist()
-            {
-                Name = exquisiteEdm.Name,
-                Uri = exquisiteEdm.Uri,
-                Total = exquisiteEdm.Tracks.Total
-            };
-
             SpotifyViewModel spotifyViewModel = new SpotifyViewModel
             {
-                User = user,
-                ExquisiteEdm = playlist
+                User = user
             };
 
             return View(spotifyViewModel);
@@ -210,7 +197,7 @@ namespace URU.Controllers
                 string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist);
                 Playlist playlist = await _spotify.GetSpotify<Playlist>(spotifyUrl);
 
-                var data = await _spotify.GetIdDurationArtists<Playlist>(user, playlist.Tracks.Total);
+                var data = await _spotify.GetDetailsArtists<Playlist>(user, playlist.Tracks.Total);
 
                 return Json(data);
             }

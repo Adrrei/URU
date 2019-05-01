@@ -188,7 +188,7 @@ namespace URU.Models
             return default;
         }
 
-        public async Task<dynamic> GetIdDurationArtists<T>(User user, long numberOfSongsInPlaylist)
+        public async Task<dynamic> GetDetailsArtists<T>(User user, long numberOfSongsInPlaylist)
         {
             if (user == null)
                 return default;
@@ -218,6 +218,7 @@ namespace URU.Models
 
             var artistsCount = new Dictionary<string, (int, string)>();
             long milliseconds = 0;
+            long songs = 0;
 
             try
             {
@@ -231,6 +232,7 @@ namespace URU.Models
 
                     foreach (var item in playlist.Items)
                     {
+                        songs++;
                         milliseconds += item.Track.DurationMs;
                         foreach (var artist in item.Track.Artists)
                         {
@@ -251,7 +253,8 @@ namespace URU.Models
                 var data = new
                 {
                     Artists = artistsCount.OrderByDescending(a => a.Value).Take(75).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-                    Time = hours
+                    Time = hours,
+                    Songs = songs
                 };
 
                 return data;

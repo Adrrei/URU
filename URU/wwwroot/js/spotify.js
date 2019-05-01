@@ -1,63 +1,79 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿'use strict';
+
+document.addEventListener('DOMContentLoaded', function () {
     getGenres();
     getFavorites();
     getTracksByYear();
-    getIdDurationArtists();
+    getDetailsArtists();
 
     let favorites = document.getElementById('reset-favorites');
     favorites.addEventListener('click', function () {
         getFavorites();
     });
 
-    let toggleArtists = document.getElementById('toggle-artists');
-    let toggleGenres = document.getElementById('toggle-genres');
-    let toggleTracksByYear = document.getElementById('toggle-tracks-by-year');
-    let tableArtists = document.getElementById('artists');
     let tableGenres = document.getElementById('genres');
+    let toggleGenres = document.getElementById('toggle-genres');
+    let tableArtists = document.getElementById('artists');
+    let toggleArtists = document.getElementById('toggle-artists');
     let tableTracksByYear = document.getElementById('tracks-by-year');
-
-    toggleArtists.addEventListener('click', function () {
-        tableArtists.classList.remove('hidden');
-        tableGenres.classList.add('hidden');
-        tableTracksByYear.classList.add('hidden');
-
-        toggleArtists.classList.add('checked');
-        toggleGenres.classList.remove('checked');
-        toggleTracksByYear.classList.remove('checked');
-    });
+    let toggleTracksByYear = document.getElementById('toggle-tracks-by-year');
 
     toggleGenres.addEventListener('click', function () {
-        tableGenres.classList.remove('hidden');
-        tableArtists.classList.add('hidden');
-        tableTracksByYear.classList.add('hidden');
+        prepareTable(tableGenres, tableArtists, tableTracksByYear, toggleGenres, toggleArtists, toggleTracksByYear, 1);
+    });
 
-        toggleGenres.classList.add('checked');
-        toggleArtists.classList.remove('checked');
-        toggleTracksByYear.classList.remove('checked');
+    toggleArtists.addEventListener('click', function () {
+        prepareTable(tableGenres, tableArtists, tableTracksByYear, toggleGenres, toggleArtists, toggleTracksByYear, 2);
     });
 
     toggleTracksByYear.addEventListener('click', function () {
-        tableTracksByYear.classList.remove('hidden');
-        tableArtists.classList.add('hidden');
-        tableGenres.classList.add('hidden');
-
-        toggleTracksByYear.classList.add('checked');
-        toggleArtists.classList.remove('checked');
-        toggleGenres.classList.remove('checked');
+        prepareTable(tableGenres, tableArtists, tableTracksByYear, toggleGenres, toggleArtists, toggleTracksByYear, 3);
     });
 
     handleLocalStorage();
 });
 
-function getIdDurationArtists() {
-    let playtime = getItemFromStorage('Playtime');
-    let artists = getItemFromStorage('Artists');
+function prepareTable(tableGenres, tableArtists, tableTracksByYear, toggleGenres, toggleArtists, toggleTracksByYear, id) {
+    if (id === 1) {
+        tableGenres.classList.remove('hidden');
+        toggleGenres.classList.add('checked');
+    } else {
+        tableGenres.classList.add('hidden');
+        toggleGenres.classList.remove('checked');
+    }
 
-    if (playtime && artists) {
-        document.getElementsByClassName('loading')[0].classList.remove('loading');
-        document.getElementById('hours').textContent = playtime.hours;
+    if (id === 2) {
+        tableArtists.classList.remove('hidden');
+        toggleArtists.classList.add('checked');
+    } else {
+        tableArtists.classList.add('hidden');
+        toggleArtists.classList.remove('checked');
+    }
 
-        createTable(artists.artists, 'artists');
+    if (id === 3) {
+        tableTracksByYear.classList.remove('hidden');
+        toggleTracksByYear.classList.add('checked');
+    } else {
+        tableTracksByYear.classList.add('hidden');
+        toggleTracksByYear.classList.remove('checked');
+    }
+}
+
+function getDetailsArtists() {
+    let localPlaytime = getItemFromStorage('Playtime');
+    let localSongs = getItemFromStorage('Songs');
+    let localArtists = getItemFromStorage('Artists');
+
+    if (localPlaytime && localSongs && localArtists) {
+        let displayHours = document.getElementById('hours');
+        displayHours.textContent = localPlaytime.hours;
+        displayHours.classList.remove('loading');
+
+        let displaySongs = document.getElementById('songs');
+        displaySongs.textContent = localSongs.songs;
+        displaySongs.classList.remove('loading');
+
+        createTable(localArtists.artists, 'artists');
         return;
     }
 
@@ -66,24 +82,31 @@ function getIdDurationArtists() {
             return response.json();
         })
         .then(function (responseJson) {
-            document.getElementsByClassName('loading')[0].classList.remove('loading');
-
             let hours = responseJson.time;
-            document.getElementById('hours').textContent = hours;
+            let songs = responseJson.songs;
+
+            let displayHours = document.getElementById('hours');
+            displayHours.textContent = hours;
+            displayHours.classList.remove('loading');
+
+            let displaySongs = document.getElementById('songs');
+            displaySongs.textContent = songs;
+            displaySongs.classList.remove('loading');
 
             let artists = responseJson.artists;
             createTable(artists, 'artists');
 
             setItemInStorage('Playtime', { hours: hours });
+            setItemInStorage('Songs', { songs: songs });
             setItemInStorage('Artists', { artists: artists });
         });
 }
 
 function getTracksByYear() {
-    let tracksByYear = getItemFromStorage('TracksByYear');
+    let localTracksByYear = getItemFromStorage('TracksByYear');
 
-    if (tracksByYear) {
-        createTable(tracksByYear.tracks, 'tracks-by-year');
+    if (localTracksByYear) {
+        createTable(localTracksByYear.tracks, 'tracks-by-year');
         return;
     }
 
@@ -240,6 +263,6 @@ function setItemInStorage(dataKey, data) {
 }
 
 function getItemFromStorage(dataKey) {
-    var data = localStorage.getItem(dataKey);
+    let data = localStorage.getItem(dataKey);
     return data ? JSON.parse(data) : null;
 }
