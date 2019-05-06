@@ -1,17 +1,23 @@
-﻿html, body {
+﻿* {
+    box-sizing: border-box;
+}
+
+html, body {
     color: #4f4f4f;
     min-height: 100vh;
+    height: 100vh;
     margin: 0;
+    padding: 0;
+}
+
+main {
+    flex: auto;
 }
 
 body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-main {
-    flex: auto;
 }
 
 p {
@@ -66,7 +72,7 @@ h2 a {
 }
 
 ::selection {
-    background: #ba9c8f;
+    background: #b19a91;
     color: #FFF;
 }
 
@@ -75,7 +81,7 @@ iframe::selection {
 }
 
 a::selection {
-    background: #caa190;
+    background: #bba69d;
 }
 
 .card-object-image::selection {

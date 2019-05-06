@@ -121,7 +121,7 @@
     <value>Who</value>
   </data>
   <data name="DeepLearningDescription" xml:space="preserve">
-    <value>Identify and track fish with deep learning, a subset of machine learning. The solution can be applied to any other object as well.</value>
+    <value>Identify and track fish with deep learning, a subset of machine learning.</value>
   </data>
   <data name="DeepLearningTitle" xml:space="preserve">
     <value>Employing Deep Learning for Fish Recognition</value>
@@ -163,7 +163,7 @@
     <value>Further Back</value>
   </data>
   <data name="IamADeveloper" xml:space="preserve">
-    <value>I'm a full-stack software developer living in Bergen, Norway, and working for &lt;a href="https://www.vitecsoftware.com/no/produktomrade/auto/"&gt;Vitec Infoeasy AS&lt;/a&gt;.</value>
+    <value>I'm a full-stack software developer living in Bergen, Norway, currently working for &lt;a href="https://www.vitecsoftware.com/no/produktomrade/auto/"&gt;Vitec Infoeasy AS&lt;/a&gt;.</value>
   </data>
   <data name="Knowledge" xml:space="preserve">
     <value>Knowledge</value>
@@ -190,6 +190,24 @@
     <value>URU is a 'creative space' where I publish some of my smaller projects, either for own use or for the benefit of others.</value>
   </data>
   <data name="YouCanReachMeHere" xml:space="preserve">
-    <value>You can reach me at my email: &lt;span id="info"&gt;&lt;/span&gt;, as well as on &lt;a href="https://www.linkedin.com/in/adrianreithaug/"&gt;LinkedIn&lt;/a&gt;.</value>
+    <value>You can reach me at my email: &lt;span id="info-localize"&gt;&lt;/span&gt;, as well as on &lt;a href="https://www.linkedin.com/in/adrrei/"&gt;LinkedIn&lt;/a&gt;.</value>
+  </data>
+  <data name="AboutMe" xml:space="preserve">
+    <value>About Me</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FullStackDeveloper" xml:space="preserve">
+    <value>Full-stack developer.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Norsk</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Bergen, Norway.</value>
   </data>
 </root>

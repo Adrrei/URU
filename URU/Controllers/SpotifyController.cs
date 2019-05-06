@@ -72,9 +72,10 @@ namespace URU.Controllers
                 string spotifyUrl = _spotify.GetEndpoint(user, Method.GetPlaylist, parameters);
                 Playlist favorites = await _spotify.GetSpotify<Playlist>(spotifyUrl);
 
+                Random random = new Random();
                 var result = new
                 {
-                    Favorites = favorites.Tracks.Items.Select(t => t.Track.Id)
+                    Favorites = favorites.Tracks.Items.Select(t => t.Track.Id).OrderBy(order => random.Next())
                 };
 
                 return Json(result);

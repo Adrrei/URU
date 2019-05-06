@@ -246,6 +246,30 @@ readers do not read off random characters that represent icons */
     content: "\f013";
 }
 
+.fa-github:before {
+    content: "\f09b";
+}
+
+.fa-linkedin:before {
+    content: "\f08c";
+}
+
+.fa-envelope:before {
+    content: "\f0e0";
+}
+
+.fa-archive:before {
+    content: "\f187";
+}
+
+.fa-portrait:before {
+    content: "\f3e0";
+}
+
+.fa-globe-americas:before {
+    content: "\f57d";
+}
+
 .sr-only {
     border: 0;
     clip: rect(0, 0, 0, 0);

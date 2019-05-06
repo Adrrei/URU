@@ -161,16 +161,14 @@ function getFavorites() {
         });
 }
 
+let next = 0;
 function displayFavorites(songs) {
     let ids = [];
-    for (let i = 0; i < 4; i++) {
-        let position = randomNumber(songs.length);
-
-        while (ids.includes(position)) {
-            position = randomNumber(songs.length);
+    for (let i = 0; i < 5; i++) {
+        if (next++ > songs.length - 1) {
+            next = 0;
         }
-
-        ids.push(position);
+        ids.push(songs.splice(next, 1));
     }
 
     let width = window.innerWidth;
@@ -194,7 +192,7 @@ function displayFavorites(songs) {
 
     for (let i = 0; i < 4; i++) {
         let iframe = document.createElement('iframe');
-        iframe.src = 'https://open.spotify.com/embed/track/' + songs[ids[i]];
+        iframe.src = 'https://open.spotify.com/embed/track/' + ids[i];
         iframe.height = coverHeight;
         iframe.width = coverWidth;
 

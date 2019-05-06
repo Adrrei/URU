@@ -124,7 +124,7 @@
     <value>Prosjekter</value>
   </data>
   <data name="DeepLearningDescription" xml:space="preserve">
-    <value>Gjenkjenning og sporing av fisk med dyp læring, en undergruppe av maskinlæring. Løsningen kan også brukes på hvilket som helst objekt.</value>
+    <value>Gjenkjenning og sporing av fisk med dyp læring, en undergruppe av maskinlæring.</value>
   </data>
   <data name="DeepLearningTitle" xml:space="preserve">
     <value>Bruk av dyp læring til fiskegjenkjenning</value>
@@ -190,6 +190,24 @@
     <value>URU er et 'kreativt sted' hvor jeg legger ut mine mindre prosjekter, enten til egen bruk eller til andres nytte.</value>
   </data>
   <data name="YouCanReachMeHere" xml:space="preserve">
-    <value>Jeg er tilgjengelig på e-post: &lt;span id="info"&gt;&lt;/span&gt;, samt på &lt;a href="https://www.linkedin.com/in/adrianreithaug/"&gt;LinkedIn&lt;/a&gt;.</value>
+    <value>Jeg er tilgjengelig på e-post: &lt;span id="info-localize"&gt;&lt;/span&gt;, samt på &lt;a href="https://www.linkedin.com/in/adrrei/"&gt;LinkedIn&lt;/a&gt;.</value>
+  </data>
+  <data name="AboutMe" xml:space="preserve">
+    <value>Om meg</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>Om</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-post</value>
+  </data>
+  <data name="FullStackDeveloper" xml:space="preserve">
+    <value>Full-stack utvikler.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Bergen, Norge.</value>
   </data>
 </root>

@@ -22,7 +22,6 @@
     <link rel="preload" href="~/content/fonts/poppins/poppins-v5-latin-regular.woff2" as="font" crossorigin>
 
     @RenderSection("Styles", required: false)
-
     <meta title="URU" http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="author" content="Adrian Reithaug">
     <meta name="description" content="URU - A creative space.">
@@ -61,11 +60,6 @@
     <main>
         @RenderBody()
     </main>
-
     @RenderSection("Scripts", required: false)
-
-    <footer>
-        <h1><a class="footer-logo" asp-action="Index" asp-controller="Home">URU</a></h1>
-    </footer>
 </body>
 </html>

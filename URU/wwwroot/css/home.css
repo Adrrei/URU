@@ -1,95 +1,162 @@
-﻿/* ------------------------------
-// GENERAL
+﻿nav {
+    display: none;
+}
+
+/* ------------------------------
+// MAIN
 ------------------------------ */
-
-* {
-    box-sizing: border-box;
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(/content/images/Landing.jpg) no-repeat center center fixed;
+    background-size: cover;
+    color: #FFF;
+    color: #4f4f4f;
 }
 
-html, body {
-    padding: 0;
-    margin: 0;
+#wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-nav {
-    z-index: 1;
+    #wrapper p {
+        margin: 0.25em;
+        padding: 0.25em;
+    }
+
+#main {
+    display: flex;
+    color: #FFF;
+    justify-content: center;
+    align-items: center;
 }
 
-    nav ul li a {
+    #main .content {
+        margin: 1em 0 1em 0;
+        text-align: center;
+    }
+
+#about, #projects {
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow: hidden auto;
+}
+
+.right-sidebar {
+    flex: auto;
+    height: 100vh;
+    padding: 0 2em 0 2em;
+    background-color: #FFF;
+}
+
+    .right-sidebar .content {
+        width: 620px;
+        min-width: 50%;
+        max-width: 100%;
+    }
+
+.use-sidebar #main {
+    width: 75vh;
+}
+
+#social {
+    margin: -0.75em 0 1em 0;
+    text-align: center;
+}
+
+    #social a:hover {
+        color: #c84d59;
+        opacity: 0.75;
+    }
+
+i {
+    font-size: 1em;
+    margin: -2em 0.25em 0 0.25em;
+}
+
+#bio {
+    text-align: center;
+    margin: 1em 0 1em 0;
+}
+
+    #bio p {
         color: #FFF;
     }
 
-        nav ul li a:hover {
-            color: #4f4f4f;
-        }
+#buttons {
+    text-align: center;
+    margin: 1em 0 0 0;
+}
+
+    #buttons span {
+        cursor: pointer;
+    }
+
+.button {
+    border: 1px solid #FFF;
+    border-radius: 1em;
+    padding: 0.5em;
+    color: #FFF;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+    .button:hover {
+        text-decoration: none;
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+#info-localize {
+    color: #c84d59;
+}
+
+.hidden {
+    display: none;
+}
 
 /* ------------------------------
-// PARALLAX
+// MEDIA QUERIES MAIN
 ------------------------------ */
-
-.parallax {
-    align-items: center;
-    background-attachment: fixed;
-    background-color: #C84D59;
-    background-position: center center center center;
-    color: #FFF;
-    display: flex;
-    height: 10vh;
-    justify-content: center;
-}
-
-.parallax-hero {
-    margin-top: -5rem;
-    background-color: #FFF;
-    background: url("/content/images/Hero.jpg") no-repeat center center fixed;
-    height: 32vh;
-    background-size: cover;
-}
-
-    .parallax-hero h1 {
-        font-size: 4rem;
+@media (max-width: 1180px), (max-height: 282px) {
+    #wrapper {
+        flex-direction: column;
     }
 
-.parallax-content {
-    font-family: 'Poppins';
-    opacity: 0.9;
-    text-align: center;
-    text-transform: uppercase;
-    color: #FFF;
-}
-
-    .parallax-content h1 {
-        font-size: 4rem;
+    #main {
+        min-height: unset;
     }
 
-    .parallax-content h2 {
-        font-size: 2rem;
+    #about, #projects {
+        height: 100%;
+        width: 100%;
+        margin-top: 2em;
+        padding: 1em 2em 2em 2em;
+        min-height: unset;
     }
 
-/* ------------------------------
-// ABOUT SECTION
------------------------------- */
+    .right-sidebar .content {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin: auto;
+    }
 
-.container {
-    margin: 0 0.5em 0 0.5em;
-    text-align: center;
+    .use-sidebar #main {
+        width: 100%;
+    }
+
+    #bio {
+        display: none;
+    }
 }
 
-.container-body {
-    max-width: 90%;
-    width: 800px;
-    display: inline-block;
-    text-align: left;
-}
-
-#info {
-    color: #C84D59;
+@media (max-width: 740px) {
+    .right-sidebar .content {
+        width: 100%;
+    }
 }
 
 /* ------------------------------
 // PROJECT SECTION
 ------------------------------ */
-
 .project-container {
     margin: 1em auto 0;
     width: 800px;
@@ -175,30 +242,17 @@ nav {
 }
 
 /* ------------------------------
-// MEDIA QUERIES
+// MEDIA QUERIES PROJECT
 ------------------------------ */
-
 @media (max-width: 830px) {
     .project-container {
         width: 730px;
-    }
-
-    .container {
-        margin: 0 1rem;
     }
 }
 
 @media (max-width: 770px) {
     .project-container {
         width: 620px;
-    }
-
-    .parallax-content h1 {
-        font-size: 3rem;
-    }
-
-    .parallax-content h2 {
-        font-size: 1.8rem;
     }
 }
 
@@ -228,10 +282,6 @@ nav {
     .card {
         height: 140px;
     }
-
-    h1 {
-        font-size: 1.5rem;
-    }
 }
 
 @media (max-width: 450px) {
@@ -249,14 +299,6 @@ nav {
 
     h2 a {
         font-size: 1.2rem;
-    }
-
-    .parallax-content h1 {
-        font-size: 2rem;
-    }
-
-    .parallax-content h2 {
-        font-size: 1.4rem;
     }
 }
 
