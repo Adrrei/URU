@@ -1,4 +1,8 @@
-﻿/* ------------------------------
+﻿nav {
+    margin-bottom: -2em;
+}
+
+/* ------------------------------
 // GENERAL
 ------------------------------ */
 
@@ -6,30 +10,27 @@ body {
     background-color: #0e0e0e;
 }
 
-nav {
-    z-index: 1;
-    margin-bottom: 1em;
+main {
+    margin: 0;
 }
 
-    nav ul li a {
-        color: #FFF;
+nav ul li a {
+    color: #FFF;
+}
+
+    nav ul li a:hover {
+        color: #c84d59;
     }
 
-        nav ul li a:hover {
-            color: #c84d59;
-        }
-
 .banner {
-    align-items: center;
     background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(/content/images/Sunrise.jpg) no-repeat center center fixed;
     background-size: cover;
     color: #FFF;
-    display: flex;
     font-family: Poppins;
-    justify-content: center;
     min-height: 100vh;
+    justify-content: center;
+    display: flex;
     padding: 0 2em 0 2em;
-    margin-top: -5em;
 }
 
 .content {
@@ -45,7 +46,7 @@ nav {
 }
 
     .row:first-of-type {
-        margin-top: 5em;
+        margin-top: 2em;
     }
 
 .column {
@@ -67,7 +68,6 @@ nav {
     #title:hover {
         color: #c84d59;
         text-decoration: none;
-        text-shadow: 1px 0 0 #eaeaea, -1px 0 0 #eaeaea, 0 1px 0 #eaeaea, 0 -1px 0 #eaeaea, 1px 1px #eaeaea, -1px -1px 0 #eaeaea, 1px -1px 0 #eaeaea, -1px 1px 0 #eaeaea;
     }
 
 #description {
@@ -76,7 +76,7 @@ nav {
 
 #details {
     font-size: 1.3em;
-    padding: 0.5em 0 0 1em;
+    padding: 0 0 0 0.5em;
 }
 
     #details span {
@@ -88,13 +88,13 @@ nav {
 ------------------------------ */
 
 #toggle {
-    margin: 0 0 0 -0.6em;
+    margin: 1em 0 0 -0.6em;
 }
 
 label {
     color: #FFF;
     display: flex;
-    font-size: 1.3em;
+    font-size: 1.1em;
     margin: 1em 0 0 1em;
 }
 
@@ -248,7 +248,7 @@ table {
 #reset-favorites {
     color: #FFF;
     font-family: Poppins;
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin: 1em 0 0 0.5em;
     max-width: 1380px;
 }
@@ -319,14 +319,19 @@ table {
     table {
         margin: auto;
         width: 34em;
+        margin-top: 1em;
     }
 
         table tbody {
-            height: 501px;
+            height: 528px;
         }
 
+    #get-favorites {
+        margin-top: 1em;
+    }
+
     #reset-favorites {
-        margin: 1.5em 0 1em 0;
+        margin: 0;
     }
 
     #favorites {
@@ -352,6 +357,18 @@ table {
 }
 
 @media (max-width: 883px) {
+    .banner {
+        display: block;
+    }
+
+    #title {
+        font-size: 4em;
+    }
+
+    #get-favorites {
+        margin: 1em 0 -1em 0;
+    }
+
     #favorites .column {
         flex-basis: 45%;
         margin-left: 0;
@@ -374,6 +391,10 @@ table {
 }
 
 @media (max-width: 620px) {
+    .row:first-of-type {
+        margin-top: 2.5em;
+    }
+
     #title {
         font-size: 3em;
     }
@@ -382,17 +403,20 @@ table {
         margin-top: 1em;
         width: 26em;
     }
+
+    #details {
+        font-size: 1em;
+    }
 }
 
 @media (max-width: 450px) {
-    #details span {
-        display: flex;
-        justify-content: center;
+    #title {
+        font-size: 2.3em;
     }
 
-        #details span:nth-child(2) {
-            padding: 0;
-        }
+    #details span:nth-child(2) {
+        padding: 0;
+    }
 
     #toggle {
         margin: 0 0 0.5em -1.5em;
@@ -408,6 +432,10 @@ table {
 }
 
 @media (max-width: 360px) {
+    #title {
+        font-size: 1.9em;
+    }
+
     table {
         width: 16em;
     }
@@ -415,4 +443,15 @@ table {
     #favorites .column iframe {
         width: 260px;
     }
+
+    #toggle label {
+        display: flex;
+        justify-content: center;
+        margin: 0.4em 0 0.4em 0;
+        padding: 0;
+    }
+
+        #toggle label:last-of-type {
+            margin: 0;
+        }
 }

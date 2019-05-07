@@ -1,8 +1,4 @@
-﻿nav {
-    display: none;
-}
-
-/* ------------------------------
+﻿/* ------------------------------
 // MAIN
 ------------------------------ */
 body {
@@ -87,10 +83,6 @@ i {
     margin: 1em 0 0 0;
 }
 
-    #buttons span {
-        cursor: pointer;
-    }
-
 .button {
     border: 1px solid #FFF;
     border-radius: 1em;
@@ -100,6 +92,7 @@ i {
 }
 
     .button:hover {
+        cursor: pointer;
         text-decoration: none;
         background-color: rgba(255, 255, 255, 0.3);
     }
@@ -115,7 +108,7 @@ i {
 /* ------------------------------
 // MEDIA QUERIES MAIN
 ------------------------------ */
-@media (max-width: 1180px), (max-height: 282px) {
+@media (max-width: 1180px), (max-height: 300px) {
     #wrapper {
         flex-direction: column;
     }

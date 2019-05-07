@@ -51,12 +51,17 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a class="logo" asp-controller="Home" asp-action="Index">URU</a></li>
-            <li><a href="@Url.Action("SetLanguage", "Home", new { returnUrl = Context?.Request?.Path })"><i class="fas fa-cog"></i> @StringLocalizer["SelectedLanguage"]</a></li>
-        </ul>
-    </nav>
+    @if (!ViewBag.Title.Equals("URU"))
+    {
+        <nav class="menu">
+            <ul class="nav-left">
+                <li><a class="logo" asp-controller="Home" asp-action="Index">URU</a></li>
+            </ul>
+            <ul class="nav-right">
+                <li><a href="@Url.Action("SetLanguage", "Home" , new { returnUrl=Context?.Request?.Path })"><i class="fas fa-globe-americas"></i> @StringLocalizer["SelectedLanguage"]</a></li>
+            </ul>
+        </nav>
+    }
     <main>
         @RenderBody()
     </main>
