@@ -97,7 +97,7 @@ input {
     opacity: 0.5;
     pointer-events: none;
     position: absolute;
-    top: 50%;
+    top: 44.5%;
     transform: translate(-50%, -70%);
 }
 
@@ -137,7 +137,7 @@ input {
     }
 
     input {
-        width: 14.5em;
+        width: 14em;
     }
 
     td {
@@ -148,40 +148,30 @@ input {
     #results {
         animation-name: fadeInResult600;
         font-size: 16em;
-        top: 44.5%;
+        top: 39%;
         transform: translate(-50%, -100%);
-    }
-}
-
-@media (max-width: 523px) {
-    #results {
-        transform: translate(-50%, -51%);
     }
 }
 
 @media (max-width: 490px) {
     input {
-        width: 14.5em;
+        width: 14em;
     }
 
     .row > p:first-child, .row > p:last-child {
         flex: 1;
         margin: 1em 0 0 0;
     }
-
-    #results {
-        transform: translate(-50%, -50%);
-    }
 }
 
-@media (max-width: 340px) {
+@media (max-width: 359px) {
     td {
         height: 3.5em;
         width: 3.5em;
     }
 
     input {
-        width: 12.6em;
+        width: 85%;
     }
 
     .row > p:first-child, .row > p:last-child {
@@ -191,6 +181,6 @@ input {
 
     #results {
         font-size: 16em;
-        transform: translate(-50%, -55%);
+        top: 37%;
     }
 }
