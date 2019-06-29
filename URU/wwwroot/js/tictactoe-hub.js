@@ -19,8 +19,10 @@ connection.onclose(async () => {
 });
 
 connection.on('ReceiveWinner', function (player, winner) {
-    if (player.item1 !== '') {
-        document.getElementById(player.item1 + '-score').textContent = ' (' + player.item2 + ')';
+    player = JSON.parse(player);
+
+    if (player.Item1 !== '') {
+        document.getElementById(player.Item1 + '-score').textContent = ' (' + player.Item2 + ')';
     }
 
     document.getElementById('results').classList.toggle('invisible');
@@ -35,15 +37,18 @@ connection.on('ReceiveWinner', function (player, winner) {
 
 connection.on('ReceiveScores', function (players) {
     for (let i = 0; i < players.length; i++) {
-        var playerScore = document.getElementById(players[i].item1 + '-score');
+        var playerScore = document.getElementById(players[i].Item1 + '-score');
 
         if (playerScore) {
-            playerScore.textContent = ' (' + players[i].item2 + ')';
+            playerScore.textContent = ' (' + players[i].Item2 + ')';
         }
     }
 });
 
 connection.on('ReceiveBoard', function (board, playerMoves) {
+    playerMoves = JSON.parse(playerMoves);
+    board = JSON.parse(board);
+
     let gameBoard = document.getElementById('board').children;
 
     for (let i = 0; i < 3; i++) {
@@ -54,9 +59,9 @@ connection.on('ReceiveBoard', function (board, playerMoves) {
     }
 
     for (let i = 0; i < playerMoves.length; i++) {
-        let icon = document.getElementById(playerMoves[i].item1 + '-tag');
-        if (icon && icon.id.includes(playerMoves[i].item1)) {
-            icon.textContent = playerMoves[i].item2 + ' - ';
+        let icon = document.getElementById(playerMoves[i].Item1 + '-tag');
+        if (icon && icon.id.includes(playerMoves[i].Item1)) {
+            icon.textContent = playerMoves[i].Item2 + ' - ';
         }
     }
 });

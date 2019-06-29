@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -118,7 +119,7 @@ namespace URU.Hubs
 
             _gameStates[groupName] = grid;
 
-            await Clients.Group(groupName).SendAsync("ReceiveBoard", grid, playerMoves);
+            await Clients.Group(groupName).SendAsync("ReceiveBoard", JsonConvert.SerializeObject(grid), JsonConvert.SerializeObject(playerMoves));
         }
 
         public async Task InitializeBoard(string groupName)
@@ -142,7 +143,7 @@ namespace URU.Hubs
 
             _gameStates[groupName] = grid;
 
-            await Clients.Group(groupName).SendAsync("ReceiveBoard", grid, playerMoves);
+            await Clients.Group(groupName).SendAsync("ReceiveBoard", JsonConvert.SerializeObject(grid), JsonConvert.SerializeObject(playerMoves));
         }
 
         public async Task CheckWinner(string groupName)
@@ -200,7 +201,7 @@ namespace URU.Hubs
             if (finished || !winner.Equals("T"))
             {
                 _gameStates[groupName] = null;
-                await Clients.Group(groupName).SendAsync("ReceiveWinner", (player, score), winner);
+                await Clients.Group(groupName).SendAsync("ReceiveWinner", JsonConvert.SerializeObject((player, score)), winner);
             }
         }
 

@@ -74,9 +74,10 @@ namespace URU
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseSignalR(routes =>
+            app.UseRouting();
+            app.UseEndpoints(config =>
             {
-                routes.MapHub<GameHub>("/gameHub");
+                config.MapHub<GameHub>("/gameHub");
             });
 
             app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");

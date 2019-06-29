@@ -111,6 +111,7 @@ namespace URU.Controllers
                 Dictionary<string, (long, string)> edmPlaylists = new Dictionary<string, (long, string)>();
                 List<string> genres = new List<string>
                 {
+                    "Bass House",
                     "Big Room",
                     "Breakbeat",
                     "Dance",
@@ -126,6 +127,7 @@ namespace URU.Controllers
                     "House",
                     "Progressive House",
                     "Indie Dance / Nu Disco",
+                    "Tech House",
                     "Trance",
                     "Trap"
                 };
