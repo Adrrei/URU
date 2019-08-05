@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.89
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URU", "URU\URU.csproj", "{60A5A9D7-A814-4AC5-AF8B-BDA8F40CA315}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URU", "src\URU\URU.csproj", "{60A5A9D7-A814-4AC5-AF8B-BDA8F40CA315}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URU.Client", "src\URU.Client\URU.Client.csproj", "{506B7A20-AC77-474D-8487-6791390694B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URU.Models", "src\URU.Models\URU.Models.csproj", "{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3E42623D-2167-4D4C-9F47-EE77582369D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F9A7F6D7-E190-4E0F-B00F-D70CA9A81717}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,15 +23,28 @@ Global
 		{60A5A9D7-A814-4AC5-AF8B-BDA8F40CA315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60A5A9D7-A814-4AC5-AF8B-BDA8F40CA315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60A5A9D7-A814-4AC5-AF8B-BDA8F40CA315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{506B7A20-AC77-474D-8487-6791390694B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{506B7A20-AC77-474D-8487-6791390694B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{506B7A20-AC77-474D-8487-6791390694B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{506B7A20-AC77-474D-8487-6791390694B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60A5A9D7-A814-4AC5-AF8B-BDA8F40CA315} = {3E42623D-2167-4D4C-9F47-EE77582369D3}
+		{506B7A20-AC77-474D-8487-6791390694B9} = {3E42623D-2167-4D4C-9F47-EE77582369D3}
+		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C} = {3E42623D-2167-4D4C-9F47-EE77582369D3}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_ResXSortingComparison = Ordinal
-		RESX_SortFileContentOnSave = True
-		RESX_NeutralResourcesLanguage = nb-NO
-		SolutionGuid = {3CE86441-020C-4FF0-8DA5-93D699959447}
 		RESX_AutoCreateNewLanguageFiles = True
+		SolutionGuid = {3CE86441-020C-4FF0-8DA5-93D699959447}
+		RESX_NeutralResourcesLanguage = nb-NO
+		RESX_SortFileContentOnSave = True
+		RESX_ResXSortingComparison = Ordinal
 	EndGlobalSection
 EndGlobal
