@@ -1,0 +1,30 @@
+﻿<div class="container">
+
+    @model int
+    @{
+        switch (Model)
+        {
+            case 404:
+                ViewData["Title"] = @StringLocalizer["PageNotFound"];
+        <h1>@StringLocalizer["Generic"]</h1>
+        <h2>@StringLocalizer["PageNotFoundDescription"]</h2>
+                break;
+            case 500:
+            default:
+                ViewData["Title"] = @StringLocalizer["InternalServerError"];
+        <h1>@StringLocalizer["Generic"]</h1>
+        <h2>@StringLocalizer["InternalServerErrorDescription"]</h2>
+                break;
+        }
+    }
+</div>
+
+@section Styles  {
+    <environment include="Development">
+        <link rel="stylesheet" type="text/css" href="~/css/error.css" asp-append-version="true">
+    </environment>
+
+    <environment exclude="Development">
+        <link rel="stylesheet" type="text/css" href="~/bundle/css/error.min.css" asp-append-version="true">
+    </environment>
+}
