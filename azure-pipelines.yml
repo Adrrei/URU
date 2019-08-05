@@ -1,0 +1,46 @@
+trigger:
+- master
+
+jobs:
+- job: Build
+  displayName: 'Versioning, Docker'
+  timeoutInMinutes: 10
+  pool:
+    vmImage: 'ubuntu-latest'
+  variables:
+  - group: uru
+  - name: image_name
+    value: uru
+
+  steps:  
+  # 1a. Generate Release Version
+  - script: npx semantic-release --verifyConditions "@semantic-release/github" --prepare "" --publish "@semantic-release/github"
+    displayName: 'Initialize Semantic Release'
+    condition: ne(variables['Build.Reason'], 'PullRequest')
+    env:
+      GITHUB_TOKEN: $(gitHub_token)
+
+  # 1b. Set Release Version
+  - script: |
+      Tags=$(git describe --tags)
+      IFS='-' read -ra image_versionTag <<< "$Tags"
+      echo "##vso[task.setvariable variable=image_versionType;]latest"
+      echo "##vso[task.setvariable variable=image_versionSemantic;]${image_versionTag[0]}"
+    displayName: 'Set Release Version Environment Variable'
+    condition: ne(variables['Build.Reason'], 'PullRequest')
+
+  # 1c. Set Pull Request Version
+  - script: |
+      echo "##vso[task.setvariable variable=image_versionType;]latest-pr"
+      echo "##vso[task.setvariable variable=image_versionSemantic;]pr-build"
+    displayName: 'Set Pull Request Version Environment Variable'
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+
+  # 4. Docker Push to ACR
+  - script: |
+      docker build -t $(docker_server)/$(image_name):$(image_versionType) .
+      docker tag $(docker_server)/$(image_name):$(image_versionType) $(docker_server)/$(image_name):$(image_versionSemantic)-$(Build.BuildId)
+      echo "$(docker_password)" | docker login -u $(docker_username) --password-stdin $(docker_server)
+      docker push $(docker_server)/$(image_name):$(image_versionType)
+      docker push $(docker_server)/$(image_name):$(image_versionSemantic)-$(Build.BuildId)
+    displayName: 'Push to Azure Container Registry'
