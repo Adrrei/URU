@@ -4,7 +4,7 @@ trigger:
 jobs:
 - job: Build
   displayName: 'Versioning, Docker'
-  timeoutInMinutes: 10
+  timeoutInMinutes: 15
   pool:
     vmImage: 'ubuntu-latest'
   variables:
@@ -12,15 +12,23 @@ jobs:
   - name: image_name
     value: uru
 
-  steps:  
-  # 1a. Generate Release Version
+  steps:
+  # 1. Run Tests
+  - task: DotNetCoreCLI@2
+    displayName: 'Execute Tests'
+    inputs:
+      command: 'test'
+      projects: '**/tests/*/*Tests.csproj'
+      arguments: '--configuration release'
+
+  # 2a. Generate Release Version
   - script: npx semantic-release --verifyConditions "@semantic-release/github" --prepare "" --publish "@semantic-release/github"
     displayName: 'Initialize Semantic Release'
     condition: ne(variables['Build.Reason'], 'PullRequest')
     env:
       GITHUB_TOKEN: $(gitHub_token)
 
-  # 1b. Set Release Version
+  # 2b. Set Release Version
   - script: |
       Tags=$(git describe --tags)
       IFS='-' read -ra image_versionTag <<< "$Tags"
@@ -29,14 +37,14 @@ jobs:
     displayName: 'Set Release Version Environment Variable'
     condition: ne(variables['Build.Reason'], 'PullRequest')
 
-  # 1c. Set Pull Request Version
+  # 2c. Set Pull Request Version
   - script: |
       echo "##vso[task.setvariable variable=image_versionType;]latest-pr"
       echo "##vso[task.setvariable variable=image_versionSemantic;]pr-build"
     displayName: 'Set Pull Request Version Environment Variable'
     condition: eq(variables['Build.Reason'], 'PullRequest')
 
-  # 4. Docker Push to ACR
+  # 3. Docker Push to ACR
   - script: |
       docker build -t $(docker_server)/$(image_name):$(image_versionType) .
       docker tag $(docker_server)/$(image_name):$(image_versionType) $(docker_server)/$(image_name):$(image_versionSemantic)-$(Build.BuildId)

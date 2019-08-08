@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
     info.href = 'mailto:' + info.title;
     infoLocalize.textContent = info.title;
 
-    preloadSpotify();
-
     let toggleAbout = document.getElementById('toggle-about');
     toggleAbout.addEventListener('click', function () {
         let wrapper = document.getElementById('wrapper');
@@ -63,82 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
-
-function preloadSpotify() {
-    handleLocalStorage();
-
-    new Image().src = '/content/images/Sunrise.jpg';
-
-    if (getItemFromStorage('Playtime'))
-        return;
-
-    try {
-        fetch('/api/Spotify/IdDurationArtists')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (responseJson) {
-                setItemInStorage('Playtime', { hours: responseJson.time });
-                setItemInStorage('Artists', { artists: responseJson.artists });
-            });
-    } catch (e) {
-        // Ignore, as preload is not crucial
-    }
-
-    try {
-        fetch('/api/Spotify/TracksByYear')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (responseJson) {
-                setItemInStorage('TracksByYear', { tracks: responseJson.tracksByYear });
-            });
-    } catch (e) {
-        // Ignore, as preload is not crucial
-    }
-
-    try {
-        fetch('/api/Spotify/Genres')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (responseJson) {
-                setItemInStorage('Genres', { genres: responseJson.genres });
-            });
-    } catch (e) {
-        // Ignore, as preload is not crucial
-    }
-
-    try {
-        fetch('/api/Spotify/Favorites')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (responseJson) {
-                setItemInStorage('Favorites', { favorites: responseJson.favorites });
-            });
-    } catch (e) {
-        // Ignore, as preload is not crucial
-    }
-}
-
-function handleLocalStorage() {
-    let reset = getItemFromStorage('Reset');
-    if (reset) {
-        var currentDate = new Date();
-        var expiryDate = new Date(reset.date);
-
-        if (currentDate > expiryDate) {
-            localStorage.clear();
-        } else {
-            return;
-        }
-    }
-
-    let date = new Date();
-    date.setHours(date.getHours() + 3);
-    setItemInStorage('Reset', { date: date });
-}
 
 function setItemInStorage(dataKey, data) {
     localStorage.setItem(dataKey, JSON.stringify(data));

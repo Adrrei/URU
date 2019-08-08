@@ -58,12 +58,12 @@ namespace URU.Controllers
                 Playlist favorites = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
 
                 Random random = new Random();
-                var result = new
+                Favorites favoriteIds = new Favorites()
                 {
-                    Favorites = favorites.Tracks.Items.Select(t => t.Track.Id).OrderBy(order => random.Next())
+                    Ids = favorites.Tracks.Items.Select(t => t.Track.Id).OrderBy(order => random.Next()).ToArray()
                 };
 
-                return new OkObjectResult(result);
+                return new OkObjectResult(favoriteIds);
             }
             catch
             {
@@ -94,45 +94,24 @@ namespace URU.Controllers
                 user.Offset = personalPlaylists.Items[0].Tracks.Total - 1;
 
                 Dictionary<string, (long, string)> edmPlaylists = new Dictionary<string, (long, string)>();
-                List<string> genres = new List<string>
-                {
-                    "Bass House",
-                    "Big Room",
-                    "Breakbeat",
-                    "Dance",
-                    "Drum & Bass",
-                    "Dubstep",
-                    "Electronica / Downtempo",
-                    "Future Bass",
-                    "Glitch Hop",
-                    "Hard Electronic",
-                    "Deep House",
-                    "Electro House",
-                    "Future House",
-                    "House",
-                    "Progressive House",
-                    "Indie Dance / Nu Disco",
-                    "Tech House",
-                    "Trance",
-                    "Trap"
-                };
+                List<string> listedGenres = new ListedGenres().Genres;
 
                 foreach (var playlist in personalPlaylists.Items.OrderByDescending(t => t.Tracks.Total))
                 {
                     string name = playlist.Name;
-                    bool isValid = genres.Any(id => name.Contains(id));
+                    bool isValid = listedGenres.Any(id => name.Contains(id));
                     if (isValid)
                     {
                         edmPlaylists.Add(name, (playlist.Tracks.Total, playlist.Uri));
                     }
                 }
 
-                var data = new
+                Genres genres = new Genres
                 {
-                    Genres = edmPlaylists
+                    Counts = edmPlaylists
                 };
 
-                return new OkObjectResult(data);
+                return new OkObjectResult(genres);
             }
             catch
             {
@@ -157,9 +136,9 @@ namespace URU.Controllers
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist);
                 Playlist playlist = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
 
-                var data = await SpotifyService.Client.Spotify.GetTracksByYear(user, playlist.Tracks.Total);
+                TracksByYear tracksByYear = await SpotifyService.Client.Spotify.GetTracksByYear(user, playlist.Tracks.Total);
 
-                return new OkObjectResult(data);
+                return new OkObjectResult(tracksByYear);
             }
             catch
             {
@@ -184,9 +163,9 @@ namespace URU.Controllers
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist);
                 Playlist playlist = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
 
-                var data = await SpotifyService.Client.Spotify.GetDetailsArtists<Playlist>(user, playlist.Tracks.Total);
+                Artists artists = await SpotifyService.Client.Spotify.GetDetailsArtists<Playlist>(user, playlist.Tracks.Total);
 
-                return new OkObjectResult(data);
+                return new OkObjectResult(artists);
             }
             catch
             {
