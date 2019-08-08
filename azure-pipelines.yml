@@ -27,13 +27,15 @@ jobs:
       command: 'test'
       projects: '**/tests/*/*Tests.csproj'
       arguments: '--configuration release'
+    env:
+      spotify_clientSecret: $(spotify_clientSecret)
 
   # 3a. Generate Release Version
   - script: npx semantic-release --verifyConditions "@semantic-release/github" --prepare "" --publish "@semantic-release/github"
     displayName: 'Initialize Semantic Release'
     condition: ne(variables['Build.Reason'], 'PullRequest')
     env:
-      GITHUB_TOKEN: $(gitHub_token)
+      GITHUB_TOKEN: $(github_token)
 
   # 3b. Set Release Version
   - script: |
