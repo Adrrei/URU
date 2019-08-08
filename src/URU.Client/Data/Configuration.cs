@@ -16,7 +16,5 @@
         public string FavoritesId { get; set; }
 
         public string ExquisiteEdmId { get; set; }
-
-        public string Domain { get; set; }
     }
 }

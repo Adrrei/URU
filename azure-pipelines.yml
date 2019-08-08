@@ -4,7 +4,7 @@ trigger:
 jobs:
 - job: Build
   displayName: 'Versioning, Docker'
-  timeoutInMinutes: 10
+  timeoutInMinutes: 15
   pool:
     vmImage: 'ubuntu-latest'
   variables:
@@ -12,15 +12,32 @@ jobs:
   - name: image_name
     value: uru
 
-  steps:  
-  # 1a. Generate Release Version
+  steps:
+  # 1. Install .NET SDK 3.x
+  - task: UseDotNet@2
+    displayName: 'Install .NET SDK 3.x'
+    inputs:
+      version: 3.x
+      includePreviewVersions: true
+
+  # 2. Run Tests
+  - task: DotNetCoreCLI@2
+    displayName: 'Execute Tests'
+    inputs:
+      command: 'test'
+      projects: '**/tests/*/*Tests.csproj'
+      arguments: '--configuration release'
+    env:
+      spotify_clientSecret: $(spotify_clientSecret)
+
+  # 3a. Generate Release Version
   - script: npx semantic-release --verifyConditions "@semantic-release/github" --prepare "" --publish "@semantic-release/github"
     displayName: 'Initialize Semantic Release'
     condition: ne(variables['Build.Reason'], 'PullRequest')
     env:
-      GITHUB_TOKEN: $(gitHub_token)
+      GITHUB_TOKEN: $(github_token)
 
-  # 1b. Set Release Version
+  # 3b. Set Release Version
   - script: |
       Tags=$(git describe --tags)
       IFS='-' read -ra image_versionTag <<< "$Tags"
@@ -29,7 +46,7 @@ jobs:
     displayName: 'Set Release Version Environment Variable'
     condition: ne(variables['Build.Reason'], 'PullRequest')
 
-  # 1c. Set Pull Request Version
+  # 3c. Set Pull Request Version
   - script: |
       echo "##vso[task.setvariable variable=image_versionType;]latest-pr"
       echo "##vso[task.setvariable variable=image_versionSemantic;]pr-build"

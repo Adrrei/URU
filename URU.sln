@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3E42623D-216
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F9A7F6D7-E190-4E0F-B00F-D70CA9A81717}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URU.Client.Tests", "tests\URU.Controller.Tests\URU.Controller.Tests.csproj", "{19C7DA34-5382-4F77-8664-ED08CC65F94B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19C7DA34-5382-4F77-8664-ED08CC65F94B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19C7DA34-5382-4F77-8664-ED08CC65F94B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19C7DA34-5382-4F77-8664-ED08CC65F94B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19C7DA34-5382-4F77-8664-ED08CC65F94B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,12 +45,13 @@ Global
 		{60A5A9D7-A814-4AC5-AF8B-BDA8F40CA315} = {3E42623D-2167-4D4C-9F47-EE77582369D3}
 		{506B7A20-AC77-474D-8487-6791390694B9} = {3E42623D-2167-4D4C-9F47-EE77582369D3}
 		{22CEA76E-742F-4B2E-BFB8-8A9AF71A2B0C} = {3E42623D-2167-4D4C-9F47-EE77582369D3}
+		{19C7DA34-5382-4F77-8664-ED08CC65F94B} = {F9A7F6D7-E190-4E0F-B00F-D70CA9A81717}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_AutoCreateNewLanguageFiles = True
-		SolutionGuid = {3CE86441-020C-4FF0-8DA5-93D699959447}
-		RESX_NeutralResourcesLanguage = nb-NO
-		RESX_SortFileContentOnSave = True
 		RESX_ResXSortingComparison = Ordinal
+		RESX_SortFileContentOnSave = True
+		RESX_NeutralResourcesLanguage = nb-NO
+		SolutionGuid = {3CE86441-020C-4FF0-8DA5-93D699959447}
+		RESX_AutoCreateNewLanguageFiles = True
 	EndGlobalSection
 EndGlobal

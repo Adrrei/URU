@@ -13,6 +13,62 @@ namespace URU.Models
         GetPlaylistTracks
     }
 
+    public partial class ListedGenres
+    {
+        public List<string> Genres = new List<string>
+            {
+                "Bass House",
+                "Big Room",
+                "Breakbeat",
+                "Dance",
+                "Drum & Bass",
+                "Dubstep",
+                "Electronica / Downtempo",
+                "Future Bass",
+                "Glitch Hop",
+                "Hard Electronic",
+                "Deep House",
+                "Electro House",
+                "Future House",
+                "House",
+                "Progressive House",
+                "Indie Dance / Nu Disco",
+                "Tech House",
+                "Trance",
+                "Trap"
+            };
+    }
+
+    public partial class Favorites
+    {
+        [JsonProperty("favorites")]
+        public string[] Ids { get; set; }
+    }
+
+    public partial class Genres
+    {
+        [JsonProperty("genres")]
+        public Dictionary<string, (long, string)> Counts { get; set; }
+    }
+
+    public partial class TracksByYear
+    {
+        [JsonProperty("tracksByYear")]
+        public KeyValuePair<string, int>[] Counts { get; set; }
+    }
+
+    public partial class Artists
+    {
+        [JsonProperty("artists")]
+        public Dictionary<string, (int, string)> Counts { get; set; }
+
+        [JsonProperty("time")]
+        public int Hours { get; set; }
+
+        [JsonProperty("songs")]
+        public long Songs { get; set; }
+    }
+
     public partial class AddedBy
     {
         [JsonProperty("external_urls")]

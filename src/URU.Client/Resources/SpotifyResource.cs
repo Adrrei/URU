@@ -25,26 +25,6 @@ namespace URU.Client.Resources
             return new HttpRequestMessage(HttpMethod.Get, spotifyUrl);
         }
 
-        public async Task<T> GetObject<T>(string spotifyUrl)
-        {
-            var request = CreateRequest(spotifyUrl);
-            var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-
-            try
-            {
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException();
-
-                string result = await response.Content.ReadAsStringAsync();
-                T jsonResponse = JsonConvert.DeserializeObject<T>(result);
-                return jsonResponse;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
         public string ConstructEndpoint(User user, Method method, (string query, string value)[] parameters = null)
         {
             var spotifyUrl = new StringBuilder(Endpoint);
@@ -80,7 +60,27 @@ namespace URU.Client.Resources
             return spotifyUrl.ToString();
         }
 
-        public async Task<dynamic> GetDetailsArtists<T>(User user, long numberOfSongsInPlaylist)
+        public async Task<T> GetObject<T>(string spotifyUrl)
+        {
+            var request = CreateRequest(spotifyUrl);
+            var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
+            try
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException();
+
+                string result = await response.Content.ReadAsStringAsync();
+                T jsonResponse = JsonConvert.DeserializeObject<T>(result);
+                return jsonResponse;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<Artists> GetDetailsArtists<T>(User user, long numberOfSongsInPlaylist)
         {
             if (user == null)
                 return default;
@@ -133,14 +133,12 @@ namespace URU.Client.Resources
 
                 int hours = (int)TimeSpan.FromMilliseconds(milliseconds).TotalHours;
 
-                var data = new
+                return new Artists
                 {
-                    Artists = artistsCount.OrderByDescending(a => a.Value).Take(100).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-                    Time = hours,
+                    Counts = artistsCount.OrderByDescending(a => a.Value).Take(100).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                    Hours = hours,
                     Songs = songs
                 };
-
-                return data;
             }
             catch
             {
@@ -156,7 +154,7 @@ namespace URU.Client.Resources
         /// I could retrieve the album IDs by storing them in a Session variable while GetIdDurationArtists(..) is executing (since it's doing this method's first part anyway),
         /// and once it finishes execute the latter part of this method using said Session variable, but I fear it will be unreliable across various environments.
         /// </summary>
-        public async Task<dynamic> GetTracksByYear(User user, long numberOfSongsInPlaylist)
+        public async Task<TracksByYear> GetTracksByYear(User user, long numberOfSongsInPlaylist)
         {
             if (user == null)
                 return default;
@@ -236,12 +234,10 @@ namespace URU.Client.Resources
                     }
                 }
 
-                var data = new
+                return new TracksByYear()
                 {
-                    TracksByYear = songsByYear.OrderByDescending(a => a.Key).ToArray(),
+                    Counts = songsByYear.OrderByDescending(a => a.Key).ToArray()
                 };
-
-                return data;
             }
             catch
             {
