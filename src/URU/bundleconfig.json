@@ -74,6 +74,18 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/bundle/js/layout.min.js",
+    "inputFiles": [
+      "wwwroot/js/layout.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "includeInProject": false,
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/bundle/js/home.min.js",
     "inputFiles": [
       "wwwroot/js/home.js"
