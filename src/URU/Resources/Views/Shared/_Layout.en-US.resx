@@ -126,13 +126,13 @@
   <data name="Masters" xml:space="preserve">
     <value>Master's Thesis</value>
   </data>
-  <data name="Projects" xml:space="preserve">
-    <value>Projects</value>
-  </data>
   <data name="SelectedLanguage" xml:space="preserve">
     <value>Norsk</value>
   </data>
   <data name="Spotify" xml:space="preserve">
     <value>Spotify</value>
+  </data>
+  <data name="TicTacToe" xml:space="preserve">
+    <value>Tic Tac Toe</value>
   </data>
 </root>

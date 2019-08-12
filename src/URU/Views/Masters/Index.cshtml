@@ -1,30 +1,14 @@
 ﻿@model URU.ViewModels.MastersViewModel
 
-<div class="container">
-    <h1>@StringLocalizer["MastersThesis"]</h1>
-    <h3>@StringLocalizer["DeepLearning"]</h3>
-
-    <p>
-        @StringLocalizer["DownloadThesis"]<a href="~/content/Employing_Deep_Learning_for_Fish_Recognition.pdf" target="_blank"
-                                             type="application/octet-stream" download="Employing_Deep_Learning_for_Fish_Recognition.pdf">Employing Deep Learning for Fish Recognition</a>
-    </p>
-
-    <br />
-
-    <div class="abstract">
-        <h3>@StringLocalizer["Abstract"]</h3>
-        <p>@StringLocalizer["Content_1"]</p>
-        <p>@StringLocalizer["Content_2"]</p>
-        <p>@StringLocalizer["Content_3"]</p>
-        <p>@StringLocalizer["Content_4"]</p>
-        <p>@StringLocalizer["Content_5"]</p>
-        <p>@StringLocalizer["Content_6"]</p>
-    </div>
-
-    <video preload="auto" class="responsive-video" width="1920" height="1080" controls title="@StringLocalizer["DeepLearning"]">
-        <source src="~/content/Fish_Detection_2018-05-23.mp4" type="video/mp4">
-    </video>
+<div id="main-content">
+    <h1>@StringLocalizer["DeepLearning"]</h1>
+    <a id="thesis-url" href="~/content/Employing_Deep_Learning_for_Fish_Recognition.pdf" target="_blank"
+       type="application/octet-stream" download="Employing_Deep_Learning_for_Fish_Recognition.pdf">@StringLocalizer["DownloadThesis"]</a>
 </div>
+
+<video autoplay loop id="video-background" muted plays-inline>
+    <source src="~/content/Fish_Detection_2018-05-23.mp4" type="video/mp4">
+</video>
 
 @section Styles  {
     <environment include="Development">

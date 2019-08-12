@@ -1,87 +1,46 @@
-﻿/* ------------------------------
-// RALEWAY
------------------------------- */
+﻿/* red-hat-text-regular - latin-ext */
+@font-face {
+    font-family: 'Red Hat Text';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Red Hat Text'), local('RedHatText-Regular'), url('../content/fonts/red-hat-text/red-hat-text-v1-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../content/fonts/red-hat-text/red-hat-text-v1-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
 
-/* raleway-regular - latin */
+/* signika-regular - latin-ext */
+@font-face {
+    font-family: 'Signika';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Signika Regular'), local('Signika-Regular'), url('../content/fonts/signika/signika-v10-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../content/fonts/signika/signika-v10-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* raleway-regular - latin-ext */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 400;
-    src: url('../content/fonts/raleway/raleway-v12-latin-regular.eot'); /* IE9 Compat Modes */
-    src: local('Raleway'), local('Raleway-Regular'), url('../content/fonts/raleway/raleway-v12-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../content/fonts/raleway/raleway-v12-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../content/fonts/raleway/raleway-v12-latin-regular.woff') format('woff'), /* Modern Browsers */
-    url('../content/fonts/raleway/raleway-v12-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../content/fonts/raleway/raleway-v12-latin-regular.svg#Raleway') format('svg'); /* Legacy iOS */
-}
-/* raleway-700 - latin */
-@font-face {
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 700;
-    src: url('../content/fonts/raleway/raleway-v12-latin-700.eot'); /* IE9 Compat Modes */
-    src: local('Raleway Bold'), local('Raleway-Bold'), url('../content/fonts/raleway/raleway-v12-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../content/fonts/raleway/raleway-v12-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../content/fonts/raleway/raleway-v12-latin-700.woff') format('woff'), /* Modern Browsers */
-    url('../content/fonts/raleway/raleway-v12-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../content/fonts/raleway/raleway-v12-latin-700.svg#Raleway') format('svg'); /* Legacy iOS */
+    src: local('Raleway'), local('Raleway-Regular'), url('../content/fonts/raleway/raleway-v14-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../content/fonts/raleway/raleway-v14-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-/* ------------------------------
-// POPPINS
------------------------------- */
-
-/* poppins-regular - latin */
+/* poppins-regular - latin-ext */
 @font-face {
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
-    src: url('../content/fonts/poppins/poppins-v5-latin-regular.eot'); /* IE9 Compat Modes */
-    src: local('Poppins Regular'), local('Poppins-Regular'), url('../content/fonts/poppins/poppins-v5-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../content/fonts/poppins/poppins-v5-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../content/fonts/poppins/poppins-v5-latin-regular.woff') format('woff'), /* Modern Browsers */
-    url('../content/fonts/poppins/poppins-v5-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../content/fonts/poppins/poppins-v5-latin-regular.svg#Poppins') format('svg'); /* Legacy iOS */
+    src: local('Poppins Regular'), local('Poppins-Regular'), url('../content/fonts/poppins/poppins-v8-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../content/fonts/poppins/poppins-v8-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
-/* poppins-700 - latin */
-@font-face {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    src: url('../content/fonts/poppins/poppins-v5-latin-700.eot'); /* IE9 Compat Modes */
-    src: local('Poppins Bold'), local('Poppins-Bold'), url('../content/fonts/poppins/poppins-v5-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../content/fonts/poppins/poppins-v5-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../content/fonts/poppins/poppins-v5-latin-700.woff') format('woff'), /* Modern Browsers */
-    url('../content/fonts/poppins/poppins-v5-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../content/fonts/poppins/poppins-v5-latin-700.svg#Poppins') format('svg'); /* Legacy iOS */
-}
-/* ------------------------------
-// OPEN-SANS
------------------------------- */
 
-/* open-sans-regular - latin */
+/* open-sans-regular - latin-ext */
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
-    src: url('../content/fonts/open-sans/open-sans-v15-latin-regular.eot'); /* IE9 Compat Modes */
-    src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../content/fonts/open-sans/open-sans-v15-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../content/fonts/open-sans/open-sans-v15-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../content/fonts/open-sans/open-sans-v15-latin-regular.woff') format('woff'), /* Modern Browsers */
-    url('../content/fonts/open-sans/open-sans-v15-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../content/fonts/open-sans/open-sans-v15-latin-regular.svg#OpenSans') format('svg'); /* Legacy iOS */
-}
-/* open-sans-700 - latin */
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    src: url('../content/fonts/open-sans/open-sans-v15-latin-700.eot'); /* IE9 Compat Modes */
-    src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../content/fonts/open-sans/open-sans-v15-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../content/fonts/open-sans/open-sans-v15-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../content/fonts/open-sans/open-sans-v15-latin-700.woff') format('woff'), /* Modern Browsers */
-    url('../content/fonts/open-sans/open-sans-v15-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../content/fonts/open-sans/open-sans-v15-latin-700.svg#OpenSans') format('svg'); /* Legacy iOS */
+    src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../content/fonts/open-sans/open-sans-v17-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../content/fonts/open-sans/open-sans-v17-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* ------------------------------

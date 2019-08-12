@@ -1,4 +1,15 @@
-﻿.container {
+﻿body {
+    background: linear-gradient(rgba(19, 29, 39, 1), rgba(0, 0, 0, 0.2)), url(/content/images/TicTacToe.jpg) no-repeat center;
+    background-size: cover;
+    color: #FFF;
+    align-items: center;
+}
+
+p {
+    color: #FFF;
+}
+
+.container {
     text-align: center;
     margin: 0 1em 0 1em;
 }
@@ -11,27 +22,29 @@
 
 td {
     align-items: center;
-    border: solid 1px #dbdbdb;
+    border: solid 1px #fff;
     display: flex;
     font-size: 20pt;
     height: 7em;
     justify-content: center;
     width: 7em;
+    background-color: rgba(255,255,255, 0.1);
 }
 
     td:hover {
-        background-color: #dbdbdb;
+        color: #c84d59;
         cursor: pointer;
     }
 
 input {
     border: none;
-    border-bottom: 1px solid #aaaaaa;
-    color: #aaaaaa;
+    border-bottom: 1px solid #fff;
+    color: #fff;
     font-size: 1.4em;
     margin-bottom: 0.5em;
     text-align: center;
     width: 25em;
+    background: transparent;
 }
 
     input:focus {
@@ -72,20 +85,23 @@ input {
 
 .btn {
     border: 0;
-    color: #ffffff;
+    color: #c84d59;
     cursor: pointer;
     font-size: 14px;
     letter-spacing: 0.0875em;
     padding: 25px 25px;
     text-transform: uppercase;
+    background-color: #FFF;
 }
 
     .btn:hover {
         background-color: #c84d59;
+        color: #FFF;
     }
 
 .btn-ready {
     background-color: #c84d59;
+    color: #FFF;
 }
 
 #results {
