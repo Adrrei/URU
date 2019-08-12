@@ -117,52 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Abstract" xml:space="preserve">
-    <value>Abstrakt</value>
-  </data>
-  <data name="Content_1" xml:space="preserve">
-    <value>Underwater imagery processing is in high demand, but the unrestricted environment makes it
-difficult to develop methods for analyzing it. Not only is obtaining a dataset for a single species
-difficult, but there are reported 33 970 fish species [1], which makes it hard to cover all bases
-for fish recognition.
-</value>
-  </data>
-  <data name="Content_2" xml:space="preserve">
-    <value>This thesis presents 20 deep neural networks trained for fish (salmon) recognition and provides
-a comparison and discussion of each model and classifier combination with their respective
-parameter tunings. </value>
-  </data>
-  <data name="Content_3" xml:space="preserve">
-    <value>A version of SSD Inception V2 achieves 84.64% mAP on the unique fish
-dataset, with 3.75 FPS, and achieves state-of-the-art accuracy for salmon recognition.
-Additionally, a version of Faster R-CNN ResNet 152 achieves 83.78%, at 3.76 FPS, and a version
-of Faster R-CNN Inception V2 achieves 83.62%, at 2.57 FPS. </value>
-  </data>
-  <data name="Content_4" xml:space="preserve">
-    <value>The thesis, in addition to proposing
-a solution for recognizing fish, serves as a guide for selecting a deep neural network, and
-finetuning its parameters.
-</value>
-  </data>
-  <data name="Content_5" xml:space="preserve">
-    <value>The unique dataset in this thesis consists of 20 069 labels of salmon obtained from highresolution videos from fish farms. Some research use an openly available, but very imbalanced
-dataset with 27 370 labeled images [2], and using this dataset for recognizing either salmon,
-cod, sea trout, or mackerel for instance, would result in failure due to the large difference in
-fish shape.
-</value>
-  </data>
-  <data name="Content_6" xml:space="preserve">
-    <value>The thesis proposes a solution for discarding video sequences where no fish is present. The
-proposed solution reduces storage size, reduces time spent creating datasets from the videos,
-and makes it easier to analyze the data. The thesis also proposes a solution for obtaining
-statistics of number of fish in rivers over time, which can drastically improve the current
-methods used by Statistics Norway in terms of accuracy and effectiveness.</value>
-  </data>
   <data name="DeepLearning" xml:space="preserve">
     <value>Bruk av dyp læring til fiskegjenkjenning</value>
   </data>
   <data name="DownloadThesis" xml:space="preserve">
-    <value>Last ned masteroppgaven her: </value>
+    <value>Last ned masteroppgaven</value>
   </data>
   <data name="MastersThesis" xml:space="preserve">
     <value>Masteroppgave</value>

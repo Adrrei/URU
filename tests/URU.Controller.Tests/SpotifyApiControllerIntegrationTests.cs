@@ -18,7 +18,7 @@ namespace URU.Client.Tests
         }
 
         [Theory]
-        [InlineData("/api/spotify/favorites")]
+        [InlineData("/api/Spotify/Favorites")]
         public async Task Favorites_ReturnsAtLeastFourElementsTest(string url)
         {
             var httpResponse = await Client.GetAsync(url);
@@ -31,7 +31,7 @@ namespace URU.Client.Tests
         }
 
         [Theory]
-        [InlineData("/api/spotify/genres")]
+        [InlineData("/api/Spotify/Genres")]
         public async Task Genres_NotEmpty_AllGenresAreEqualTest(string url)
         {
             var httpResponse = await Client.GetAsync(url);
@@ -52,7 +52,7 @@ namespace URU.Client.Tests
         }
 
         [Theory]
-        [InlineData("/api/spotify/tracksbyyear")]
+        [InlineData("/api/Spotify/TracksByYear")]
         public async Task TracksByYear_NotEmpty_AllItemsAreGreatherThanZeroTest(string url)
         {
             var httpResponse = await Client.GetAsync(url);
@@ -70,7 +70,7 @@ namespace URU.Client.Tests
         }
 
         [Theory]
-        [InlineData("/api/spotify/iddurationartists")]
+        [InlineData("/api/Spotify/IdDurationArtists")]
         public async Task IdDurationArtists_NotEmpty_AllItemsAreGreatherThanZeroTest(string url)
         {
             var httpResponse = await Client.GetAsync(url);

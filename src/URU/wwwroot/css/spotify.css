@@ -1,17 +1,12 @@
-﻿nav {
-    margin-bottom: -2em;
-}
-
-/* ------------------------------
+﻿/* ------------------------------
 // GENERAL
 ------------------------------ */
 
 body {
-    background-color: #0e0e0e;
-}
-
-main {
-    margin: 0;
+    background: linear-gradient(rgba(19, 29, 39, 1), rgba(0, 0, 0, 0.2)), url(/content/images/Sunrise.jpg) no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Red Hat Text';
+    color: #FFF;
 }
 
 nav ul li a {
@@ -22,21 +17,11 @@ nav ul li a {
         color: #c84d59;
     }
 
-.banner {
-    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(/content/images/Sunrise.jpg) no-repeat center center fixed;
-    background-size: cover;
-    color: #FFF;
-    font-family: Poppins;
-    min-height: 100vh;
-    justify-content: center;
-    display: flex;
-    padding: 0 2em 0 2em;
-}
-
 .content {
     display: flex;
     flex-flow: row wrap;
     max-width: 1400px;
+    margin-top: -0.5em;
 }
 
 .row {
@@ -44,10 +29,6 @@ nav ul li a {
     flex-flow: row wrap;
     flex-basis: 100%;
 }
-
-    .row:first-of-type {
-        margin-top: 2em;
-    }
 
 .column {
     display: flex;
@@ -357,10 +338,6 @@ table {
 }
 
 @media (max-width: 883px) {
-    .banner {
-        display: block;
-    }
-
     #title {
         font-size: 4em;
     }
@@ -391,10 +368,6 @@ table {
 }
 
 @media (max-width: 620px) {
-    .row:first-of-type {
-        margin-top: 2.5em;
-    }
-
     #title {
         font-size: 3em;
     }

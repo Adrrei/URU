@@ -1,28 +1,36 @@
-﻿html, body {
+﻿body {
+    background: linear-gradient(rgba(19, 29, 39, 1), rgba(0, 0, 0, 0.2));
+    background-size: cover;
+    color: #FFF;
+}
+
+#video-background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+h1, #thesis-url {
+    opacity: 0.7;
+}
+
+#main-content {
     text-align: center;
+    margin: 0 0.5em 0 0.5em;
 }
 
-iframe {
-    border: none;
+#thesis-url {
+    font-size: 1.5em;
+    padding-bottom: 0.1em;
+    color: #FFF;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.responsive-video {
-    margin-top: 1em;
-    height: 55.6vw;
-    max-height: 1080px;
-    max-width: 1920px;
-    width: 98vw;
-}
-
-.abstract {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-h3 {
-    margin-top: -0.5em;
-}
-
-p {
-    margin: 1em;
-}
+    #thesis-url:hover {
+        border-bottom: 2px solid #c84d59;
+        text-decoration: none;
+        opacity: 0.9;
+    }
