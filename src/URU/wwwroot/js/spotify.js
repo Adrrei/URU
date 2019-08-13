@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
     getGenres();
     getFavorites();
     getTracksByYear();

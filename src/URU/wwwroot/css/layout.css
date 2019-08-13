@@ -122,9 +122,11 @@ a {
     .dropdown {
         flex-direction: column;
         margin-left: auto;
-        display: none;
         margin-top: -1.5em;
+        overflow: hidden;
+        height: 0;
         opacity: 0;
+        transition: height 0ms 400ms, opacity 400ms 0ms;
     }
 
     nav.mobile-nav .dropdown li {
@@ -145,8 +147,9 @@ a {
 
     .mobile-nav-show {
         display: flex;
-        transition: all 0.5s ease-in-out;
+        height: auto;
         opacity: 1;
+        transition: height 0ms 0ms, opacity 500ms 0ms;
     }
 
     .mobile-nav-toggle {

@@ -1,10 +1,12 @@
-﻿/* red-hat-text-regular - latin-ext */
+﻿/* woff2: Chrome 26+, Opera 23+, Firefox 39+ */
+/* woff: Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+
+/* red-hat-text-regular - latin-ext */
 @font-face {
     font-family: 'Red Hat Text';
     font-style: normal;
     font-weight: 400;
-    src: local('Red Hat Text'), local('RedHatText-Regular'), url('../content/fonts/red-hat-text/red-hat-text-v1-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-    url('../content/fonts/red-hat-text/red-hat-text-v1-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    src: local('Red Hat Text'), local('RedHatText-Regular'), url('../content/fonts/red-hat-text/red-hat-text-v1-latin-ext-regular.woff2') format('woff2'), url('../content/fonts/red-hat-text/red-hat-text-v1-latin-ext-regular.woff') format('woff');
 }
 
 /* signika-regular - latin-ext */
@@ -12,8 +14,7 @@
     font-family: 'Signika';
     font-style: normal;
     font-weight: 400;
-    src: local('Signika Regular'), local('Signika-Regular'), url('../content/fonts/signika/signika-v10-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-    url('../content/fonts/signika/signika-v10-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    src: local('Signika Regular'), local('Signika-Regular'), url('../content/fonts/signika/signika-v10-latin-ext-regular.woff2') format('woff2'), url('../content/fonts/signika/signika-v10-latin-ext-regular.woff') format('woff');
 }
 
 /* raleway-regular - latin-ext */
@@ -21,8 +22,7 @@
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 400;
-    src: local('Raleway'), local('Raleway-Regular'), url('../content/fonts/raleway/raleway-v14-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-    url('../content/fonts/raleway/raleway-v14-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    src: local('Raleway'), local('Raleway-Regular'), url('../content/fonts/raleway/raleway-v14-latin-ext-regular.woff2') format('woff2'), url('../content/fonts/raleway/raleway-v14-latin-ext-regular.woff') format('woff');
 }
 
 /* poppins-regular - latin-ext */
@@ -30,8 +30,7 @@
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
-    src: local('Poppins Regular'), local('Poppins-Regular'), url('../content/fonts/poppins/poppins-v8-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-    url('../content/fonts/poppins/poppins-v8-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    src: local('Poppins Regular'), local('Poppins-Regular'), url('../content/fonts/poppins/poppins-v8-latin-ext-regular.woff2') format('woff2'), url('../content/fonts/poppins/poppins-v8-latin-ext-regular.woff') format('woff');
 }
 
 /* open-sans-regular - latin-ext */
@@ -39,16 +38,11 @@
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
-    src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../content/fonts/open-sans/open-sans-v17-latin-ext-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-    url('../content/fonts/open-sans/open-sans-v17-latin-ext-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../content/fonts/open-sans/open-sans-v17-latin-ext-regular.woff2') format('woff2'), url('../content/fonts/open-sans/open-sans-v17-latin-ext-regular.woff') format('woff');
 }
 
-/* ------------------------------
-// FONT DEFINITIONS
------------------------------- */
-
-h1, h2, h3, h4, h5, h6, .title, .subtitle {
-    font-family: Raleway;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Red Hat Text';
 }
 
 a, p, text, textarea, span, li, ul, th, td, input {
