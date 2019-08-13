@@ -1,69 +1,67 @@
 ﻿@model URU.ViewModels.SpotifyViewModel
 
-<div class="banner">
-    <div class="content">
-        <div class="row">
-            <div class="column header">
-                <span><a id="title" href="spotify:user:@Model.User.UserId:playlist:@Model.User.PlaylistId">Exquisite EDM</a></span>
-                <span id="description">@StringLocalizer["Description"]</span>
-                <div id="details">
-                    <span>@StringLocalizer["Hours"]</span>
-                    <span id="hours" class="loading"> </span>
-                    <span>@StringLocalizer["Songs"]</span>
-                    <span id="songs" class="loading"></span>
-                </div>
-                <div id="toggle">
-                    <label for="toggle-genres"><span id="toggle-genres" class="checked"><i class="fas fa-chevron-right"></i> @StringLocalizer["Genres"]</span></label>
-                    <label for="toggle-artists"><span id="toggle-artists"><i class="fas fa-chevron-right"></i> @StringLocalizer["Artists"]</span></label>
-                    <label for="toggle-tracks-by-year"><span id="toggle-tracks-by-year"><i class="fas fa-chevron-right"></i> @StringLocalizer["TracksByYear"]</span></label>
-                </div>
+<div class="content">
+    <div class="row">
+        <div class="column header">
+            <span><a id="title" href="spotify:user:@Model.User.UserId:playlist:@Model.User.PlaylistId">Exquisite EDM</a></span>
+            <span id="description">@StringLocalizer["Description"]</span>
+            <div id="details">
+                <span>@StringLocalizer["Hours"]</span>
+                <span id="hours" class="loading"> </span>
+                <span>@StringLocalizer["Songs"]</span>
+                <span id="songs" class="loading"></span>
             </div>
-            <div class="column scrollable">
-                <table id="genres">
-                    <thead>
-                        <tr>
-                            <td>@StringLocalizer["Genres"]</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-
-                <table id="artists" class="hidden">
-                    <thead>
-                        <tr>
-                            <td>@StringLocalizer["TopArtists"]</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-
-                <table id="tracks-by-year" class="hidden">
-                    <thead>
-                        <tr>
-                            <td>@StringLocalizer["TracksByYear"]</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <div id="toggle">
+                <label for="toggle-genres"><span id="toggle-genres" class="checked"><i class="fas fa-chevron-right"></i> @StringLocalizer["Genres"]</span></label>
+                <label for="toggle-artists"><span id="toggle-artists"><i class="fas fa-chevron-right"></i> @StringLocalizer["Artists"]</span></label>
+                <label for="toggle-tracks-by-year"><span id="toggle-tracks-by-year"><i class="fas fa-chevron-right"></i> @StringLocalizer["TracksByYear"]</span></label>
             </div>
         </div>
-        <div id="get-favorites" class="row">
-            <div class="column">
-                <p><span id="reset-favorites"><i class="fas fa-chevron-right"></i> @StringLocalizer["FetchOtherFavorites"]</span></p>
-            </div>
+        <div class="column scrollable">
+            <table id="genres">
+                <thead>
+                    <tr>
+                        <td>@StringLocalizer["Genres"]</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <table id="artists" class="hidden">
+                <thead>
+                    <tr>
+                        <td>@StringLocalizer["TopArtists"]</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <table id="tracks-by-year" class="hidden">
+                <thead>
+                    <tr>
+                        <td>@StringLocalizer["TracksByYear"]</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
-        <div id="favorites" class="row">
-            <div class="column">
-            </div>
-            <div class="column">
-            </div>
-            <div class="column">
-            </div>
-            <div class="column">
-            </div>
+    </div>
+    <div id="get-favorites" class="row">
+        <div class="column">
+            <p><span id="reset-favorites"><i class="fas fa-chevron-right"></i> @StringLocalizer["FetchOtherFavorites"]</span></p>
+        </div>
+    </div>
+    <div id="favorites" class="row">
+        <div class="column">
+        </div>
+        <div class="column">
+        </div>
+        <div class="column">
+        </div>
+        <div class="column">
         </div>
     </div>
 </div>
@@ -80,12 +78,12 @@
 
 @section Scripts {
     <environment include="Development">
-        <script async src="~/js/spotify-ie.js" asp-append-version="true"></script>
+        <script src="~/js/spotify-ie.js" asp-append-version="true"></script>
         <script src="~/js/spotify.js" asp-append-version="true"></script>
     </environment>
 
     <environment exclude="Development">
-        <script async src="~/bundle/js/spotify-ie.min.js" asp-append-version="true"></script>
+        <script src="~/bundle/js/spotify-ie.min.js" asp-append-version="true"></script>
         <script src="~/bundle/js/spotify.min.js" asp-append-version="true"></script>
     </environment>
 }
