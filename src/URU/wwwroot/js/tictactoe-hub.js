@@ -1,7 +1,6 @@
 ﻿'use strict';
 
 const connection = new signalR.HubConnectionBuilder().withUrl('/gameHub').configureLogging(signalR.LogLevel.None).build();
-
 connection.start().catch(function (err) {
     return console.error(err.toString());
 });
@@ -13,10 +12,6 @@ async function start() {
         setTimeout(() => start(), 10000);
     }
 }
-
-connection.onclose(async () => {
-    await start();
-});
 
 connection.on('ReceiveWinner', function (player, winner) {
     player = JSON.parse(player);

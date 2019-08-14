@@ -9,9 +9,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/css/home.min.css",
@@ -21,9 +19,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/css/error.min.css",
@@ -33,9 +29,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/css/spotify.min.css",
@@ -45,9 +39,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/css/masters.min.css",
@@ -57,9 +49,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/css/tictactoe.min.css",
@@ -69,9 +59,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/js/layout.min.js",
@@ -81,9 +69,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/js/home.min.js",
@@ -93,9 +79,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/js/spotify-ie.min.js",
@@ -105,9 +89,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/js/spotify.min.js",
@@ -117,33 +99,17 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/bundle/js/tictactoe.min.js",
     "inputFiles": [
-      "wwwroot/js/tictactoe-hub.js",
-      "wwwroot/js/tictactoe.js"
-    ],
-    "minify": {
-      "enabled": false,
-      "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
-  },
-  {
-    "outputFileName": "wwwroot/bundle/js/signalr.min.js",
-    "inputFiles": [
-      "wwwroot/lib/signalr/signalr.js"
+      "wwwroot/js/tictactoe.js",
+      "wwwroot/js/tictactoe-hub.js"
     ],
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "includeInProject": false,
-    "sourceMap": false
+    }
   }
 ]

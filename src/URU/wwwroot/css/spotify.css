@@ -5,7 +5,6 @@
 body {
     background: linear-gradient(rgba(19, 29, 39, 1), rgba(0, 0, 0, 0.2)), url(/content/images/Sunrise.jpg) no-repeat center center fixed;
     background-size: cover;
-    font-family: 'Red Hat Text';
     color: #FFF;
 }
 
@@ -22,6 +21,7 @@ nav ul li a {
     flex-flow: row wrap;
     max-width: 1400px;
     margin-top: -0.5em;
+    padding: 0 2em 0 2em;
 }
 
 .row {
@@ -43,11 +43,14 @@ nav ul li a {
 #title {
     font-size: 6em;
     font-weight: bold;
+    font-family: Poppins;
     letter-spacing: 0.1em;
+    opacity: 0.9;
 }
 
     #title:hover {
         color: #c84d59;
+        opacity: 1;
         text-decoration: none;
     }
 
@@ -272,7 +275,7 @@ table {
 // MEDIA QUERIES
 ------------------------------ */
 
-@media (max-width: 1132px) {
+@media (max-width: 1105px) {
     .content {
         display: flex;
         justify-content: center;
@@ -338,12 +341,16 @@ table {
 }
 
 @media (max-width: 883px) {
+    .content {
+        padding-top: 1em;
+    }
+
     #title {
         font-size: 4em;
     }
 
     #get-favorites {
-        margin: 1em 0 -1em 0;
+        margin: 1em 0 0 0;
     }
 
     #favorites .column {

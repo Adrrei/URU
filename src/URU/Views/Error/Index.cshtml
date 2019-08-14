@@ -1,22 +1,27 @@
-﻿<div class="container">
+﻿<div id="main-content">
+    <div class="flex-body">
+        <div class="flex-column">
+            @model int
+            @{
+                <h1 id="title">@Model</h1>
+                switch (Model)
+                {
 
-    @model int
-    @{
-        switch (Model)
-        {
-            case 404:
-                ViewData["Title"] = @StringLocalizer["PageNotFound"];
-        <h1>@StringLocalizer["Generic"]</h1>
-        <h2>@StringLocalizer["PageNotFoundDescription"]</h2>
-                break;
-            case 500:
-            default:
-                ViewData["Title"] = @StringLocalizer["InternalServerError"];
-        <h1>@StringLocalizer["Generic"]</h1>
-        <h2>@StringLocalizer["InternalServerErrorDescription"]</h2>
-                break;
-        }
-    }
+                    case 404:
+                        ViewData["Title"] = @StringLocalizer["PageNotFound"];
+                        <h1>@StringLocalizer["Generic"]</h1>
+                        <h2>@StringLocalizer["PageNotFoundDescription"]</h2>
+                        break;
+                    case 500:
+                    default:
+                        ViewData["Title"] = @StringLocalizer["InternalServerError"];
+                        <h1>@StringLocalizer["Generic"]</h1>
+                        <h2>@StringLocalizer["InternalServerErrorDescription"]</h2>
+                        break;
+                }
+            }
+        </div>
+    </div>
 </div>
 
 @section Styles  {
