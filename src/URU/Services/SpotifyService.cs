@@ -14,15 +14,12 @@ namespace URU.Services
     public class SpotifyService
     {
         public Client.Client Client { get; set; }
-        private static string AccessToken;
-        private static DateTimeOffset TokenExpires;
+
+        public string AccessToken { get; set; }
+
+        public DateTimeOffset TokenExpires { get; set; }
 
         public SpotifyService()
-        {
-            CreateHttpClient();
-        }
-
-        private void CreateHttpClient()
         {
             var httpClientHandler = new HttpClientHandler
             {
@@ -35,25 +32,33 @@ namespace URU.Services
             };
 
             httpClient.DefaultRequestHeaders.Clear();
-            httpClient.DefaultRequestHeaders.Add(HttpRequestHeader.ContentType.ToString(), "application/x-www-form-urlencoded");
             httpClient.DefaultRequestHeaders.ConnectionClose = false;
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add(HttpRequestHeader.ContentType.ToString(), "application/x-www-form-urlencoded");
 
             Client = new Client.Client(httpClient);
         }
 
-        public async Task SetAuthorizationHeader()
+        public bool HeaderHasToken()
         {
-            if (!string.IsNullOrWhiteSpace(AccessToken) || DateTimeOffset.Now.CompareTo(TokenExpires) < 0)
+            if (!string.IsNullOrWhiteSpace(AccessToken) && TokenExpires > DateTimeOffset.UtcNow)
             {
                 Client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(HttpRequestHeader.Authorization.ToString(), "Bearer " + AccessToken);
-                return;
+                return true;
             }
 
-            var request = AccessTokenRequestMessage();
+            return false;
+        }
+
+        public async Task SetAuthorizationHeader()
+        {
+            if (HeaderHasToken())
+                return;
 
             try
             {
+                var request = AccessTokenRequestMessage();
+
                 var response = await Client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
@@ -77,14 +82,13 @@ namespace URU.Services
         {
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
-                .AddUserSecrets<Program>()
+                .AddUserSecrets<Startup>()
                 .Build();
 
             var clientConfig = new ClientConfiguration()
             {
                 ClientId = configuration["spotify_clientId"],
-                ClientSecret = configuration["spotify_clientSecret"],
-                Domain = configuration["spotify_domain"]
+                ClientSecret = configuration["spotify_clientSecret"]
             };
 
             var base64Credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientConfig.ClientId}:{clientConfig.ClientSecret}"));
