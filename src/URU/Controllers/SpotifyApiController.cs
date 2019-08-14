@@ -15,7 +15,7 @@ namespace URU.Controllers
     [Produces("application/json")]
     public class SpotifyApiController : ControllerBase
     {
-        private static SpotifyConfiguration SpotifyConfig;
+        private readonly SpotifyConfiguration SpotifyConfig;
 
         public SpotifyService SpotifyService { get; }
 
@@ -26,12 +26,19 @@ namespace URU.Controllers
                .AddUserSecrets<Program>()
                .Build();
 
-            SpotifyConfig = new SpotifyConfiguration()
+            try
             {
-                ExquisiteEdmId = configuration["spotify_playlist_exquisiteEdmId"],
-                FavoritesId = configuration["spotify_playlist_favoritesId"],
-                UserId = configuration["spotify_userId"]
-            };
+                SpotifyConfig = new SpotifyConfiguration()
+                {
+                    ExquisiteEdmId = configuration["spotify_playlist_exquisiteEdmId"],
+                    FavoritesId = configuration["spotify_playlist_favoritesId"],
+                    UserId = configuration["spotify_userId"]
+                };
+            }
+            catch
+            {
+                throw new NullReferenceException();
+            }
 
             SpotifyService = new SpotifyService();
         }

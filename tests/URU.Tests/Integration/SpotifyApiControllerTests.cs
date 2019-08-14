@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 using URU.Models;
 using Xunit;
 
-namespace URU.Client.Tests
+namespace URU.Client.Tests.Integration
 {
-    public class SpotifyApiControllerIntegrationTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class SpotifyApiControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly HttpClient Client;
+        private readonly HttpClient HttpClient;
 
-        public SpotifyApiControllerIntegrationTests(WebApplicationFactory<Startup> factory)
+        public SpotifyApiControllerTests(WebApplicationFactory<Startup> factory)
         {
-            Client = factory.CreateClient();
+            HttpClient = factory.CreateClient();
         }
 
         [Theory]
         [InlineData("/api/Spotify/Favorites")]
         public async Task Favorites_ReturnsAtLeastFourElementsTest(string url)
         {
-            var httpResponse = await Client.GetAsync(url);
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
@@ -34,7 +34,7 @@ namespace URU.Client.Tests
         [InlineData("/api/Spotify/Genres")]
         public async Task Genres_NotEmpty_AllGenresAreEqualTest(string url)
         {
-            var httpResponse = await Client.GetAsync(url);
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
@@ -55,7 +55,7 @@ namespace URU.Client.Tests
         [InlineData("/api/Spotify/TracksByYear")]
         public async Task TracksByYear_NotEmpty_AllItemsAreGreatherThanZeroTest(string url)
         {
-            var httpResponse = await Client.GetAsync(url);
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
@@ -73,7 +73,7 @@ namespace URU.Client.Tests
         [InlineData("/api/Spotify/IdDurationArtists")]
         public async Task IdDurationArtists_NotEmpty_AllItemsAreGreatherThanZeroTest(string url)
         {
-            var httpResponse = await Client.GetAsync(url);
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();

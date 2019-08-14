@@ -11,12 +11,12 @@ namespace URU.Client.Resources
 {
     public class SpotifyResource
     {
-        private static string Endpoint { get; } = "https://api.spotify.com/v1/";
-
+        private readonly string Endpoint;
         private readonly HttpClient Client;
 
         public SpotifyResource(HttpClient client)
         {
+            Endpoint = "https://api.spotify.com/v1";
             Client = client;
         }
 
@@ -31,15 +31,15 @@ namespace URU.Client.Resources
             switch (method)
             {
                 case Method.GetPlaylist:
-                    spotifyUrl.Append($"users/{user.UserId}/playlists/{user.PlaylistId}");
+                    spotifyUrl.Append($"/users/{user.UserId}/playlists/{user.PlaylistId}");
                     break;
 
                 case Method.GetPlaylists:
-                    spotifyUrl.Append($"users/{user.UserId}/playlists");
+                    spotifyUrl.Append($"/users/{user.UserId}/playlists");
                     break;
 
                 case Method.GetPlaylistTracks:
-                    spotifyUrl.Append($"playlists/{user.PlaylistId}/tracks");
+                    spotifyUrl.Append($"/playlists/{user.PlaylistId}/tracks");
                     break;
 
                 default:
@@ -198,7 +198,7 @@ namespace URU.Client.Resources
 
             IList<HttpRequestMessage> albumRequests = new List<HttpRequestMessage>();
 
-            string spotifyAlbumsUrl = $"{Endpoint}albums/?ids=";
+            string spotifyAlbumsUrl = $"{Endpoint}/albums/?ids=";
 
             StringBuilder albumIdsConcat;
             for (int i = 0; i < albumIds.Count; i += 20)

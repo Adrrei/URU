@@ -22,9 +22,9 @@ namespace URU.Controllers
             ViewBag.Title = _stringLocalizer["TitleSpotify"];
 
             var configuration = new ConfigurationBuilder()
-            .AddEnvironmentVariables()
-            .AddUserSecrets<Program>()
-            .Build();
+                .AddEnvironmentVariables()
+                .AddUserSecrets<Startup>()
+                .Build();
 
             User user = new User
             {
