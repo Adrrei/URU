@@ -17,8 +17,4 @@
     <ProjectReference Include="..\URU.Client\URU.Client.csproj" />
     <ProjectReference Include="..\URU.Models\URU.Models.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\content\fonts\red-hat-text\" />
-    <Folder Include="wwwroot\content\fonts\signika\" />
-  </ItemGroup>
 </Project>

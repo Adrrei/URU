@@ -2,7 +2,6 @@
   {
     "outputFileName": "wwwroot/bundle/css/layout.min.css",
     "inputFiles": [
-      "wwwroot/css/fontawesome.css",
       "wwwroot/css/fonts.css",
       "wwwroot/css/layout.css"
     ],

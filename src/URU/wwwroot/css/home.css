@@ -52,12 +52,49 @@ h1, p, span {
         width: 300px;
     }
 
+.social-media-icon {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(152deg) brightness(103%) contrast(103%);
+    width: 20px;
+    height: 20px;
+    padding-left: 20px;
+}
+
+.github-icon:before {
+    content: '';
+    background: url(/icons/github.png);
+    background-size: cover;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin-left: -20px;
+}
+
+.linkedin-icon:before {
+    content: '';
+    background: url(/icons/linkedin.png);
+    background-size: cover;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin-left: -20px;
+}
+
+.email-icon:before {
+    content: '';
+    background: url(/icons/email.png);
+    background-size: cover;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin-left: -20px;
+}
+
 #social .social-media {
     margin-right: 5px;
 }
 
 .social-media:hover {
-    color: #FFF;
+    filter: invert(55%) sepia(99%) saturate(4198%) hue-rotate(327deg) brightness(86%) contrast(79%);
 }
 
 #social {
