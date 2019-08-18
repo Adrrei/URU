@@ -1,5 +1,8 @@
 ## Ignore All Files Listed Below
 
+# Bundles
+**/bundle
+
 # Web
 robots.txt
 sitemap.txt
