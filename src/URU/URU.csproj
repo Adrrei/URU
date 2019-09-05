@@ -2,16 +2,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <RuntimeFrameworkName>Microsoft.AspNetCore.App</RuntimeFrameworkName>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <LangVersion>8.0</LangVersion>
     <UserSecretsId>bb1260c3-1e17-4a52-ad59-22f83010d73c</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview8.19405.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview9.19424.4" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-preview8-19413-06" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-preview9-19453-02" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\URU.Client\URU.Client.csproj" />
