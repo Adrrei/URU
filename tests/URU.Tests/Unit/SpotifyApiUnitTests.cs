@@ -14,7 +14,7 @@ namespace URU.Controller.Tests.Unit
         }
 
         [Fact]
-        public void HeaderHasToken_InvalidAccessTokenInvalidTokenExpiresTest()
+        public void HeaderHasToken_InvalidAccessTokenAndExpiredToken_TokenInvalid()
         {
             SpotifyService.AccessToken = "";
             SpotifyService.TokenExpires = DateTimeOffset.UtcNow.AddMinutes(-1);
@@ -24,7 +24,7 @@ namespace URU.Controller.Tests.Unit
         }
 
         [Fact]
-        public void HeaderHasToken_InvalidAccessTokenValidTokenExpiresTest()
+        public void HeaderHasToken_InvalidAccessTokenAndNotExpiredToken_TokenInvalid()
         {
             SpotifyService.AccessToken = "";
             SpotifyService.TokenExpires = DateTimeOffset.UtcNow.AddMinutes(30);
@@ -34,7 +34,7 @@ namespace URU.Controller.Tests.Unit
         }
 
         [Fact]
-        public void HeaderHasToken_ValidAccessTokenInvalidTokenExpiresTest()
+        public void HeaderHasToken_ValidAccessTokenAndExpiredToken_TokenInvalid()
         {
             SpotifyService.AccessToken = "An Access Token";
             SpotifyService.TokenExpires = DateTimeOffset.UtcNow.AddMinutes(-1);
@@ -44,7 +44,7 @@ namespace URU.Controller.Tests.Unit
         }
 
         [Fact]
-        public void HeaderHasToken_ValidAccessTokenValidTokenExpiresTest()
+        public void HeaderHasToken_ValidAccessTokenAndNotExpiredToken_TokenValid()
         {
             SpotifyService.AccessToken = "An Access Token";
             SpotifyService.TokenExpires = DateTimeOffset.UtcNow.AddMinutes(30);

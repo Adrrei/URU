@@ -146,14 +146,6 @@ namespace URU.Client.Resources
             }
         }
 
-        /// <summary>
-        /// This method is ugly, but the only way to retrieve a track's release date is via its album,
-        /// which has to be fetched via a completely different endpoint (I do cache the data at the client, though!).
-        /// Thus, fetch all tracks, get each track's album ID, fetch all albums, get each album's release date.
-        ///
-        /// I could retrieve the album IDs by storing them in a Session variable while GetIdDurationArtists(..) is executing (since it's doing this method's first part anyway),
-        /// and once it finishes execute the latter part of this method using said Session variable, but I fear it will be unreliable across various environments.
-        /// </summary>
         public async Task<TracksByYear> GetTracksByYear(User user, long numberOfSongsInPlaylist)
         {
             if (user == null)
@@ -165,7 +157,7 @@ namespace URU.Client.Resources
             {
                 (string, string)[] parameters = {
                     ("offset", user.Offset.ToString()),
-                    ("fields", "items(track(album(id)))")
+                    ("fields", "items(track(id))")
                 };
 
                 string spotifyTracksUrl = ConstructEndpoint(user, Method.GetPlaylistTracks, parameters);
@@ -175,7 +167,7 @@ namespace URU.Client.Resources
                 user.Offset += 100;
             }
 
-            IList<string> albumIds = new List<string>();
+            IList<string> trackIds = new List<string>();
 
             try
             {
@@ -187,7 +179,7 @@ namespace URU.Client.Resources
 
                     foreach (var item in playlist.Items)
                     {
-                        albumIds.Add(item.Track.Album.Id);
+                        trackIds.Add(item.Track.Id);
                     }
                 }
             }
@@ -198,14 +190,14 @@ namespace URU.Client.Resources
 
             IList<HttpRequestMessage> albumRequests = new List<HttpRequestMessage>();
 
-            string spotifyAlbumsUrl = $"{Endpoint}/albums/?ids=";
+            string spotifyAlbumsUrl = $"{Endpoint}/tracks/?ids=";
 
-            StringBuilder albumIdsConcat;
-            for (int i = 0; i < albumIds.Count; i += 20)
+            StringBuilder trackIdsConcat;
+            for (int i = 0; i < trackIds.Count; i += 50)
             {
-                albumIdsConcat = new StringBuilder().AppendJoin(',', albumIds.Skip(i).Take(20));
+                trackIdsConcat = new StringBuilder().AppendJoin(',', trackIds.Skip(i).Take(50));
 
-                var request = CreateRequest(spotifyAlbumsUrl + albumIdsConcat.ToString());
+                var request = CreateRequest(spotifyAlbumsUrl + trackIdsConcat.ToString());
                 albumRequests.Add(request);
             }
 
@@ -217,11 +209,11 @@ namespace URU.Client.Resources
                 {
                     var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                     string result = await response.Content.ReadAsStringAsync();
-                    Albums albums = JsonConvert.DeserializeObject<Albums>(result);
+                    Tracks tracks = JsonConvert.DeserializeObject<Tracks>(result);
 
-                    foreach (var album in albums.Items)
+                    foreach (var track in tracks.AllTracks)
                     {
-                        string year = album.ReleaseDate.Substring(0, 4);
+                        string year = track.Album.ReleaseDate.Substring(0, 4);
 
                         if (songsByYear.TryGetValue(year, out int val))
                         {
