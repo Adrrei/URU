@@ -419,6 +419,9 @@ namespace URU.Models
 
     public partial class Tracks
     {
+        [JsonProperty("tracks")]
+        public Track[] AllTracks { get; set; }
+
         [JsonProperty("href")]
         public string Href { get; set; }
 

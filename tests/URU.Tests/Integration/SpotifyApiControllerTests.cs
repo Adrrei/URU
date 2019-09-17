@@ -4,24 +4,27 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using URU.Models;
+using URU.Tests.Utilities;
 using Xunit;
 
 namespace URU.Client.Tests.Integration
 {
-    public class SpotifyApiControllerTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class SpotifyApiControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient HttpClient;
 
-        public SpotifyApiControllerTests(WebApplicationFactory<Startup> factory)
+        public SpotifyApiControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
-            HttpClient = factory.CreateClient();
+            HttpClient = factory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false
+            });
         }
 
-        [Theory]
-        [InlineData("/api/Spotify/Favorites")]
-        public async Task Favorites_ReturnsAtLeastFourElementsTest(string url)
+        [Fact]
+        public async Task Favorites_AtLeastFourElements()
         {
-            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var httpResponse = await HttpClient.GetAsync("/api/Spotify/Favorites", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
@@ -30,11 +33,10 @@ namespace URU.Client.Tests.Integration
             Assert.True(favorites.Ids.Length > 4);
         }
 
-        [Theory]
-        [InlineData("/api/Spotify/Genres")]
-        public async Task Genres_NotEmpty_AllGenresAreEqualTest(string url)
+        [Fact]
+        public async Task Genres_AllGenresAreEqual()
         {
-            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var httpResponse = await HttpClient.GetAsync("/api/Spotify/Genres", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
@@ -51,11 +53,10 @@ namespace URU.Client.Tests.Integration
             }
         }
 
-        [Theory]
-        [InlineData("/api/Spotify/TracksByYear")]
-        public async Task TracksByYear_NotEmpty_AllItemsAreGreatherThanZeroTest(string url)
+        [Fact]
+        public async Task TracksByYear_AllItemsAreGreatherThanZero()
         {
-            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var httpResponse = await HttpClient.GetAsync("/api/Spotify/TracksByYear", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
@@ -69,11 +70,10 @@ namespace URU.Client.Tests.Integration
             }
         }
 
-        [Theory]
-        [InlineData("/api/Spotify/IdDurationArtists")]
-        public async Task IdDurationArtists_NotEmpty_AllItemsAreGreatherThanZeroTest(string url)
+        [Fact]
+        public async Task IdDurationArtists_AllItemsAreGreatherThanZero()
         {
-            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var httpResponse = await HttpClient.GetAsync("/api/Spotify/IdDurationArtists", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
