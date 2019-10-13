@@ -1,7 +1,5 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
 
-EXPOSE 80
-
 COPY . .
 
 WORKDIR "/src/URU/"

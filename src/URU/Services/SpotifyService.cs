@@ -15,7 +15,7 @@ namespace URU.Services
     {
         public Client.Client Client { get; set; }
 
-        public string AccessToken { get; set; }
+        public string? AccessToken { get; set; }
 
         public DateTimeOffset TokenExpires { get; set; }
 
@@ -66,8 +66,8 @@ namespace URU.Services
 
                 var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
-                AccessToken = jsonResponse["access_token"].ToString();
-                string expiresIn = jsonResponse["expires_in"].ToString();
+                AccessToken = jsonResponse["access_token"]!.ToString();
+                string expiresIn = jsonResponse["expires_in"]!.ToString();
                 TokenExpires = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 25);
 
                 Client.HttpClient.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {AccessToken}");
@@ -85,11 +85,10 @@ namespace URU.Services
                 .AddUserSecrets<Startup>()
                 .Build();
 
-            var clientConfig = new ClientConfiguration()
-            {
-                ClientId = configuration["spotify_clientId"],
-                ClientSecret = configuration["spotify_clientSecret"]
-            };
+            string clientId = configuration["spotify_clientId"];
+            string clientSecret = configuration["spotify_clientSecret"];
+
+            var clientConfig = new ClientConfiguration(clientId, clientSecret);
 
             var base64Credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientConfig.ClientId}:{clientConfig.ClientSecret}"));
             Client.HttpClient.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Basic {base64Credentials}");

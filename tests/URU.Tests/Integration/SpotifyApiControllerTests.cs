@@ -22,21 +22,23 @@ namespace URU.Client.Tests.Integration
         }
 
         [Fact]
-        public async Task Favorites_AtLeastFourElements()
+        public async Task Favorites_AtLeastOneElement()
         {
-            var httpResponse = await HttpClient.GetAsync("/api/Spotify/Favorites", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var url = "/api/Spotify/Favorites";
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var favorites = JsonConvert.DeserializeObject<Favorites>(stringReponse);
 
-            Assert.True(favorites.Ids.Length > 4);
+            Assert.True(favorites.Ids.Length > 0);
         }
 
         [Fact]
         public async Task Genres_AllGenresAreEqual()
         {
-            var httpResponse = await HttpClient.GetAsync("/api/Spotify/Genres", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var url = "/api/Spotify/Genres";
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
@@ -56,14 +58,15 @@ namespace URU.Client.Tests.Integration
         [Fact]
         public async Task TracksByYear_AllItemsAreGreatherThanZero()
         {
-            var httpResponse = await HttpClient.GetAsync("/api/Spotify/TracksByYear", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var url = "/api/Spotify/TracksByYear";
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var tracksByYear = JsonConvert.DeserializeObject<TracksByYear>(stringReponse).Counts;
 
             Assert.NotNull(tracksByYear);
-            foreach (var pair in tracksByYear)
+            foreach (var pair in tracksByYear!)
             {
                 Assert.Equal(4, pair.Key.Length);
                 Assert.True(pair.Value > 0);
@@ -73,14 +76,15 @@ namespace URU.Client.Tests.Integration
         [Fact]
         public async Task IdDurationArtists_AllItemsAreGreatherThanZero()
         {
-            var httpResponse = await HttpClient.GetAsync("/api/Spotify/IdDurationArtists", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var url = "/api/Spotify/IdDurationArtists";
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var artists = JsonConvert.DeserializeObject<Artists>(stringReponse);
             var artistDetails = artists.Counts;
 
-            Assert.True(artistDetails.Count > 0);
+            Assert.True(artistDetails!.Count > 0);
             foreach (var artist in artistDetails)
             {
                 Assert.True(artist.Value.Item1 > 0);

@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3E42623D-216
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F9A7F6D7-E190-4E0F-B00F-D70CA9A81717}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URU.Client.Tests", "tests\URU.Tests\URU.Tests.csproj", "{19C7DA34-5382-4F77-8664-ED08CC65F94B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URU.Tests", "tests\URU.Tests\URU.Tests.csproj", "{19C7DA34-5382-4F77-8664-ED08CC65F94B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,10 +48,10 @@ Global
 		{19C7DA34-5382-4F77-8664-ED08CC65F94B} = {F9A7F6D7-E190-4E0F-B00F-D70CA9A81717}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_ResXSortingComparison = Ordinal
-		RESX_SortFileContentOnSave = True
-		RESX_NeutralResourcesLanguage = nb-NO
-		SolutionGuid = {3CE86441-020C-4FF0-8DA5-93D699959447}
 		RESX_AutoCreateNewLanguageFiles = True
+		SolutionGuid = {3CE86441-020C-4FF0-8DA5-93D699959447}
+		RESX_NeutralResourcesLanguage = nb-NO
+		RESX_SortFileContentOnSave = True
+		RESX_ResXSortingComparison = Ordinal
 	EndGlobalSection
 EndGlobal

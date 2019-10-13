@@ -20,31 +20,17 @@ namespace URU.Client.Resources
             Client = client;
         }
 
-        private static HttpRequestMessage CreateRequest(string spotifyUrl)
-        {
-            return new HttpRequestMessage(HttpMethod.Get, spotifyUrl);
-        }
-
-        public string ConstructEndpoint(User user, Method method, (string query, string value)[] parameters = null)
+        public string ConstructEndpoint(User user, Method method, (string query, string value)[] parameters = null!)
         {
             var spotifyUrl = new StringBuilder(Endpoint);
-            switch (method)
+
+            _ = method switch
             {
-                case Method.GetPlaylist:
-                    spotifyUrl.Append($"/users/{user.UserId}/playlists/{user.PlaylistId}");
-                    break;
-
-                case Method.GetPlaylists:
-                    spotifyUrl.Append($"/users/{user.UserId}/playlists");
-                    break;
-
-                case Method.GetPlaylistTracks:
-                    spotifyUrl.Append($"/playlists/{user.PlaylistId}/tracks");
-                    break;
-
-                default:
-                    return "";
-            }
+                Method.GetPlaylist => spotifyUrl.Append($"/users/{user.UserId}/playlists/{user.PlaylistId}"),
+                Method.GetPlaylists => spotifyUrl.Append($"/users/{user.UserId}/playlists"),
+                Method.GetPlaylistTracks => spotifyUrl.Append($"/playlists/{user.PlaylistId}/tracks"),
+                _ => throw new NotSupportedException()
+            };
 
             if (parameters != null && parameters.Length > 0)
             {
@@ -62,7 +48,7 @@ namespace URU.Client.Resources
 
         public async Task<T> GetObject<T>(string spotifyUrl)
         {
-            var request = CreateRequest(spotifyUrl);
+            var request = new HttpRequestMessage(HttpMethod.Get, spotifyUrl);
             var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
             try
@@ -71,8 +57,7 @@ namespace URU.Client.Resources
                     throw new HttpRequestException();
 
                 string result = await response.Content.ReadAsStringAsync();
-                T jsonResponse = JsonConvert.DeserializeObject<T>(result);
-                return jsonResponse;
+                return JsonConvert.DeserializeObject<T>(result);
             }
             catch
             {
@@ -82,10 +67,7 @@ namespace URU.Client.Resources
 
         public async Task<Artists> GetDetailsArtists<T>(User user, long numberOfSongsInPlaylist)
         {
-            if (user == null)
-                return default;
-
-            IList<HttpRequestMessage> urls = new List<HttpRequestMessage>();
+            var urls = new List<HttpRequestMessage>();
 
             while (user.Offset < numberOfSongsInPlaylist)
             {
@@ -95,7 +77,7 @@ namespace URU.Client.Resources
                 };
 
                 string spotifyUrl = ConstructEndpoint(user, Method.GetPlaylistTracks, parameters);
-                var request = CreateRequest(spotifyUrl);
+                var request = new HttpRequestMessage(HttpMethod.Get, spotifyUrl);
 
                 urls.Add(request);
                 user.Offset += 100;
@@ -103,7 +85,7 @@ namespace URU.Client.Resources
 
             var artistsCount = new Dictionary<string, (int, string)>();
             long milliseconds = 0;
-            long songs = 0;
+            int songs = 0;
 
             try
             {
@@ -111,19 +93,25 @@ namespace URU.Client.Resources
                 {
                     var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                     string result = await response.Content.ReadAsStringAsync();
-                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(result);
+                    var playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
-                    foreach (var item in playlist.Items)
+                    songs += playlist.Items?.Length ?? 0;
+                    foreach (var item in playlist.Items ?? new Item[0])
                     {
-                        songs++;
+                        if (item.Track == null)
+                            continue;
+
                         milliseconds += item.Track.DurationMs;
-                        foreach (var artist in item.Track.Artists)
+                        foreach (var artist in item.Track.Artists ?? new Owner[0])
                         {
+                            if (item.Track.Artists == null || string.IsNullOrWhiteSpace(artist.Name))
+                                continue;
+
                             if (artistsCount.TryGetValue(artist.Name, out (int Count, string Uri) val))
                             {
                                 artistsCount[artist.Name] = (val.Count + 1, val.Uri);
                             }
-                            else
+                            else if (!string.IsNullOrWhiteSpace(artist.Uri))
                             {
                                 artistsCount.Add(artist.Name, (1, artist.Uri));
                             }
@@ -131,12 +119,10 @@ namespace URU.Client.Resources
                     }
                 }
 
-                int hours = (int)TimeSpan.FromMilliseconds(milliseconds).TotalHours;
-
                 return new Artists
                 {
                     Counts = artistsCount.OrderByDescending(a => a.Value).Take(100).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-                    Hours = hours,
+                    Hours = (int)TimeSpan.FromMilliseconds(milliseconds).TotalHours,
                     Songs = songs
                 };
             }
@@ -148,10 +134,7 @@ namespace URU.Client.Resources
 
         public async Task<TracksByYear> GetTracksByYear(User user, long numberOfSongsInPlaylist)
         {
-            if (user == null)
-                return default;
-
-            IList<HttpRequestMessage> trackRequests = new List<HttpRequestMessage>();
+            var trackRequests = new List<HttpRequestMessage>();
 
             while (user.Offset < numberOfSongsInPlaylist)
             {
@@ -161,13 +144,13 @@ namespace URU.Client.Resources
                 };
 
                 string spotifyTracksUrl = ConstructEndpoint(user, Method.GetPlaylistTracks, parameters);
-                var request = CreateRequest(spotifyTracksUrl);
+                var request = new HttpRequestMessage(HttpMethod.Get, spotifyTracksUrl);
 
                 trackRequests.Add(request);
                 user.Offset += 100;
             }
 
-            IList<string> trackIds = new List<string>();
+            var trackIds = new List<string>();
 
             try
             {
@@ -175,10 +158,13 @@ namespace URU.Client.Resources
                 {
                     var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                     string result = await response.Content.ReadAsStringAsync();
-                    Playlist playlist = JsonConvert.DeserializeObject<Playlist>(result);
+                    var playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
-                    foreach (var item in playlist.Items)
+                    foreach (var item in playlist.Items ?? new Item[0])
                     {
+                        if (item.Track == null || string.IsNullOrWhiteSpace(item.Track.Id))
+                            continue;
+
                         trackIds.Add(item.Track.Id);
                     }
                 }
@@ -188,7 +174,7 @@ namespace URU.Client.Resources
                 throw;
             }
 
-            IList<HttpRequestMessage> albumRequests = new List<HttpRequestMessage>();
+            var albumRequests = new List<HttpRequestMessage>();
 
             string spotifyAlbumsUrl = $"{Endpoint}/tracks/?ids=";
 
@@ -197,7 +183,7 @@ namespace URU.Client.Resources
             {
                 trackIdsConcat = new StringBuilder().AppendJoin(',', trackIds.Skip(i).Take(50));
 
-                var request = CreateRequest(spotifyAlbumsUrl + trackIdsConcat.ToString());
+                var request = new HttpRequestMessage(HttpMethod.Get, spotifyAlbumsUrl + trackIdsConcat.ToString());
                 albumRequests.Add(request);
             }
 
@@ -209,10 +195,13 @@ namespace URU.Client.Resources
                 {
                     var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                     string result = await response.Content.ReadAsStringAsync();
-                    Tracks tracks = JsonConvert.DeserializeObject<Tracks>(result);
+                    var tracks = JsonConvert.DeserializeObject<Tracks>(result);
 
-                    foreach (var track in tracks.AllTracks)
+                    foreach (var track in tracks.AllTracks ?? new Track[0])
                     {
+                        if (track.Album == null || string.IsNullOrWhiteSpace(track.Album.ReleaseDate))
+                            continue;
+
                         string year = track.Album.ReleaseDate.Substring(0, 4);
 
                         if (songsByYear.TryGetValue(year, out int val))

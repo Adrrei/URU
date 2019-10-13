@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +21,9 @@ namespace URU.Controllers
 
         public SpotifyApiController()
         {
-            var configuration = new ConfigurationBuilder()
-               .AddEnvironmentVariables()
-               .AddUserSecrets<Program>()
-               .Build();
-
             try
             {
-                SpotifyConfig = new SpotifyConfiguration()
-                {
-                    ExquisiteEdmId = configuration["spotify_playlist_exquisiteEdmId"],
-                    FavoritesId = configuration["spotify_playlist_favoritesId"],
-                    UserId = configuration["spotify_userId"]
-                };
+                SpotifyConfig = new SpotifyConfiguration();
             }
             catch
             {
@@ -50,10 +40,8 @@ namespace URU.Controllers
 
             try
             {
-                User user = new User
+                var user = new User(SpotifyConfig.UserId, SpotifyConfig.FavoritesId)
                 {
-                    UserId = SpotifyConfig.UserId,
-                    PlaylistId = SpotifyConfig.FavoritesId,
                     Limit = 50
                 };
 
@@ -62,19 +50,24 @@ namespace URU.Controllers
                 };
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist, parameters);
-                Playlist favorites = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
+                var favorites = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
 
-                Random random = new Random();
-                Favorites favoriteIds = new Favorites()
-                {
-                    Ids = favorites.Tracks.Items.Select(t => t.Track.Id).OrderBy(order => random.Next()).ToArray()
-                };
+                var random = new Random();
+
+                if (favorites.Tracks == null)
+                    throw new NullReferenceException();
+
+                var favoriteTrackIds = favorites.Tracks.Items
+                    .Select(t => t?.Track?.Id ?? "").OrderBy(order => random.Next())
+                    .ToArray();
+
+                var favoriteIds = new Favorites(favoriteTrackIds);
 
                 return new OkObjectResult(favoriteIds);
             }
             catch
             {
-                return new StatusCodeResult(500);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -85,10 +78,8 @@ namespace URU.Controllers
 
             try
             {
-                User user = new User
+                var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
                 {
-                    UserId = SpotifyConfig.UserId,
-                    PlaylistId = SpotifyConfig.ExquisiteEdmId,
                     Limit = 50
                 };
 
@@ -97,14 +88,19 @@ namespace URU.Controllers
                 };
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylists, parameters);
-                Playlist personalPlaylists = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
-                user.Offset = personalPlaylists.Items[0].Tracks.Total - 1;
+                var personalPlaylists = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
+                var orderedPlaylists = personalPlaylists.Items.OrderByDescending(t => t?.Tracks?.Total);
 
-                Dictionary<string, (long, string)> edmPlaylists = new Dictionary<string, (long, string)>();
-                List<string> listedGenres = new ListedGenres().Genres;
+                user.Offset = personalPlaylists?.Items?[0].Tracks?.Total - 1 ?? 1L;
 
-                foreach (var playlist in personalPlaylists.Items.OrderByDescending(t => t.Tracks.Total))
+                var edmPlaylists = new Dictionary<string, (long, string)>();
+                var listedGenres = new ListedGenres().Genres;
+
+                foreach (var playlist in orderedPlaylists)
                 {
+                    if (string.IsNullOrWhiteSpace(playlist.Name) || string.IsNullOrWhiteSpace(playlist.Uri))
+                        continue;
+
                     string name = playlist.Name;
                     bool isValid = listedGenres.Any(id => name.Contains(id));
                     if (isValid)
@@ -113,16 +109,13 @@ namespace URU.Controllers
                     }
                 }
 
-                Genres genres = new Genres
-                {
-                    Counts = edmPlaylists
-                };
+                var genres = new Genres(edmPlaylists);
 
                 return new OkObjectResult(genres);
             }
             catch
             {
-                return new StatusCodeResult(500);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -133,15 +126,16 @@ namespace URU.Controllers
 
             try
             {
-                User user = new User
+                var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
                 {
-                    UserId = SpotifyConfig.UserId,
-                    PlaylistId = SpotifyConfig.ExquisiteEdmId,
-                    Limit = 0
+                    Limit = 50
                 };
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist);
                 Playlist playlist = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
+
+                if (playlist.Tracks == null)
+                    throw new NullReferenceException();
 
                 TracksByYear tracksByYear = await SpotifyService.Client.Spotify.GetTracksByYear(user, playlist.Tracks.Total);
 
@@ -149,7 +143,7 @@ namespace URU.Controllers
             }
             catch
             {
-                return new StatusCodeResult(500);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -160,23 +154,24 @@ namespace URU.Controllers
 
             try
             {
-                User user = new User
+                var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
                 {
-                    UserId = SpotifyConfig.UserId,
-                    PlaylistId = SpotifyConfig.ExquisiteEdmId,
-                    Limit = 0
+                    Limit = 50
                 };
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist);
-                Playlist playlist = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
+                var playlist = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
 
-                Artists artists = await SpotifyService.Client.Spotify.GetDetailsArtists<Playlist>(user, playlist.Tracks.Total);
+                if (playlist.Tracks == null)
+                    throw new NullReferenceException();
+
+                var artists = await SpotifyService.Client.Spotify.GetDetailsArtists<Playlist>(user, playlist.Tracks.Total);
 
                 return new OkObjectResult(artists);
             }
             catch
             {
-                return new StatusCodeResult(500);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
