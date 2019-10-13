@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using URU.Models;
 using URU.Utilities;
@@ -21,23 +20,12 @@ namespace URU.Controllers
         {
             ViewBag.Title = _stringLocalizer["TitleSpotify"];
 
-            var configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .AddUserSecrets<Startup>()
-                .Build();
+            string userId = "1157411586";
+            string exquisiteEdmId = "7ssZYYankNsiAfeyPATtXe";
 
-            User user = new User
-            {
-                UserId = configuration["spotify_userId"],
-                PlaylistId = configuration["spotify_playlist_exquisiteEdmId"]
-            };
+            var user = new User(userId, exquisiteEdmId);
 
-            SpotifyViewModel spotifyViewModel = new SpotifyViewModel
-            {
-                User = user
-            };
-
-            return View(spotifyViewModel);
+            return View(new SpotifyViewModel(user));
         }
     }
 }

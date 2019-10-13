@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using URU.Utilities;
 
 namespace URU.Controllers
@@ -13,7 +14,7 @@ namespace URU.Controllers
         public IActionResult Index(int? statusCode)
         {
             if (statusCode == null)
-                statusCode = 404;
+                statusCode = StatusCodes.Status404NotFound;
 
             return View(statusCode);
         }

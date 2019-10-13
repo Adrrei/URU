@@ -51,7 +51,7 @@ namespace URU
             });
 
             services.AddControllers();
-            services.AddRazorPages().AddDataAnnotationsLocalization()
+            services.AddRazorPages()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
                 .AddNewtonsoftJson();
@@ -75,13 +75,13 @@ namespace URU
             app.UseStatusCodePagesWithReExecute("/Error/Index/{0}");
             app.UseRouting();
 
+            app.UseCors(_allowOrigins);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<GameHub>("/gameHub");
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            app.UseCors(_allowOrigins);
         }
     }
 }
