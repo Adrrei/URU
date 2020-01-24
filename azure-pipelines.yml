@@ -6,19 +6,19 @@ jobs:
   displayName: 'Versioning, Docker'
   timeoutInMinutes: 15
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: 'Ubuntu-19.04'
   variables:
   - group: uru
   - name: image_name
     value: uru
 
   steps:
-  # 1. Install .NET SDK 3.x
+  # 1. Install .NET SDK 3.1
   - task: UseDotNet@2
-    displayName: 'Install .NET SDK 3.x'
+    displayName: 'Install .NET SDK 3.1'
     inputs:
-      version: 3.x
-      includePreviewVersions: true
+      packageType: 'sdk'
+      version: '3.1.100'
 
   # 2. Run Tests
   - task: DotNetCoreCLI@2
@@ -41,23 +41,21 @@ jobs:
   - script: |
       Tags=$(git describe --tags)
       IFS='-' read -ra image_versionTag <<< "$Tags"
-      echo "##vso[task.setvariable variable=image_versionType;]latest"
-      echo "##vso[task.setvariable variable=image_versionSemantic;]${image_versionTag[0]}"
+      echo "##vso[task.setvariable variable=semanticVersion;]${image_versionTag[0]:1}-$(Build.BuildId)"
     displayName: 'Set Release Version Environment Variable'
     condition: ne(variables['Build.Reason'], 'PullRequest')
 
   # 3c. Set Pull Request Version
   - script: |
-      echo "##vso[task.setvariable variable=image_versionType;]latest-pr"
-      echo "##vso[task.setvariable variable=image_versionSemantic;]pr-build"
+      echo "##vso[task.setvariable variable=semanticVersion;]pr-$(Build.BuildId)"
     displayName: 'Set Pull Request Version Environment Variable'
     condition: eq(variables['Build.Reason'], 'PullRequest')
 
   # 4. Docker Push to ACR
   - script: |
-      docker build -t $(docker_server)/$(image_name):$(image_versionType) .
-      docker tag $(docker_server)/$(image_name):$(image_versionType) $(docker_server)/$(image_name):$(image_versionSemantic)-$(Build.BuildId)
+      docker build -t $(docker_server)/$(image_name):$(semanticVersion) .
+      docker tag $(docker_server)/$(image_name):$(semanticVersion) $(docker_server)/$(image_name):$(semanticVersion)
       echo "$(docker_password)" | docker login -u $(docker_username) --password-stdin $(docker_server)
-      docker push $(docker_server)/$(image_name):$(image_versionType)
-      docker push $(docker_server)/$(image_name):$(image_versionSemantic)-$(Build.BuildId)
+      docker push $(docker_server)/$(image_name):$(Build.BuildId)
+      docker push $(docker_server)/$(image_name):$(semanticVersion)
     displayName: 'Push to Azure Container Registry'

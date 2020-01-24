@@ -101,7 +101,7 @@ namespace URU.Models
         public Track? Track { get; set; }
     }
 
-    public partial class Owner
+    public partial class Artist
     {
         [JsonProperty("uri")]
         public string? Uri { get; set; }
@@ -125,7 +125,7 @@ namespace URU.Models
         public Album? Album { get; set; }
 
         [JsonProperty("artists")]
-        public Owner[]? Artists { get; set; }
+        public Artist[]? Artists { get; set; }
 
         [JsonProperty("duration_ms")]
         public long DurationMs { get; set; }
