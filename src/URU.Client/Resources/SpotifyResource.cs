@@ -48,8 +48,7 @@ namespace URU.Client.Resources
 
         public async Task<T> GetObject<T>(string spotifyUrl)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, spotifyUrl);
-            var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var response = await Client.GetAsync(spotifyUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
             try
             {
@@ -67,7 +66,7 @@ namespace URU.Client.Resources
 
         public async Task<Artists> GetDetailsArtists<T>(User user, long numberOfSongsInPlaylist)
         {
-            var urls = new List<HttpRequestMessage>();
+            var urls = new List<string>();
 
             while (user.Offset < numberOfSongsInPlaylist)
             {
@@ -77,9 +76,8 @@ namespace URU.Client.Resources
                 };
 
                 string spotifyUrl = ConstructEndpoint(user, Method.GetPlaylistTracks, parameters);
-                var request = new HttpRequestMessage(HttpMethod.Get, spotifyUrl);
 
-                urls.Add(request);
+                urls.Add(spotifyUrl);
                 user.Offset += 100;
             }
 
@@ -89,22 +87,25 @@ namespace URU.Client.Resources
 
             try
             {
-                foreach (var request in urls)
+                foreach (var url in urls)
                 {
-                    var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                    var response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                     string result = await response.Content.ReadAsStringAsync();
                     var playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
-                    songs += playlist.Items?.Length ?? 0;
-                    foreach (var item in playlist.Items ?? new Item[0])
+                    if (playlist.Items == null)
+                        continue;
+
+                    songs += playlist.Items.Length;
+                    foreach (var item in playlist.Items)
                     {
-                        if (item.Track == null)
+                        if (item.Track?.Artists == null)
                             continue;
 
                         milliseconds += item.Track.DurationMs;
-                        foreach (var artist in item.Track.Artists ?? new Owner[0])
+                        foreach (var artist in item.Track.Artists)
                         {
-                            if (item.Track.Artists == null || string.IsNullOrWhiteSpace(artist.Name))
+                            if (string.IsNullOrWhiteSpace(artist.Name))
                                 continue;
 
                             if (artistsCount.TryGetValue(artist.Name, out (int Count, string Uri) val))
@@ -134,7 +135,7 @@ namespace URU.Client.Resources
 
         public async Task<TracksByYear> GetTracksByYear(User user, long numberOfSongsInPlaylist)
         {
-            var trackRequests = new List<HttpRequestMessage>();
+            var playlistUrls = new List<string>();
 
             while (user.Offset < numberOfSongsInPlaylist)
             {
@@ -143,10 +144,9 @@ namespace URU.Client.Resources
                     ("fields", "items(track(id))")
                 };
 
-                string spotifyTracksUrl = ConstructEndpoint(user, Method.GetPlaylistTracks, parameters);
-                var request = new HttpRequestMessage(HttpMethod.Get, spotifyTracksUrl);
+                string playlistUrl = ConstructEndpoint(user, Method.GetPlaylistTracks, parameters);
 
-                trackRequests.Add(request);
+                playlistUrls.Add(playlistUrl);
                 user.Offset += 100;
             }
 
@@ -154,15 +154,18 @@ namespace URU.Client.Resources
 
             try
             {
-                foreach (var request in trackRequests)
+                foreach (var url in playlistUrls)
                 {
-                    var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                    var response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                     string result = await response.Content.ReadAsStringAsync();
                     var playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
-                    foreach (var item in playlist.Items ?? new Item[0])
+                    if (playlist.Items == null)
+                        continue;
+
+                    foreach (var item in playlist.Items)
                     {
-                        if (item.Track == null || string.IsNullOrWhiteSpace(item.Track.Id))
+                        if (string.IsNullOrWhiteSpace(item.Track?.Id))
                             continue;
 
                         trackIds.Add(item.Track.Id);
@@ -174,32 +177,34 @@ namespace URU.Client.Resources
                 throw;
             }
 
-            var albumRequests = new List<HttpRequestMessage>();
+            var trackUrls = new List<string>();
 
-            string spotifyAlbumsUrl = $"{Endpoint}/tracks/?ids=";
+            string trackUrl = $"{Endpoint}/tracks/?ids=";
 
             StringBuilder trackIdsConcat;
             for (int i = 0; i < trackIds.Count; i += 50)
             {
                 trackIdsConcat = new StringBuilder().AppendJoin(',', trackIds.Skip(i).Take(50));
 
-                var request = new HttpRequestMessage(HttpMethod.Get, spotifyAlbumsUrl + trackIdsConcat.ToString());
-                albumRequests.Add(request);
+                trackUrls.Add(trackUrl + trackIdsConcat.ToString());
             }
 
             var songsByYear = new Dictionary<string, int>();
 
             try
             {
-                foreach (var request in albumRequests)
+                foreach (var url in trackUrls)
                 {
-                    var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                    var response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                     string result = await response.Content.ReadAsStringAsync();
                     var tracks = JsonConvert.DeserializeObject<Tracks>(result);
 
-                    foreach (var track in tracks.AllTracks ?? new Track[0])
+                    if (tracks.AllTracks == null)
+                        continue;
+
+                    foreach (var track in tracks.AllTracks)
                     {
-                        if (track.Album == null || string.IsNullOrWhiteSpace(track.Album.ReleaseDate))
+                        if (string.IsNullOrWhiteSpace(track?.Album?.ReleaseDate))
                             continue;
 
                         string year = track.Album.ReleaseDate.Substring(0, 4);

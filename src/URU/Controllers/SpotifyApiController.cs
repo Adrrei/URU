@@ -17,19 +17,11 @@ namespace URU.Controllers
     {
         private readonly SpotifyConfiguration SpotifyConfig;
 
-        public SpotifyService SpotifyService { get; }
+        public readonly SpotifyService SpotifyService;
 
         public SpotifyApiController()
         {
-            try
-            {
-                SpotifyConfig = new SpotifyConfiguration();
-            }
-            catch
-            {
-                throw new NullReferenceException();
-            }
-
+            SpotifyConfig = new SpotifyConfiguration();
             SpotifyService = new SpotifyService();
         }
 
