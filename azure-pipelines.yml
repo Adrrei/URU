@@ -6,7 +6,7 @@ jobs:
   displayName: 'Versioning, Docker'
   timeoutInMinutes: 15
   pool:
-    vmImage: 'Ubuntu-19.04'
+    vmImage: 'Ubuntu-18.04'
   variables:
   - group: uru
   - name: image_name
