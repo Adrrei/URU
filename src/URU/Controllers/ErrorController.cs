@@ -8,8 +8,7 @@ namespace URU.Controllers
     public class ErrorController : Controller
     {
         public ErrorController()
-        {
-        }
+        { }
 
         public IActionResult Index(int? statusCode)
         {

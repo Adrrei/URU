@@ -17,7 +17,7 @@ namespace URU.Services
 
         public string? AccessToken { get; set; }
 
-        public DateTimeOffset TokenExpires { get; set; }
+        public DateTimeOffset TokenExpirationTime { get; set; }
 
         public SpotifyService()
         {
@@ -28,7 +28,7 @@ namespace URU.Services
 
             var httpClient = new HttpClient(httpClientHandler, false)
             {
-                Timeout = TimeSpan.FromSeconds(60)
+                Timeout = TimeSpan.FromSeconds(60),
             };
 
             httpClient.DefaultRequestHeaders.Clear();
@@ -41,13 +41,11 @@ namespace URU.Services
 
         public bool HeaderHasToken()
         {
-            if (!string.IsNullOrWhiteSpace(AccessToken) && TokenExpires > DateTimeOffset.UtcNow)
-            {
-                Client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(HttpRequestHeader.Authorization.ToString(), "Bearer " + AccessToken);
-                return true;
-            }
+            if (string.IsNullOrWhiteSpace(AccessToken) || TokenExpirationTime <= DateTimeOffset.UtcNow)
+                return false;
 
-            return false;
+            Client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(HttpRequestHeader.Authorization.ToString(), "Bearer " + AccessToken);
+            return true;
         }
 
         public async Task SetAuthorizationHeader()
@@ -68,7 +66,7 @@ namespace URU.Services
                 JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
                 AccessToken = jsonResponse["access_token"]!.ToString();
                 string expiresIn = jsonResponse["expires_in"]!.ToString();
-                TokenExpires = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 25);
+                TokenExpirationTime = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 25);
 
                 Client.HttpClient.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {AccessToken}");
             }

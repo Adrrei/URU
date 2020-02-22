@@ -17,7 +17,7 @@ namespace URU.Client.Tests.Integration
         {
             HttpClient = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
-                AllowAutoRedirect = false
+                AllowAutoRedirect = false,
             });
         }
 
@@ -26,7 +26,6 @@ namespace URU.Client.Tests.Integration
         {
             var url = "/api/Spotify/Favorites";
             var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-            httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var favorites = JsonConvert.DeserializeObject<Favorites>(stringReponse);
@@ -39,7 +38,6 @@ namespace URU.Client.Tests.Integration
         {
             var url = "/api/Spotify/Genres";
             var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-            httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var genres = JsonConvert.DeserializeObject<Genres>(stringReponse).Counts;
@@ -56,11 +54,10 @@ namespace URU.Client.Tests.Integration
         }
 
         [Fact]
-        public async Task TracksByYear_AllItemsAreGreatherThanZero()
+        public async Task TracksByYear_ResponseItemsGreatherThanZero()
         {
             var url = "/api/Spotify/TracksByYear";
             var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-            httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var tracksByYear = JsonConvert.DeserializeObject<TracksByYear>(stringReponse).Counts;
@@ -74,11 +71,10 @@ namespace URU.Client.Tests.Integration
         }
 
         [Fact]
-        public async Task IdDurationArtists_AllItemsAreGreatherThanZero()
+        public async Task IdDurationArtists_ResponseItemsGreatherThanZero()
         {
             var url = "/api/Spotify/IdDurationArtists";
             var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-            httpResponse.EnsureSuccessStatusCode();
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var artists = JsonConvert.DeserializeObject<Artists>(stringReponse);
