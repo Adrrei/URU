@@ -64,7 +64,7 @@ namespace URU.Services
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException();
 
-                var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var result = await response.Content.ReadAsStringAsync();
                 JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
                 AccessToken = jsonResponse["access_token"]!.ToString();
                 string expiresIn = jsonResponse["expires_in"]!.ToString();
@@ -85,8 +85,8 @@ namespace URU.Services
                 .AddUserSecrets<Startup>()
                 .Build();
 
-            string clientId = configuration["spotify_clientId"];
-            string clientSecret = configuration["spotify_clientSecret"];
+            string clientId = configuration["SPOTIFY_CLIENT_ID"];
+            string clientSecret = configuration["SPOTIFY_CLIENT_SECRET"];
 
             var clientConfig = new ClientConfiguration(clientId, clientSecret);
 

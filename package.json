@@ -1,0 +1,20 @@
+{
+  "release": {
+    "branches": [ "master" ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/git",
+      [
+        "@semantic-release/github",
+        {
+          "releasedLabels": [ "Status: Released" ],
+          "labels": false,
+          "successComment": "This ${issue.pull_request ? 'pull request is included' : 'issue has been resolved'} in version ${nextRelease.version} :tada:\n\nThe release can be seen on [GitHub Releases](https://github.com/adrrei/uru/releases/v${nextRelease.version}).",
+          "failTitle": false,
+          "faiLComment": false
+        }
+      ]
+    ]
+  }
+}

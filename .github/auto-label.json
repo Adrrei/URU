@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "Work: Frontend": [ "**/URU/Views/**/*.cshtml", "**/URU/wwwroot/**" ],
+    "Work: Localization": "**/URU/Resources/**/*.resx",
+    "Work: Models": "**/URU.Models/*.cs",
+    "Work: Tests": "**/URU.Tests/**/*.cs",
+    "Work: Client": "**/URU.Client/*.cs",
+    "Work: Documentation": "**/*.md",
+    "Work: Pipeline": [ "**/.github/**/*.yml", "**/.github/*.json", "**/Dockerfile", "**/NuGet.config", "**/package.json" ]
+  }
+}
