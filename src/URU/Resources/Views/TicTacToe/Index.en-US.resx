@@ -136,7 +136,7 @@
     <value>Play</value>
   </data>
   <data name="Welcome" xml:space="preserve">
-    <value>Enter your name:</value>
+    <value>Enter your name</value>
   </data>
   <data name="NameRequirement" xml:space="preserve">
     <value>Please have at least two characters in your name.</value>

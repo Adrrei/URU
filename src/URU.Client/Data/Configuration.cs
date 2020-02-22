@@ -2,23 +2,30 @@
 {
     public class ClientConfiguration
     {
-        public string ClientId { get; set; }
-
-        public string ClientSecret { get; set; }
-
         public ClientConfiguration(string clientId, string clientSecret)
         {
             ClientId = clientId;
             ClientSecret = clientSecret;
         }
+
+        public string ClientId { get; set; }
+
+        public string ClientSecret { get; set; }
     }
 
     public class SpotifyConfiguration
     {
-        public string UserId { get; set; } = "11157411586";
+        public SpotifyConfiguration()
+        {
+            UserId = "11157411586";
+            FavoritesId = "48HcflR8QplI2zgAutNDnT";
+            ExquisiteEdmId = "7ssZYYankNsiAfeyPATtXe";
+        }
 
-        public string FavoritesId { get; set; } = "48HcflR8QplI2zgAutNDnT";
+        public string UserId { get; private set; }
 
-        public string ExquisiteEdmId { get; set; } = "7ssZYYankNsiAfeyPATtXe";
+        public string FavoritesId { get; private set; }
+
+        public string ExquisiteEdmId { get; private set; }
     }
 }

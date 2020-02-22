@@ -6,7 +6,6 @@ jobs:
   pull-request:
     env:
       IMAGE_NAME: uru
-      APP_NAME: uruno
       TESTS_PROJECT: URU.Tests/URU.Tests.csproj
     name: Azure Container Registry
     runs-on: ubuntu-18.04
@@ -38,11 +37,6 @@ jobs:
       run: |
         echo Pull Request Version: ${{ env.PULL_REQUEST_VERSION }}
 
-    - name: Temporary) Login via Azure CLI
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
     - name: G) Azure Docker Login
       uses: azure/docker-login@v1
       with:
@@ -56,14 +50,3 @@ jobs:
         echo ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.PULL_REQUEST_VERSION }}
         docker build -t ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.PULL_REQUEST_VERSION }} --build-arg versionNumber=${{ env.PULL_REQUEST_VERSION }} .
         docker push ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.PULL_REQUEST_VERSION }}
-
-    - name: Temporary) Deploy to Azure WebApp for Containers
-      if: success()
-      uses: azure/webapps-container-deploy@v1
-      with:
-        app-name: ${{ env.APP_NAME }}
-        images: ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.PULL_REQUEST_VERSION }}
-    
-    - name: Temporary) Azure Logout
-      if: always()
-      run: az logout

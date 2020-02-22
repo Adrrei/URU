@@ -9,7 +9,7 @@ namespace URU.Models
     {
         GetPlaylist,
         GetPlaylists,
-        GetPlaylistTracks
+        GetPlaylistTracks,
     }
 
     public partial class ListedGenres
@@ -36,7 +36,7 @@ namespace URU.Models
                 "Indie Dance / Nu Disco",
                 "Tech House",
                 "Trance",
-                "Trap"
+                "Trap",
             };
     }
 
@@ -170,7 +170,10 @@ namespace URU.Models
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters = {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+                new IsoDateTimeConverter
+                { 
+                    DateTimeStyles = DateTimeStyles.AssumeUniversal,
+                },
             }
         };
     }
@@ -178,10 +181,5 @@ namespace URU.Models
     public partial class Playlist
     {
         public static Playlist FromJson(string json) => JsonConvert.DeserializeObject<Playlist>(json, Converter.Settings)!;
-    }
-
-    public static class Serialize
-    {
-        public static string ToJson(this Playlist self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 }

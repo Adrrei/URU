@@ -136,7 +136,7 @@
     <value>Spill</value>
   </data>
   <data name="Welcome" xml:space="preserve">
-    <value>Velg et spillernavn:</value>
+    <value>Velg et spillernavn</value>
   </data>
   <data name="NameRequirement" xml:space="preserve">
     <value>Vennligst ha minst to tegn i navnet ditt.</value>

@@ -34,20 +34,18 @@ namespace URU.Controllers
             {
                 var user = new User(SpotifyConfig.UserId, SpotifyConfig.FavoritesId)
                 {
-                    Limit = 50
+                    Limit = 50,
                 };
 
-                (string, string)[] parameters = {
-                    ("limit", user.Limit.ToString())
-                };
+                (string, string)[] parameters = { ("limit", user.Limit.ToString()) };
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist, parameters);
                 var favorites = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
 
-                var random = new Random();
-
                 if (favorites.Tracks == null)
                     throw new NullReferenceException();
+
+                var random = new Random();
 
                 var favoriteTrackIds = favorites.Tracks.Items
                     .Select(t => t?.Track?.Id ?? "").OrderBy(order => random.Next())
@@ -72,12 +70,10 @@ namespace URU.Controllers
             {
                 var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
                 {
-                    Limit = 50
+                    Limit = 50,
                 };
 
-                (string query, string value)[] parameters = {
-                    ("limit", user.Limit.ToString())
-                };
+                (string query, string value)[] parameters = { ("limit", user.Limit.ToString()) };
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylists, parameters);
                 var personalPlaylists = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
@@ -120,7 +116,7 @@ namespace URU.Controllers
             {
                 var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
                 {
-                    Limit = 50
+                    Limit = 50,
                 };
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist);
@@ -148,7 +144,7 @@ namespace URU.Controllers
             {
                 var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
                 {
-                    Limit = 50
+                    Limit = 50,
                 };
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist);
