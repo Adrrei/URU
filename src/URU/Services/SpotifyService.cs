@@ -64,7 +64,7 @@ namespace URU.Services
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException();
 
-                var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var result = await response.Content.ReadAsStringAsync();
                 JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
                 AccessToken = jsonResponse["access_token"]!.ToString();
                 string expiresIn = jsonResponse["expires_in"]!.ToString();

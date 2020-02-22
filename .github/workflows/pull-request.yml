@@ -1,0 +1,51 @@
+name: Pull Request
+
+on: pull_request
+
+jobs:
+  pull-request:
+    env:
+      IMAGE_NAME: uru
+      TESTS_PROJECT: URU.Tests/URU.Tests.csproj
+    name: Azure Container Registry
+    runs-on: ubuntu-18.04
+
+    steps:
+
+    - name: A) Telemetry Opt-Out
+      run: echo ::set-env name=DOTNET_CLI_TELEMETRY_OPTOUT::1
+      
+    - name: B) Checkout
+      uses: actions/checkout@v2
+      
+    - name: C) Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.100'
+
+    - name: D) Run Tests
+      run: dotnet test ${{ env.TESTS_PROJECT }} --configuration Release
+      working-directory: ./tests
+      env:
+        SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+
+    - name: E) Set Pull Request Version
+      run: echo ::set-env name=PULL_REQUEST_VERSION::pr-${{ github.run_number }}
+      
+    - name: F) Print Pull Request Version
+      run: |
+        echo Pull Request Version: ${{ env.PULL_REQUEST_VERSION }}
+
+    - name: G) Azure Docker Login
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_SERVER }}
+        username: ${{ secrets.REGISTRY_NAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+        
+    - name: H) Docker Image to Azure Container Registry
+      if: success()
+      run: |
+        echo ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.PULL_REQUEST_VERSION }}
+        docker build -t ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.PULL_REQUEST_VERSION }} --build-arg versionNumber=${{ env.PULL_REQUEST_VERSION }} .
+        docker push ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.PULL_REQUEST_VERSION }}
