@@ -85,8 +85,8 @@ namespace URU.Services
                 .AddUserSecrets<Startup>()
                 .Build();
 
-            string clientId = configuration["spotify_clientId"];
-            string clientSecret = configuration["spotify_clientSecret"];
+            string clientId = configuration["SPOTIFY_CLIENT_ID"];
+            string clientSecret = configuration["SPOTIFY_CLIENT_SECRET"];
 
             var clientConfig = new ClientConfiguration(clientId, clientSecret);
 
