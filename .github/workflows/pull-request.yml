@@ -6,6 +6,7 @@ jobs:
   pull-request:
     env:
       IMAGE_NAME: uru
+      APP_NAME: uruno
       TESTS_PROJECT: URU.Tests/URU.Tests.csproj
     name: Azure Container Registry
     runs-on: ubuntu-18.04
