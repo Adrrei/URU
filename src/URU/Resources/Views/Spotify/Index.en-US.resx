@@ -120,11 +120,8 @@
   <data name="Artists" xml:space="preserve">
     <value>Artists</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Electronic Dance Music - When does the bass drop?</value>
-  </data>
   <data name="FetchOtherFavorites" xml:space="preserve">
-    <value>Fetch Other Favorites</value>
+    <value>Fetch More Favorites</value>
   </data>
   <data name="Genres" xml:space="preserve">
     <value>Genres</value>
@@ -136,7 +133,7 @@
     <value>SONGS</value>
   </data>
   <data name="TopArtists" xml:space="preserve">
-    <value>Artists - Top 100</value>
+    <value>Artists (Top 100)</value>
   </data>
   <data name="TracksByYear" xml:space="preserve">
     <value>Tracks by Year</value>

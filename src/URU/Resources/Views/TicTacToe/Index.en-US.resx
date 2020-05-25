@@ -145,9 +145,9 @@
     <value>Spectators</value>
   </data>
   <data name="PlaceholderPlayer" xml:space="preserve">
-    <value>Randy</value>
+    <value>Dwight Schrute</value>
   </data>
   <data name="PlaceholderRoom" xml:space="preserve">
-    <value>Trailer Park</value>
+    <value>The Office</value>
   </data>
 </root>

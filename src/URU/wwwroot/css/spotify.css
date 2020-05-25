@@ -20,7 +20,7 @@ nav ul li a {
     display: flex;
     flex-flow: row wrap;
     max-width: 1400px;
-    margin-top: -0.5em;
+    margin-top: -1.1em;
     padding: 0 2em 0 2em;
 }
 
@@ -54,17 +54,16 @@ nav ul li a {
         text-decoration: none;
     }
 
-#description {
-    padding-left: 0.5em;
+#details {
+    font-size: 1.4em;
 }
 
-#details {
-    font-size: 1.3em;
-    padding: 0 0 0 0.5em;
-}
+    #details span:first-of-type {
+        margin: 0 0.3em 0 0.2em;
+    }
 
     #details span {
-        margin: 0 0.5em 0 1em;
+        margin: 0 0.3em 0 0.7em;
     }
 
 /* ------------------------------

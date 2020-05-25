@@ -120,11 +120,8 @@
   <data name="Artists" xml:space="preserve">
     <value>Artister</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Elektronisk Dansemusikk - Når kommer droppen?</value>
-  </data>
   <data name="FetchOtherFavorites" xml:space="preserve">
-    <value>Hent andre favoritter</value>
+    <value>Hent flere favoritter</value>
   </data>
   <data name="Genres" xml:space="preserve">
     <value>Sjangre</value>
@@ -136,7 +133,7 @@
     <value>SANGER</value>
   </data>
   <data name="TopArtists" xml:space="preserve">
-    <value>Artister - Topp 100</value>
+    <value>Artister (Topp 100)</value>
   </data>
   <data name="TracksByYear" xml:space="preserve">
     <value>Sanger per år</value>

@@ -91,7 +91,7 @@ namespace URU.Controllers
 
                     string name = playlist.Name;
                     bool isValid = listedGenres.Any(id => name.Contains(id));
-                    if (isValid)
+                    if (isValid && playlist.Tracks != null)
                     {
                         edmPlaylists.Add(name, (playlist.Tracks.Total, playlist.Uri));
                     }
