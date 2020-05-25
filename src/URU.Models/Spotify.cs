@@ -15,29 +15,30 @@ namespace URU.Models
     public partial class ListedGenres
     {
         public List<string> Genres = new List<string>
-            {
-                "Bass House",
-                "Big Room",
-                "Breakbeat",
-                "Dance",
-                "Drum & Bass",
-                "Dubstep",
-                "Electronica / Downtempo",
-                "Funky / Groove / Jackin' House",
-                "Future Bass",
-                "Glitch Hop",
-                "Hard Electronic",
-                "Deep House",
-                "Electro House",
-                "Future House",
-                "House",
-                "Melodic House",
-                "Progressive House",
-                "Indie Dance / Nu Disco",
-                "Tech House",
-                "Trance",
-                "Trap",
-            };
+        {
+            "Bass House",
+            "Big Room",
+            "Breakbeat",
+            "Dance",
+            "Deep House",
+            "Drum & Bass",
+            "Dubstep",
+            "Electro House",
+            "Electronica / Downtempo",
+            "Funky / Groove / Jackin' House",
+            "Future Bass",
+            "Future House",
+            "Glitch Hop",
+            "Hard Electronic",
+            "House",
+            "Indie Dance / Nu Disco",
+            "Melodic House",
+            "Progressive House",
+            "Tech House",
+            "Techno",
+            "Trance",
+            "Trap",
+        };
     }
 
     public partial class Favorites
