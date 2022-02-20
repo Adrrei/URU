@@ -41,14 +41,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-    - name: F1) Set New Release (step 1)
+    - name: F) Set New Release
       run: |
-        echo "LAST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
+        echo "RELEASE_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1) | cut -c 2-)" >> $GITHUB_ENV
 
-    - name: F2) Set New Release (step 2)
-      run: |
-        echo "RELEASE_VERSION=${{ env.LAST_TAG:1 }}" >> $GITHUB_ENV
-        
     - name: G) Print Release Version
       run: |
         echo Release Version: ${{ env.RELEASE_VERSION }}
