@@ -22,11 +22,11 @@ jobs:
 
     - name: Temporary 1) Set New Release (step 1)
       run: |
-        echo "LAST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
+        echo "RELEASE_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1) | cut -c 2-)" >> $GITHUB_ENV
 
-    - name: Temporary 2) Set New Release (step 2)
+    - name: Temporary 2) Print Release Version
       run: |
-        echo "RELEASE_VERSION=${{ env.LAST_TAG:1 }}" >> $GITHUB_ENV
+        echo Release Version: ${{ env.RELEASE_VERSION }}
 
     - name: C) Run Tests
       run: dotnet test ${{ env.TESTS_PROJECT }} --configuration Release
