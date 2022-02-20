@@ -43,9 +43,8 @@ jobs:
 
     - name: F) Set New Release
       run: |
-        lastTag=$(git describe --tags $(git rev-list --tags --max-count=1))
-        echo "RELEASE_VERSION=${{lastTag:1}}" >> $GITHUB_ENV
-        
+        echo "RELEASE_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1) | cut -c 2-)" >> $GITHUB_ENV
+
     - name: G) Print Release Version
       run: |
         echo Release Version: ${{ env.RELEASE_VERSION }}
