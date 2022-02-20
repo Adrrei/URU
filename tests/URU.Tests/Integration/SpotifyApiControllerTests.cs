@@ -30,7 +30,7 @@ namespace URU.Client.Tests.Integration
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var favorites = JsonConvert.DeserializeObject<Favorites>(stringReponse);
 
-            Assert.True(favorites.Ids.Length > 0);
+            Assert.True(favorites!.Ids.Length > 0);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace URU.Client.Tests.Integration
             var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
-            var genres = JsonConvert.DeserializeObject<Genres>(stringReponse).Counts;
+            var genres = JsonConvert.DeserializeObject<Genres>(stringReponse)!.Counts;
 
             var listedGenres = new ListedGenres().Genres;
 
@@ -60,7 +60,7 @@ namespace URU.Client.Tests.Integration
             var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
-            var tracksByYear = JsonConvert.DeserializeObject<TracksByYear>(stringReponse).Counts;
+            var tracksByYear = JsonConvert.DeserializeObject<TracksByYear>(stringReponse)!.Counts;
 
             Assert.NotNull(tracksByYear);
             foreach (var pair in tracksByYear!)
@@ -78,7 +78,7 @@ namespace URU.Client.Tests.Integration
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var artists = JsonConvert.DeserializeObject<Artists>(stringReponse);
-            var artistDetails = artists.Counts;
+            var artistDetails = artists!.Counts;
 
             Assert.True(artistDetails!.Count > 0);
             foreach (var artist in artistDetails)

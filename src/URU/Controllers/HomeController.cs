@@ -29,7 +29,7 @@ namespace URU.Controllers
         public IActionResult SetLanguage(string returnUrl)
         {
             bool initialView = false;
-            string cultureCookie = Request.Cookies[".AspNetCore.Culture"];
+            string? cultureCookie = Request.Cookies[".AspNetCore.Culture"];
 
             if (null == cultureCookie)
             {

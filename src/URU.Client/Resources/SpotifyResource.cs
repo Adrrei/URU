@@ -56,7 +56,7 @@ namespace URU.Client.Resources
                     throw new HttpRequestException();
 
                 string result = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<T>(result);
+                return JsonConvert.DeserializeObject<T>(result)!;
             }
             catch
             {
@@ -93,7 +93,7 @@ namespace URU.Client.Resources
                     string result = await response.Content.ReadAsStringAsync();
                     var playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
-                    if (playlist.Items == null)
+                    if (playlist?.Items == null)
                         continue;
 
                     songs += playlist.Items.Length;
@@ -160,7 +160,7 @@ namespace URU.Client.Resources
                     string result = await response.Content.ReadAsStringAsync();
                     var playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
-                    if (playlist.Items == null)
+                    if (playlist?.Items == null)
                         continue;
 
                     foreach (var item in playlist.Items)
@@ -199,7 +199,7 @@ namespace URU.Client.Resources
                     string result = await response.Content.ReadAsStringAsync();
                     var tracks = JsonConvert.DeserializeObject<Tracks>(result);
 
-                    if (tracks.AllTracks == null)
+                    if (tracks?.AllTracks == null)
                         continue;
 
                     foreach (var track in tracks.AllTracks)

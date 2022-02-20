@@ -48,7 +48,7 @@ namespace URU.Controllers
                 var random = new Random();
 
                 var favoriteTrackIds = favorites.Tracks.Items
-                    .Select(t => t?.Track?.Id ?? "").OrderBy(order => random.Next())
+                    !.Select(t => t?.Track?.Id ?? "").OrderBy(order => random.Next())
                     .ToArray();
 
                 var favoriteIds = new Favorites(favoriteTrackIds);
@@ -77,7 +77,7 @@ namespace URU.Controllers
 
                 string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylists, parameters);
                 var personalPlaylists = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
-                var orderedPlaylists = personalPlaylists.Items.OrderByDescending(t => t?.Tracks?.Total);
+                var orderedPlaylists = personalPlaylists.Items!.OrderByDescending(t => t?.Tracks?.Total);
 
                 user.Offset = personalPlaylists?.Items?[0].Tracks?.Total - 1 ?? 1L;
 
