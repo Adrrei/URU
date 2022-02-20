@@ -20,6 +20,14 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
+    - name: Temporary 1) Set New Release (step 1)
+      run: |
+        echo "LAST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
+
+    - name: Temporary 2) Set New Release (step 2)
+      run: |
+        echo "RELEASE_VERSION=${{ env.LAST_TAG:1 }}" >> $GITHUB_ENV
+
     - name: C) Run Tests
       run: dotnet test ${{ env.TESTS_PROJECT }} --configuration Release
       working-directory: ./tests
