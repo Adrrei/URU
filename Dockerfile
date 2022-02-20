@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.14 AS build
 
 EXPOSE 80
 
@@ -8,7 +8,7 @@ WORKDIR "/src/URU/"
 
 RUN dotnet publish "URU.csproj" -c Release -o out
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine3.11
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.14
 
 COPY --from=build "/src/URU/out" .
 
