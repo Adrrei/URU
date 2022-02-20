@@ -63,7 +63,7 @@ namespace URU.Services
                     throw new HttpRequestException();
 
                 var result = await response.Content.ReadAsStringAsync();
-                JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
+                JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result)!;
                 AccessToken = jsonResponse["access_token"]!.ToString();
                 string expiresIn = jsonResponse["expires_in"]!.ToString();
                 TokenExpirationTime = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 25);

@@ -117,89 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Who" xml:space="preserve">
-    <value>Who</value>
-  </data>
-  <data name="DeepLearningDescription" xml:space="preserve">
-    <value>Identify and track fish with deep learning, a subset of machine learning.</value>
-  </data>
-  <data name="DeepLearningTitle" xml:space="preserve">
-    <value>Employing Deep Learning for Fish Recognition</value>
-  </data>
   <data name="Projects" xml:space="preserve">
     <value>Projects</value>
-  </data>
-  <data name="SpotifyDescription" xml:space="preserve">
-    <value>Retrieves data from Spotify using their REST Web API.</value>
-  </data>
-  <data name="SpotifyTitle" xml:space="preserve">
-    <value>Spotify Showcase</value>
-  </data>
-  <data name="Headphones" xml:space="preserve">
-    <value>Headphones</value>
-  </data>
-  <data name="Salmon" xml:space="preserve">
-    <value>Salmon</value>
   </data>
   <data name="MastersThesis" xml:space="preserve">
     <value>Master's Thesis</value>
   </data>
   <data name="TicTacToe" xml:space="preserve">
     <value>Tic Tac Toe</value>
-  </data>
-  <data name="TicTacToeDescription" xml:space="preserve">
-    <value>Play tic tac toe in real-time versus other real players. Just choose a game room to get started!</value>
-  </data>
-  <data name="AlsoExperiencedWith" xml:space="preserve">
-    <value>I primarily write 'vanilla' &lt;a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"&gt;JavaScript&lt;/a&gt;, and have a great deal of experience with the framework &lt;a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/"&gt;Bootstrap (v3.3/v4.3)&lt;/a&gt;, in addition to &lt;a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5"&gt;HTML5&lt;/a&gt; and &lt;a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3"&gt;CSS3&lt;/a&gt;.</value>
-  </data>
-  <data name="ApplicationsWithSignalR" xml:space="preserve">
-    <value>In part, I've written web applications with the technology &lt;a href="https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-3.0"&gt;ASP.NET Core SignalR&lt;/a&gt; to deliver data between users in real-time (that is, without refreshing the browser).</value>
-  </data>
-  <data name="DatabaseCodeFirst" xml:space="preserve">
-    <value>I like to generate databases and its content using the 'code-first' principle, by taking advantage of &lt;a href="https://docs.microsoft.com/en-us/ef/core/"&gt;Entity Framework Core&lt;/a&gt; (and the amazing &lt;a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/"&gt;LINQ&lt;/a&gt; component).</value>
-  </data>
-  <data name="FurtherBack" xml:space="preserve">
-    <value>Further Back</value>
-  </data>
-  <data name="IamADeveloper" xml:space="preserve">
-    <value>I'm a full-stack software developer living in Bergen, Norway, currently working for &lt;a href="https://nurofy.no/"&gt;Nurofy AS&lt;/a&gt;.</value>
-  </data>
-  <data name="Knowledge" xml:space="preserve">
-    <value>Knowledge</value>
-  </data>
-  <data name="MastersDegree2018" xml:space="preserve">
-    <value>In 2018, I completed my master's degree in Software Engineering, a joint &lt;a href="https://www.uib.no/en/studies/MAMN-PROG"&gt;master's&lt;/a&gt; between &lt;a href="https://www.hvl.no/"&gt;Western Norway University of Applied Sciences&lt;/a&gt; and &lt;a href="https://www.uib.no/"&gt;University of Bergen&lt;/a&gt;.</value>
-  </data>
-  <data name="MyCoreKnowledge" xml:space="preserve">
-    <value>My core knowledge is with web applications in &lt;a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-7.3/"&gt;C# 7.3/8&lt;/a&gt; and &lt;a href="https://docs.microsoft.com/en-us/aspnet/?view=aspnetcore-3.0#pivot=core"&gt;ASP.NET Core 2.x/3&lt;/a&gt;.</value>
-  </data>
-  <data name="OtherTechnologies" xml:space="preserve">
-    <value>Other technologies and languages I've worked with over extensive periods (although perhaps not during the last year), is &lt;a href="https://www.oracle.com/technetwork/java/index.html"&gt;Java&lt;/a&gt;, &lt;a href="https://www.tensorflow.org/overview"&gt;TensorFlow 1.x&lt;/a&gt;, &lt;a href="https://jquery.com/"&gt;jQuery&lt;/a&gt;, &lt;a href="https://www.python.org/"&gt;Python 3.x&lt;/a&gt;, &lt;a href="https://semantic-ui.com/"&gt;Semantic UI&lt;/a&gt;, &lt;a href="https://bulma.io/"&gt;Bulma&lt;/a&gt;, and more.</value>
-  </data>
-  <data name="RestWebApisAndSwagger" xml:space="preserve">
-    <value>Finally, I've written both internal and external &lt;a href="https://developer.mozilla.org/en-US/docs/Glossary/REST"&gt;REST&lt;/a&gt; &lt;a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction"&gt;Web APIs&lt;/a&gt; (fully documented with &lt;a href="https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.0&amp;tabs=visual-studio"&gt;Swagger/OpenAPI&lt;/a&gt;), in addition to quite a few other things.</value>
-  </data>
-  <data name="SingleSignOn" xml:space="preserve">
-    <value>I've programmed a lot against the framework &lt;a href="https://github.com/IdentityServer/IdentityServer4"&gt;IdentityServer4&lt;/a&gt;, in order to implement a single-sign-on service across applications.</value>
-  </data>
-  <data name="SourceCode" xml:space="preserve">
-    <value>URU's source code (and other projects) is available at &lt;a href="https://github.com/Adrrei"&gt;GitHub&lt;/a&gt;.</value>
-  </data>
-  <data name="WhatIsURU" xml:space="preserve">
-    <value>URU is a 'creative space' where I publish some of my smaller projects, either for own use or for the benefit of others.</value>
-  </data>
-  <data name="YouCanReachMeHere" xml:space="preserve">
-    <value>You can reach me at my email: &lt;span id="info-localize"&gt;&lt;/span&gt;, as well as on &lt;a href="https://www.linkedin.com/in/adrrei/"&gt;LinkedIn&lt;/a&gt;.</value>
-  </data>
-  <data name="AboutMe" xml:space="preserve">
-    <value>About Me</value>
-  </data>
-  <data name="About" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
   </data>
   <data name="FullStackDeveloper" xml:space="preserve">
     <value>Full-stack developer.</value>

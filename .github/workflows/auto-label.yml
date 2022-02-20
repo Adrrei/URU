@@ -7,17 +7,14 @@ on:
 jobs:
   auto-label:
     name: Set Labels
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
 
-    - name: A) Telemetry Opt-Out
-      run: echo ::set-env name=DOTNET_CLI_TELEMETRY_OPTOUT::1
-      
-    - name: B) Checkout
+    - name: A) Checkout
       uses: actions/checkout@v2
       
-    - name: C) Labeling
+    - name: B) Labeling
       uses: banyan/auto-label@1.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

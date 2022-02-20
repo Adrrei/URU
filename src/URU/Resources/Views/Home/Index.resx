@@ -117,86 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Who" xml:space="preserve">
-    <value>Hvem</value>
-  </data>
   <data name="Projects" xml:space="preserve">
     <value>Prosjekter</value>
-  </data>
-  <data name="DeepLearningDescription" xml:space="preserve">
-    <value>Gjenkjenning og sporing av fisk med dyp læring, en undergruppe av maskinlæring.</value>
-  </data>
-  <data name="DeepLearningTitle" xml:space="preserve">
-    <value>Bruk av dyp læring til fiskegjenkjenning</value>
-  </data>
-  <data name="SpotifyDescription" xml:space="preserve">
-    <value>Henter data fra Spotify sitt REST Web API.</value>
-  </data>
-  <data name="SpotifyTitle" xml:space="preserve">
-    <value>Spotify spilleliste</value>
-  </data>
-  <data name="Headphones" xml:space="preserve">
-    <value>Hodetelefoner</value>
-  </data>
-  <data name="Salmon" xml:space="preserve">
-    <value>Laks</value>
   </data>
   <data name="MastersThesis" xml:space="preserve">
     <value>Masteroppgave</value>
   </data>
   <data name="TicTacToe" xml:space="preserve">
     <value>Bondesjakk</value>
-  </data>
-  <data name="TicTacToeDescription" xml:space="preserve">
-    <value>Spill bondesjakk i sanntid med andre spillere. Velg et spillerom for å starte.</value>
-  </data>
-  <data name="AlsoExperiencedWith" xml:space="preserve">
-    <value>Jeg skriver primært 'vanilla' &lt;a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"&gt;JavaScript&lt;/a&gt;, og har god erfaring med rammeverket &lt;a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/"&gt;Bootstrap (v3.3/v4.3)&lt;/a&gt;, i tillegg til &lt;a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5"&gt;HTML5&lt;/a&gt; og &lt;a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3"&gt;CSS3&lt;/a&gt;.</value>
-  </data>
-  <data name="ApplicationsWithSignalR" xml:space="preserve">
-    <value>Til dels har jeg skrevet deler av web-applikasjoner med teknologien &lt;a href="https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-3.0"&gt;ASP.NET Core SignalR&lt;/a&gt; for å levere data mellom brukere i sanntid (uten at man behøver å oppdatere nettsiden).</value>
-  </data>
-  <data name="DatabaseCodeFirst" xml:space="preserve">
-    <value>Databaser og dets innhold genererer jeg ved "kode-først"-prinsippet, da ved å ta i bruk &lt;a href="https://docs.microsoft.com/en-us/ef/core/"&gt;Entity Framework Core&lt;/a&gt; (og fantastiske &lt;a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/"&gt;LINQ&lt;/a&gt;).</value>
-  </data>
-  <data name="FurtherBack" xml:space="preserve">
-    <value>Lengre tilbake</value>
-  </data>
-  <data name="IamADeveloper" xml:space="preserve">
-    <value>Jeg er en full-stack programutvikler som er fast bosatt i Bergen, og arbeider for &lt;a href="https://nurofy.no/"&gt;Nurofy AS&lt;/a&gt;.</value>
-  </data>
-  <data name="Knowledge" xml:space="preserve">
-    <value>Kunnskap</value>
-  </data>
-  <data name="MastersDegree2018" xml:space="preserve">
-    <value>I 2018 fullførte jeg mastergraden min i programutvikling, en delt &lt;a href="https://www.uib.no/studier/MAMN-PROG"&gt;mastergrad&lt;/a&gt; mellom &lt;a href="https://www.hvl.no/"&gt;Høgskulen på Vestlandet&lt;/a&gt; og &lt;a href="https://www.uib.no/"&gt;Universitetet i Bergen&lt;/a&gt;.</value>
-  </data>
-  <data name="MyCoreKnowledge" xml:space="preserve">
-    <value>Kjernekunnskapen min omhandler web-applikasjoner i &lt;a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-7.3/"&gt;C# 7.3/8&lt;/a&gt; og &lt;a href="https://docs.microsoft.com/en-us/aspnet/?view=aspnetcore-3.0#pivot=core"&gt;ASP.NET Core 2.x/3&lt;/a&gt;.</value>
-  </data>
-  <data name="OtherTechnologies" xml:space="preserve">
-    <value>Andre teknologier og språk jeg har arbeidet med over lengre tid (dog gjerne ikke i løpet av det siste året) er blant annet &lt;a href="https://www.oracle.com/technetwork/java/index.html"&gt;Java&lt;/a&gt;, &lt;a href="https://www.tensorflow.org/overview"&gt;TensorFlow 1.x&lt;/a&gt;, &lt;a href="https://jquery.com/"&gt;jQuery&lt;/a&gt;, &lt;a href="https://www.python.org/"&gt;Python 3.x&lt;/a&gt;, &lt;a href="https://semantic-ui.com/"&gt;Semantic UI&lt;/a&gt;, &lt;a href="https://bulma.io/"&gt;Bulma&lt;/a&gt;, med mer.</value>
-  </data>
-  <data name="RestWebApisAndSwagger" xml:space="preserve">
-    <value>Ellers har jeg skrevet både interne og eksterne &lt;a href="https://developer.mozilla.org/en-US/docs/Glossary/REST"&gt;REST&lt;/a&gt; &lt;a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction"&gt;Web APIer&lt;/a&gt; (med komplett &lt;a href="https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.0&amp;tabs=visual-studio"&gt;Swagger/OpenAPI&lt;/a&gt; dokumentasjon), i tillegg til en hel del annet.</value>
-  </data>
-  <data name="SingleSignOn" xml:space="preserve">
-    <value>Rammeverket &lt;a href="https://github.com/IdentityServer/IdentityServer4"&gt;IdentityServer4&lt;/a&gt; har jeg programmert mye mot, for å kunne implementere en single-sign-on tjeneste på tvers av applikasjoner.</value>
-  </data>
-  <data name="SourceCode" xml:space="preserve">
-    <value>Kildekoden til URU (og andre prosjekter) finner du på &lt;a href="https://github.com/Adrrei"&gt;GitHub&lt;/a&gt;.</value>
-  </data>
-  <data name="WhatIsURU" xml:space="preserve">
-    <value>URU er et 'kreativt sted' hvor jeg legger ut mine mindre prosjekter, enten til egen bruk eller til andres nytte.</value>
-  </data>
-  <data name="YouCanReachMeHere" xml:space="preserve">
-    <value>Jeg er tilgjengelig på e-post: &lt;span id="info-localize"&gt;&lt;/span&gt;, samt på &lt;a href="https://www.linkedin.com/in/adrrei/"&gt;LinkedIn&lt;/a&gt;.</value>
-  </data>
-  <data name="AboutMe" xml:space="preserve">
-    <value>Om meg</value>
-  </data>
-  <data name="About" xml:space="preserve">
-    <value>Om</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>E-post</value>
