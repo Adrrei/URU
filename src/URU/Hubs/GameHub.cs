@@ -10,11 +10,11 @@ namespace URU.Hubs
 {
     public class GameHub : Hub
     {
-        public static readonly ConcurrentDictionary<string, (string playerId, int playerScore)> _players = new ConcurrentDictionary<string, (string, int)>();
-        public static readonly ConcurrentDictionary<string, (string playerOne, string playerTwo)> _gameSlots = new ConcurrentDictionary<string, (string, string)>();
-        public static readonly ConcurrentDictionary<string, IList<string>> _connections = new ConcurrentDictionary<string, IList<string>>();
-        public static readonly ConcurrentDictionary<string, int?> _gameTurns = new ConcurrentDictionary<string, int?>();
-        public static readonly ConcurrentDictionary<string, string[,]> _gameStates = new ConcurrentDictionary<string, string[,]>();
+        public static readonly ConcurrentDictionary<string, (string playerId, int playerScore)> _players = new();
+        public static readonly ConcurrentDictionary<string, (string playerOne, string playerTwo)> _gameSlots = new();
+        public static readonly ConcurrentDictionary<string, IList<string>> _connections = new();
+        public static readonly ConcurrentDictionary<string, int?> _gameTurns = new();
+        public static readonly ConcurrentDictionary<string, string[,]> _gameStates = new();
 
         private const string TAG_X = "X";
         private const string TAG_O = "O";

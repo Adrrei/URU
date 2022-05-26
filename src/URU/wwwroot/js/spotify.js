@@ -77,7 +77,7 @@ function getDetailsArtists() {
         return;
     }
 
-    fetch('/api/Spotify/IdDurationArtists')
+    fetch('/api/Spotify/idDurationArtists')
         .then(function (response) {
             return response.json();
         })
@@ -110,7 +110,7 @@ function getTracksByYear() {
         return;
     }
 
-    fetch('/api/Spotify/TracksByYear')
+    fetch('/api/Spotify/tracksByYear')
         .then(function (response) {
             return response.json();
         })
@@ -130,7 +130,7 @@ function getGenres() {
         return;
     }
 
-    fetch('/api/Spotify/Genres')
+    fetch('/api/Spotify/genres')
         .then(function (response) {
             return response.json();
         })
@@ -149,7 +149,7 @@ function getFavorites() {
         return;
     }
 
-    fetch('/api/Spotify/Favorites')
+    fetch('/api/Spotify/favorites')
         .then(function (response) {
             return response.json();
         })

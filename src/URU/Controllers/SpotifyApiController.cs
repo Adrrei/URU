@@ -25,33 +25,21 @@ namespace URU.Controllers
             SpotifyService = new SpotifyService();
         }
 
-        [HttpGet("Favorites")]
+        [HttpGet("favorites")]
         public async Task<IActionResult> Favorites()
         {
             await SpotifyService.SetAuthorizationHeader();
 
+            var user = new User(SpotifyConfig.UserId, SpotifyConfig.FavoritesId)
+            {
+                Limit = 50,
+            };
+
+            (string query, string value)[] parameters = { ("limit", user.Limit.ToString()) };
+
             try
             {
-                var user = new User(SpotifyConfig.UserId, SpotifyConfig.FavoritesId)
-                {
-                    Limit = 50,
-                };
-
-                (string, string)[] parameters = { ("limit", user.Limit.ToString()) };
-
-                string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist, parameters);
-                var favorites = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
-
-                if (favorites.Tracks == null)
-                    throw new NullReferenceException();
-
-                var random = new Random();
-
-                var favoriteTrackIds = favorites.Tracks.Items
-                    !.Select(t => t?.Track?.Id ?? "").OrderBy(order => random.Next())
-                    .ToArray();
-
-                var favoriteIds = new Favorites(favoriteTrackIds);
+                Favorites favoriteIds = await SpotifyService.Client.Spotify.GetFavoriteSongs(user, parameters);
 
                 return new OkObjectResult(favoriteIds);
             }
@@ -61,43 +49,21 @@ namespace URU.Controllers
             }
         }
 
-        [HttpGet("Genres")]
+        [HttpGet("genres")]
         public async Task<IActionResult> Genres()
         {
             await SpotifyService.SetAuthorizationHeader();
 
+            var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
+            {
+                Limit = 50,
+            };
+
+            (string query, string value)[] parameters = { ("limit", user.Limit.ToString()) };
+
             try
             {
-                var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
-                {
-                    Limit = 50,
-                };
-
-                (string query, string value)[] parameters = { ("limit", user.Limit.ToString()) };
-
-                string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylists, parameters);
-                var personalPlaylists = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
-                var orderedPlaylists = personalPlaylists.Items!.OrderByDescending(t => t?.Tracks?.Total);
-
-                user.Offset = personalPlaylists?.Items?[0].Tracks?.Total - 1 ?? 1L;
-
-                var edmPlaylists = new Dictionary<string, (long, string)>();
-                var listedGenres = new ListedGenres().Genres;
-
-                foreach (var playlist in orderedPlaylists)
-                {
-                    if (string.IsNullOrWhiteSpace(playlist.Name) || string.IsNullOrWhiteSpace(playlist.Uri))
-                        continue;
-
-                    string name = playlist.Name;
-                    bool isValid = listedGenres.Any(id => name.Contains(id));
-                    if (isValid && playlist.Tracks != null)
-                    {
-                        edmPlaylists.Add(name, (playlist.Tracks.Total, playlist.Uri));
-                    }
-                }
-
-                var genres = new Genres(edmPlaylists);
+                Genres genres = await SpotifyService.Client.Spotify.GetGenres(user, parameters);
 
                 return new OkObjectResult(genres);
             }
@@ -107,25 +73,22 @@ namespace URU.Controllers
             }
         }
 
-        [HttpGet("TracksByYear")]
+        [HttpGet("tracksByYear")]
         public async Task<IActionResult> TracksByYear()
         {
             await SpotifyService.SetAuthorizationHeader();
 
+            var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
+            {
+                Limit = 50,
+            };
+
+            (string query, string value)[] parameters = null!;
+
             try
             {
-                var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
-                {
-                    Limit = 50,
-                };
-
-                string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist);
-                Playlist playlist = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
-
-                if (playlist.Tracks == null)
-                    throw new NullReferenceException();
-
-                TracksByYear tracksByYear = await SpotifyService.Client.Spotify.GetTracksByYear(user, playlist.Tracks.Total);
+                Playlist playlist = await SpotifyService.Client.Spotify.GetPlaylist(user, parameters);
+                TracksByYear tracksByYear = await SpotifyService.Client.Spotify.GetTracksByYear(user, playlist.Tracks!.Total);
 
                 return new OkObjectResult(tracksByYear);
             }
@@ -135,25 +98,22 @@ namespace URU.Controllers
             }
         }
 
-        [HttpGet("IdDurationArtists")]
+        [HttpGet("idDurationArtists")]
         public async Task<IActionResult> IdDurationArtists()
         {
             await SpotifyService.SetAuthorizationHeader();
 
+            var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
+            {
+                Limit = 50,
+            };
+
+            (string query, string value)[] parameters = null!;
+
             try
             {
-                var user = new User(SpotifyConfig.UserId, SpotifyConfig.ExquisiteEdmId)
-                {
-                    Limit = 50,
-                };
-
-                string spotifyUrl = SpotifyService.Client.Spotify.ConstructEndpoint(user, Method.GetPlaylist);
-                var playlist = await SpotifyService.Client.Spotify.GetObject<Playlist>(spotifyUrl);
-
-                if (playlist.Tracks == null)
-                    throw new NullReferenceException();
-
-                var artists = await SpotifyService.Client.Spotify.GetDetailsArtists<Playlist>(user, playlist.Tracks.Total);
+                Playlist playlist = await SpotifyService.Client.Spotify.GetPlaylist(user, parameters);
+                Artists artists = await SpotifyService.Client.Spotify.GetDetailsArtists<Playlist>(user, playlist.Tracks!.Total);
 
                 return new OkObjectResult(artists);
             }

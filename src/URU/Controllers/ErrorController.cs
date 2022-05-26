@@ -13,7 +13,9 @@ namespace URU.Controllers
         public IActionResult Index(int? statusCode)
         {
             if (statusCode == null)
+            {
                 statusCode = StatusCodes.Status404NotFound;
+            }
 
             return View(statusCode);
         }
