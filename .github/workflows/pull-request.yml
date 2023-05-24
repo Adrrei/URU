@@ -8,7 +8,7 @@ jobs:
       IMAGE_NAME: uru
       TESTS_PROJECT: URU.Tests/URU.Tests.csproj
     name: Azure Container Registry
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
 
@@ -18,7 +18,7 @@ jobs:
     - name: B) Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '7.0.x'
 
     - name: C) Run Tests
       run: dotnet test ${{ env.TESTS_PROJECT }} --configuration Release

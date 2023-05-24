@@ -83,8 +83,8 @@ namespace URU.Services
                 .AddUserSecrets<Startup>()
                 .Build();
 
-            string clientId = configuration["SPOTIFY_CLIENT_ID"];
-            string clientSecret = configuration["SPOTIFY_CLIENT_SECRET"];
+            string clientId = configuration["SPOTIFY_CLIENT_ID"]!;
+            string clientSecret = configuration["SPOTIFY_CLIENT_SECRET"]!;
 
             var clientConfig = new ClientConfiguration(clientId, clientSecret);
 

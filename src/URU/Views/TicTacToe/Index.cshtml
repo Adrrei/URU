@@ -40,24 +40,24 @@
 </div>
 
 @section Styles  {
-<environment include="Development">
-    <link rel="stylesheet" type="text/css" href="~/css/tictactoe.css" asp-append-version="true">
-</environment>
+    <environment include="Development">
+        <link rel="stylesheet" type="text/css" href="~/css/tictactoe.css" asp-append-version="true">
+    </environment>
 
-<environment exclude="Development">
-    <link rel="stylesheet" type="text/css" href="~/bundle/css/tictactoe.min.css" asp-append-version="true">
-</environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" type="text/css" href="~/bundle/css/tictactoe.min.css" asp-append-version="true">
+    </environment>
 }
 
 @section Scripts {
-<script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
 
-<environment include="Development">
-    <script src="~/js/tictactoe-hub.js" asp-append-version="true"></script>
-    <script src="~/js/tictactoe.js" asp-append-version="true"></script>
-</environment>
+    <environment include="Development">
+        <script src="~/js/tictactoe-hub.js" asp-append-version="true"></script>
+        <script src="~/js/tictactoe.js" asp-append-version="true"></script>
+    </environment>
 
-<environment exclude="Development">
-    <script src="~/bundle/js/tictactoe.min.js" asp-append-version="true"></script>
-</environment>
+    <environment exclude="Development">
+        <script src="~/bundle/js/tictactoe.min.js" asp-append-version="true"></script>
+    </environment>
 }

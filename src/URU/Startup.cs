@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using URU.Hubs;
 
 namespace URU
@@ -71,6 +74,7 @@ namespace URU
             }
 
             app.UseStaticFiles();
+
             app.UseHttpsRedirection();
             app.UseStatusCodePagesWithReExecute("/Error/Index/{0}");
             app.UseRouting();

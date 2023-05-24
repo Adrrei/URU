@@ -126,9 +126,6 @@
   <data name="TicTacToe" xml:space="preserve">
     <value>Tic Tac Toe</value>
   </data>
-  <data name="FullStackDeveloper" xml:space="preserve">
-    <value>Full-stack developer.</value>
-  </data>
   <data name="Language" xml:space="preserve">
     <value>Norsk</value>
   </data>
