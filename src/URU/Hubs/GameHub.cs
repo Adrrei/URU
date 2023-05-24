@@ -46,7 +46,7 @@ namespace URU.Hubs
             await Clients.Group(groupName).SendAsync("Activity", playerIds);
         }
 
-        public override async Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
             _players.Remove(Context.ConnectionId, out (string, int) ignore);
             await base.OnDisconnectedAsync(exception);

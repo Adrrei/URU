@@ -129,9 +129,6 @@
   <data name="Email" xml:space="preserve">
     <value>E-post</value>
   </data>
-  <data name="FullStackDeveloper" xml:space="preserve">
-    <value>Full-stack utvikler.</value>
-  </data>
   <data name="Language" xml:space="preserve">
     <value>English</value>
   </data>

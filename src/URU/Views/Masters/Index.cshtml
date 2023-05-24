@@ -2,8 +2,7 @@
 
 <div id="main-content">
     <h1>@StringLocalizer["DeepLearning"]</h1>
-    <a id="thesis-url" href="~/content/Employing_Deep_Learning_for_Fish_Recognition.pdf" target="_blank"
-       type="application/octet-stream" download="Employing_Deep_Learning_for_Fish_Recognition.pdf">@StringLocalizer["DownloadThesis"]</a>
+    <a id="thesis-url" href="~/content/Employing_Deep_Learning_for_Fish_Recognition.pdf" type="application/octet-stream">@StringLocalizer["DownloadThesis"]</a>
 </div>
 
 <video autoplay loop id="video-background" muted plays-inline>
@@ -11,11 +10,11 @@
 </video>
 
 @section Styles  {
-<environment include="Development">
-    <link rel="stylesheet" type="text/css" href="~/css/masters.css" asp-append-version="true">
-</environment>
+    <environment include="Development">
+        <link rel="stylesheet" type="text/css" href="~/css/masters.css" asp-append-version="true">
+    </environment>
 
-<environment exclude="Development">
-    <link rel="stylesheet" type="text/css" href="~/bundle/css/masters.min.css" asp-append-version="true">
-</environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" type="text/css" href="~/bundle/css/masters.min.css" asp-append-version="true">
+    </environment>
 }

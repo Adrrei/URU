@@ -14,7 +14,7 @@ namespace URU.Models
 
     public partial class ListedGenres
     {
-        public List<string> Genres = new List<string>
+        public List<string> Genres = new()
         {
             "Bass House",
             "Big Room",
