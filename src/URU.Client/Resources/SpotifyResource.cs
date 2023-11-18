@@ -42,7 +42,7 @@ namespace URU.Client.Resources
 
         private async Task<T> GetObject<T>(string spotifyUrl)
         {
-            var response = await Client.GetAsync(spotifyUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var response = await Client.GetAsync(spotifyUrl, HttpCompletionOption.ResponseHeadersRead);
 
             if (!response.IsSuccessStatusCode)
                 throw new HttpRequestException();
@@ -53,7 +53,7 @@ namespace URU.Client.Resources
 
         private async Task<Item[]> QueryPlaylistItems(string playlistUrl)
         {
-            var response = await Client.GetAsync(playlistUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var response = await Client.GetAsync(playlistUrl, HttpCompletionOption.ResponseHeadersRead);
             string result = await response.Content.ReadAsStringAsync();
             var playlist = JsonConvert.DeserializeObject<Playlist>(result);
 
@@ -65,7 +65,7 @@ namespace URU.Client.Resources
 
         private async Task<Track[]> QueryAllTracks(string trackUrl)
         {
-            var response = await Client.GetAsync(trackUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var response = await Client.GetAsync(trackUrl, HttpCompletionOption.ResponseHeadersRead);
             string result = await response.Content.ReadAsStringAsync();
             var tracks = JsonConvert.DeserializeObject<Tracks>(result);
 

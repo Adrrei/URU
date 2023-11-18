@@ -55,7 +55,7 @@ namespace URU.Services
 
             var request = AccessTokenRequestMessage();
 
-            var response = await Client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var response = await Client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
             if (!response.IsSuccessStatusCode)
                 throw new HttpRequestException();
