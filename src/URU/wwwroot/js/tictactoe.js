@@ -68,7 +68,7 @@ function drawBoard() {
 
         for (let y = 0; y < 3; y++) {
             var column = document.createElement('td');
-            column.innerHTML = squares;
+            column.innerHTML = hasTrustedTypes ? escapeHtmlPolicy.createHTML(squares) : squares;
             column.id = squares++;
 
             column.addEventListener('click', function () {

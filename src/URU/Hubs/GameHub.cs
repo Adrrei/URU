@@ -74,10 +74,7 @@ namespace URU.Hubs
                 return;
 
             var turn = _gameTurns.GetValueOrDefault(groupName);
-            if (turn == null)
-            {
-                turn = 2;
-            }
+            turn ??= 2;
 
             var move = "";
             var opponent = "";

@@ -6,14 +6,9 @@ using URU.ViewModels;
 namespace URU.Controllers
 {
     [SecurityHeaders]
-    public class TicTacToeController : Controller
+    public class TicTacToeController(IStringLocalizer<TicTacToeController> stringLocalizer) : Controller
     {
-        private readonly IStringLocalizer<TicTacToeController> _stringLocalizer;
-
-        public TicTacToeController(IStringLocalizer<TicTacToeController> stringLocalizer)
-        {
-            _stringLocalizer = stringLocalizer;
-        }
+        private readonly IStringLocalizer<TicTacToeController> _stringLocalizer = stringLocalizer;
 
         public IActionResult Index()
         {

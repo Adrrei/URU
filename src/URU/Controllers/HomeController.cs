@@ -9,14 +9,9 @@ using URU.ViewModels;
 namespace URU.Controllers
 {
     [SecurityHeaders]
-    public class HomeController : Controller
+    public class HomeController(IStringLocalizer<HomeController> stringLocalizer) : Controller
     {
-        private readonly IStringLocalizer<HomeController> _stringLocalizer;
-
-        public HomeController(IStringLocalizer<HomeController> stringLocalizer)
-        {
-            _stringLocalizer = stringLocalizer;
-        }
+        private readonly IStringLocalizer<HomeController> _stringLocalizer = stringLocalizer;
 
         public IActionResult Index()
         {

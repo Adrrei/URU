@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using URU.Client.Data;
 using URU.Models;
@@ -35,7 +32,7 @@ namespace URU.Controllers
                 Limit = 50,
             };
 
-            (string query, string value)[] parameters = { ("limit", user.Limit.ToString()) };
+            (string query, string value)[] parameters = [("limit", user.Limit.ToString())];
 
             try
             {
@@ -59,7 +56,7 @@ namespace URU.Controllers
                 Limit = 50,
             };
 
-            (string query, string value)[] parameters = { ("limit", user.Limit.ToString()) };
+            (string query, string value)[] parameters = [("limit", user.Limit.ToString())];
 
             try
             {

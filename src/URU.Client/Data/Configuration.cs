@@ -1,16 +1,10 @@
 ﻿namespace URU.Client.Data
 {
-    public class ClientConfiguration
+    public class ClientConfiguration(string clientId, string clientSecret)
     {
-        public ClientConfiguration(string clientId, string clientSecret)
-        {
-            ClientId = clientId;
-            ClientSecret = clientSecret;
-        }
+        public string ClientId { get; set; } = clientId;
 
-        public string ClientId { get; set; }
-
-        public string ClientSecret { get; set; }
+        public string ClientSecret { get; set; } = clientSecret;
     }
 
     public class SpotifyConfiguration

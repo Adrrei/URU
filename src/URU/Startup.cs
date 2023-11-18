@@ -1,30 +1,22 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using URU.Hubs;
 
 namespace URU
 {
-    public class Startup
+    public class Startup(IConfiguration config)
     {
         private readonly string _allowOrigins = "allowOrigins";
 
-        public IConfiguration Configuration { get; }
-
-        public Startup(IConfiguration config)
-        {
-            Configuration = config;
-        }
+        public IConfiguration Configuration { get; } = config;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -34,6 +26,7 @@ namespace URU
                 builder =>
                 {
                     builder.WithOrigins("https://open.spotify.com");
+                    builder.WithOrigins("https://localhost");
                 });
             });
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace URU.Utilities
@@ -12,26 +13,20 @@ namespace URU.Utilities
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
                 if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Type-Options"))
                 {
-                    context.HttpContext.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                }
-
-                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-                if (!context.HttpContext.Response.Headers.ContainsKey("X-Frame-Options"))
-                {
-                    context.HttpContext.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
-                }
-
-                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-                var csp = "default-src https://open.spotify.com/embed/track/ 'self'; object-src 'self'; frame-src https://open.spotify.com/ 'self'; frame-ancestors 'none'; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self'; upgrade-insecure-requests;";
-                if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))
-                {
-                    context.HttpContext.Response.Headers.Add("Content-Security-Policy", csp);
+                    context.HttpContext.Response.Headers.Append("X-Content-Type-Options", "nosniff");
                 }
 
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
                 if (!context.HttpContext.Response.Headers.ContainsKey("Referrer-Policy"))
                 {
-                    context.HttpContext.Response.Headers.Add("Referrer-Policy", "no-referrer");
+                    context.HttpContext.Response.Headers.Append("Referrer-Policy", "no-referrer");
+                }
+
+                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+                if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))
+                {
+                    var csp = "default-src 'self'; object-src 'none'; script-src https://*.spotify.com/ 'self'; frame-src https://*.spotify.com/; frame-ancestors 'none'; sandbox allow-forms allow-same-origin allow-downloads allow-scripts allow-popups; base-uri 'self'; require-trusted-types-for 'script';";
+                    context.HttpContext.Response.Headers.Append("Content-Security-Policy", csp);
                 }
             }
         }

@@ -9,16 +9,10 @@ using URU.Models;
 
 namespace URU.Client.Resources
 {
-    public class SpotifyResource
+    public class SpotifyResource(HttpClient client)
     {
-        private readonly string Endpoint;
-        private readonly HttpClient Client;
-
-        public SpotifyResource(HttpClient client)
-        {
-            Endpoint = "https://api.spotify.com/v1";
-            Client = client;
-        }
+        private readonly string Endpoint = "https://api.spotify.com/v1";
+        private readonly HttpClient Client = client;
 
         public string ConstructEndpoint(User user, Method method, (string query, string value)[]? parameters)
         {
@@ -76,7 +70,7 @@ namespace URU.Client.Resources
             var tracks = JsonConvert.DeserializeObject<Tracks>(result);
 
             if (tracks?.AllTracks == null)
-                return Array.Empty<Track>();
+                return [];
 
             return tracks.AllTracks;
         }
