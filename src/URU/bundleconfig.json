@@ -81,16 +81,6 @@
     }
   },
   {
-    "outputFileName": "wwwroot/bundle/js/spotify-ie.min.js",
-    "inputFiles": [
-      "wwwroot/js/spotify-ie.js"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    }
-  },
-  {
     "outputFileName": "wwwroot/bundle/js/spotify.min.js",
     "inputFiles": [
       "wwwroot/js/spotify.js"
@@ -105,6 +95,16 @@
     "inputFiles": [
       "wwwroot/js/tictactoe.js",
       "wwwroot/js/tictactoe-hub.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/bundle/js/utils.min.js",
+    "inputFiles": [
+      "wwwroot/js/utils.js"
     ],
     "minify": {
       "enabled": true,

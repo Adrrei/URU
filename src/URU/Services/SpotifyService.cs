@@ -53,27 +53,20 @@ namespace URU.Services
             if (HeaderHasToken())
                 return;
 
-            try
-            {
-                var request = AccessTokenRequestMessage();
+            var request = AccessTokenRequestMessage();
 
-                var response = await Client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var response = await Client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException();
+            if (!response.IsSuccessStatusCode)
+                throw new HttpRequestException();
 
-                var result = await response.Content.ReadAsStringAsync();
-                JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result)!;
-                AccessToken = jsonResponse["access_token"]!.ToString();
-                string expiresIn = jsonResponse["expires_in"]!.ToString();
-                TokenExpirationTime = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 25);
+            var result = await response.Content.ReadAsStringAsync();
+            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result)!;
+            AccessToken = jsonResponse["access_token"]!.ToString();
+            string expiresIn = jsonResponse["expires_in"]!.ToString();
+            TokenExpirationTime = DateTimeOffset.Now.AddSeconds(double.Parse(expiresIn) - 25);
 
-                Client.HttpClient.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {AccessToken}");
-            }
-            catch
-            {
-                throw;
-            }
+            Client.HttpClient.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {AccessToken}");
         }
 
         private HttpRequestMessage AccessTokenRequestMessage()

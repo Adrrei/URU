@@ -1,12 +1,12 @@
 ﻿'use strict';
 
 document.addEventListener('DOMContentLoaded', function () {
-    let info = document.getElementById('info');
-    let people = '.no';
-    let love = '@';
-    let spamming = 'uru';
-    let bots = 'ar';
+    const info = document.getElementById('info');
+    const people = '.no';
+    const love = '@';
+    const spamming = 'uru';
+    const bots = 'ar';
 
-    info.title = bots + love + spamming + people;
-    info.href = 'mailto:' + info.title;
+    info.title = `${bots}${love}${spamming}${people}`;
+    info.href = `mailto: ${info.title}`;
 });

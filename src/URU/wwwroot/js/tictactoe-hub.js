@@ -80,8 +80,8 @@ connection.on('Activity', function (context) {
     let activePlayers = document.getElementById('players');
     let spectators = document.getElementById('spectators');
 
-    activePlayers.innerHTML = '';
-    spectators.innerHTML = '';
+    activePlayers.innerHTML = hasTrustedTypes ? escapeHtmlPolicy.createHTML('') : '';
+    spectators.innerHTML = hasTrustedTypes ? escapeHtmlPolicy.createHTML('') : '';
 
     if (document.getElementById('game-id').value === '') {
         for (let i = 0; i < information.length; i++) {

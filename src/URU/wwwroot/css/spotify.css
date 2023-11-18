@@ -261,15 +261,6 @@ table {
             opacity: 1;
         }
 
-/* Used in spotify-ie.js */
-.align-middle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 75vh;
-    align-self: flex-end;
-}
-
 /* ------------------------------
 // MEDIA QUERIES
 ------------------------------ */

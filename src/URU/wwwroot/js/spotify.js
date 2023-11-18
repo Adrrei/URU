@@ -117,7 +117,6 @@ function getTracksByYear() {
         .then(function (responseJson) {
             let tracks = responseJson.tracksByYear;
             createTable(tracks, 'tracks-by-year');
-
             setItemInStorage('TracksByYear', { tracks: tracks });
         });
 }
@@ -156,7 +155,6 @@ function getFavorites() {
         .then(function (responseJson) {
             let songs = responseJson.favorites;
             displayFavorites(songs);
-
             setItemInStorage('Favorites', { favorites: songs });
         });
 }
@@ -171,44 +169,22 @@ function displayFavorites(songs) {
         ids.push(songs.splice(next, 1));
     }
 
-    let width = window.innerWidth;
-
-    let coverWidth;
-    let coverHeight;
-
-    switch (true) {
-        case width > 880:
-            coverWidth = 245;
-            coverHeight = 245;
-            break;
-        case width > 360:
-            coverWidth = 320;
-            coverHeight = 80;
-            break;
-        default:
-            coverWidth = 260;
-            coverHeight = 80;
-    }
-
     for (let i = 0; i < 4; i++) {
-        let iframe = document.createElement('iframe');
-        iframe.src = 'https://open.spotify.com/embed/track/' + ids[i];
-        iframe.height = coverHeight;
-        iframe.width = coverWidth;
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', 'https://open.spotify.com/embed/track/' + ids[i]);
+        if (hasTrustedTypes) {
+            iframe.setAttribute('allow', 'encrypted-media');
+        }
 
         let placement = document.getElementById('favorites').getElementsByClassName('column')[i];
-        placement.innerHTML = '';
+        placement.innerHTML = hasTrustedTypes ? escapeHtmlPolicy.createHTML('') : '';
         placement.appendChild(iframe);
     }
 }
 
-function randomNumber(max) {
-    return Math.floor(Math.random() * max);
-}
-
 function createTable(dictionary, tableId) {
     let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
-    table.innerHTML = '';
+    table.innerHTML = hasTrustedTypes ? escapeHtmlPolicy.createHTML('') : '';
 
     Object.keys(dictionary).forEach(key => {
         let value = dictionary[key];

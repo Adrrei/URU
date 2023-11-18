@@ -2,7 +2,7 @@
 
 My personal website.
 
-The current version is developed with **C# 11.0**, **[.NET 7](https://dotnet.microsoft.com)**, **JavaScript**, and **HTML5 & CSS3**.
+The current version is developed with **C# 12.0**, **[.NET 8](https://dotnet.microsoft.com)**, **JavaScript**, and **HTML5 & CSS3**.
 **[GitHub Actions](https://github.com/features/actions)** is used in combination with **[Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/)** for CI/CD using **[Docker](https://azure.microsoft.com/en-us/services/kubernetes-service/docker/)**.
 **[Semantic-Relase](https://github.com/semantic-release/semantic-release)** is used for automatic versioning.
 

@@ -8,14 +8,9 @@ using URU.ViewModels;
 namespace URU.Controllers
 {
     [SecurityHeaders]
-    public class SpotifyController : Controller
+    public class SpotifyController(IStringLocalizer<SpotifyController> stringLocalizer) : Controller
     {
-        private readonly IStringLocalizer<SpotifyController> _stringLocalizer;
-
-        public SpotifyController(IStringLocalizer<SpotifyController> stringLocalizer)
-        {
-            _stringLocalizer = stringLocalizer;
-        }
+        private readonly IStringLocalizer<SpotifyController> _stringLocalizer = stringLocalizer;
 
         public IActionResult Index()
         {

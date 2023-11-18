@@ -39,7 +39,7 @@
     </div>
 </div>
 
-@section Styles  {
+@section Styles {
     <environment include="Development">
         <link rel="stylesheet" type="text/css" href="~/css/tictactoe.css" asp-append-version="true">
     </environment>
@@ -55,9 +55,11 @@
     <environment include="Development">
         <script src="~/js/tictactoe-hub.js" asp-append-version="true"></script>
         <script src="~/js/tictactoe.js" asp-append-version="true"></script>
+        <script src="~/js/utils.js" asp-append-version="true"></script>
     </environment>
 
     <environment exclude="Development">
         <script src="~/bundle/js/tictactoe.min.js" asp-append-version="true"></script>
+        <script src="~/bundle/js/utils.min.js" asp-append-version="true"></script>
     </environment>
 }

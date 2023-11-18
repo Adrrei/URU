@@ -14,8 +14,8 @@ namespace URU.Models
 
     public partial class ListedGenres
     {
-        public List<string> Genres = new()
-        {
+        public List<string> Genres =
+        [
             "Bass House",
             "Big Room",
             "Breakbeat",
@@ -38,29 +38,19 @@ namespace URU.Models
             "Techno",
             "Trance",
             "Trap",
-        };
+        ];
     }
 
-    public partial class Favorites
+    public partial class Favorites(string[] ids)
     {
         [JsonProperty("favorites")]
-        public string[] Ids { get; set; }
-
-        public Favorites(string[] ids)
-        {
-            Ids = ids;
-        }
+        public string[] Ids { get; set; } = ids;
     }
 
-    public partial class Genres
+    public partial class Genres(Dictionary<string, (long, string)> counts)
     {
         [JsonProperty("genres")]
-        public Dictionary<string, (long, string)> Counts { get; set; }
-
-        public Genres(Dictionary<string, (long, string)> counts)
-        {
-            Counts = counts;
-        }
+        public Dictionary<string, (long, string)> Counts { get; set; } = counts;
     }
 
     public partial class TracksByYear
@@ -147,21 +137,15 @@ namespace URU.Models
         public long Total { get; set; }
     }
 
-    public partial class User
+    public partial class User(string userId, string playlistId)
     {
-        public string PlaylistId { get; set; }
+        public string PlaylistId { get; set; } = playlistId;
 
-        public string UserId { get; set; }
+        public string UserId { get; set; } = userId;
 
         public long Offset { get; set; } = 0;
 
         public long Limit { get; set; } = 1;
-
-        public User(string userId, string playlistId)
-        {
-            UserId = userId;
-            PlaylistId = playlistId;
-        }
     }
 
     internal static class Converter

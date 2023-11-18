@@ -25,7 +25,7 @@ namespace URU.Client.Tests.Integration
         public async Task Favorites_AtLeastOneElement()
         {
             var url = "/api/Spotify/Favorites";
-            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var favorites = JsonConvert.DeserializeObject<Favorites>(stringReponse);
@@ -37,7 +37,7 @@ namespace URU.Client.Tests.Integration
         public async Task Genres_AllGenresAreEqual()
         {
             var url = "/api/Spotify/Genres";
-            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var genres = JsonConvert.DeserializeObject<Genres>(stringReponse)!.Counts;
@@ -57,7 +57,7 @@ namespace URU.Client.Tests.Integration
         public async Task TracksByYear_ResponseItemsGreatherThanZero()
         {
             var url = "/api/Spotify/TracksByYear";
-            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var tracksByYear = JsonConvert.DeserializeObject<TracksByYear>(stringReponse)!.Counts;
@@ -74,7 +74,7 @@ namespace URU.Client.Tests.Integration
         public async Task IdDurationArtists_ResponseItemsGreatherThanZero()
         {
             var url = "/api/Spotify/IdDurationArtists";
-            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var httpResponse = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
             var stringReponse = await httpResponse.Content.ReadAsStringAsync();
             var artists = JsonConvert.DeserializeObject<Artists>(stringReponse);

@@ -2,13 +2,8 @@
 
 namespace URU.ViewModels
 {
-    public class SpotifyViewModel
+    public class SpotifyViewModel(User user)
     {
-        public User User { get; set; }
-
-        public SpotifyViewModel(User user)
-        {
-            User = user;
-        }
+        public User User { get; set; } = user;
     }
 }

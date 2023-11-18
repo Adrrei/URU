@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine3.17 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 
 EXPOSE 80
 
@@ -8,7 +8,7 @@ WORKDIR "/src/URU/"
 
 RUN dotnet publish "URU.csproj" -c Release -o out
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine3.17
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 
 RUN apk add --no-cache icu-libs
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
